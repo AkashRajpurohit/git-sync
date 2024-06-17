@@ -12,6 +12,7 @@ type Config struct {
 	Token           string   `mapstructure:"token"`
 	Repos           []string `mapstructure:"repos"`
 	IncludeAllRepos bool     `mapstructure:"include_all_repos"`
+	BackupDir       string   `mapstructure:"backup_dir"`
 }
 
 func GetConfigPath() string {
@@ -48,6 +49,7 @@ func SaveConfig(config Config) error {
 	viper.Set("token", config.Token)
 	viper.Set("repos", config.Repos)
 	viper.Set("include_all_repos", config.IncludeAllRepos)
+	viper.Set("backup_dir", config.BackupDir)
 
 	return viper.WriteConfig()
 }

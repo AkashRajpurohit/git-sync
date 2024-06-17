@@ -7,6 +7,8 @@ import (
 
 	"github.com/AkashRajpurohit/git-sync/config"
 	"github.com/AkashRajpurohit/git-sync/github"
+	"github.com/AkashRajpurohit/git-sync/sync"
+	gh "github.com/google/go-github/v62/github"
 	"github.com/spf13/cobra"
 )
 
@@ -25,6 +27,7 @@ var rootCmd = &cobra.Command{
 				Token:           "",
 				Repos:           []string{},
 				IncludeAllRepos: true,
+				BackupDir:       "",
 			}
 
 			err = config.SaveConfig(cfg)
@@ -45,32 +48,29 @@ var rootCmd = &cobra.Command{
 		}
 
 		ghClient := github.NewClient(cfg.Username, cfg.Token)
+		var repos []*gh.Repository
 
 		if cfg.IncludeAllRepos {
-			repos, err := ghClient.FetchAllRepos()
+			r, err := ghClient.FetchAllRepos()
 			if err != nil {
 				log.Fatal("Error in fetching repositories: ", err)
 			}
 
-			log.Default().Println("Total repositories found: ", len(repos))
+			log.Default().Println("Total repositories found: ", len(r))
 
-			for _, repo := range repos {
-				log.Default().Println(*repo.FullName)
-			}
-
+			repos = r
 		} else {
-			repos, err := ghClient.FetchRepos(cfg.Repos)
+			r, err := ghClient.FetchRepos(cfg.Repos)
 			if err != nil {
 				log.Fatal("Error in fetching repositories: ", err)
 			}
 
-			log.Default().Println("Total repositories found: ", len(repos))
+			log.Default().Println("Total repositories found: ", len(r))
 
-			for _, repo := range repos {
-				log.Default().Println(*repo.FullName)
-			}
+			repos = r
 		}
 
+		sync.SyncRepos(cfg, repos)
 	},
 }
 
@@ -83,4 +83,5 @@ func Execute() {
 
 func init() {
 	rootCmd.PersistentFlags().StringP("config", "c", "", "config file (default is $HOME/.config/git-sync/config.yaml)")
+	rootCmd.PersistentFlags().StringP("backup-dir", "b", "", "directory to backup repositories (default is $HOME/git-backups)")
 }
