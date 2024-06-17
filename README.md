@@ -115,6 +115,43 @@ To view the help message, run the following command:
 git-sync help
 ```
 
+### Setup Periodic Backups
+
+#### Unix-based Systems
+
+You can set up periodic backups using cron jobs. For example, to back up your repositories every day at 12:00 AM, you can add the following cron job:
+
+```bash
+0 0 * * * /path/to/git-sync
+```
+
+Replace `/path/to/git-sync` with the path to the `git-sync` binary.
+
+#### Windows
+
+You can set up periodic backups using Task Scheduler. Here's how you can do it:
+
+1. Open Task Scheduler.
+2. Click on `Create Basic Task`.
+3. Enter a name and description for the task.
+4. Choose the trigger (e.g., `Daily`).
+5. Set the time for the trigger.
+6. Choose `Start a program` as the action.
+7. Browse to the `git-sync` binary.
+8. Click `Finish` to create the task.
+9. Right-click on the task and select `Run` to test it.
+10. Your repositories will now be backed up periodically.
+
+Or you can use Powershell script to run the `git-sync` binary.
+
+```powershell
+$action = New-ScheduledTaskAction -Execute "path\to\git-sync.exe"
+$trigger = New-ScheduledTaskTrigger -Daily -At "12:00AM"
+Register-ScheduledTask -Action $action -Trigger $trigger -TaskName "GitSyncTask" -Description "Daily Git Sync"
+```
+
+Replace `path\to\git-sync.exe` with the path to the `git-sync` binary.
+
 ## Bugs or Requests 🐛
 
 If you encounter any problems feel free to open an [issue](https://github.com/AkashRajpurohit/git-sync/issues/new?template=bug_report.yml). If you feel the project is missing a feature, please raise a [ticket](https://github.com/AkashRajpurohit/git-sync/issues/new?template=feature_request.yml) on GitHub and I'll look into it. Pull requests are also welcome.
