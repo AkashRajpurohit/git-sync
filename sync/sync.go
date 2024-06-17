@@ -13,10 +13,6 @@ import (
 
 func SyncRepos(config config.Config, repos []*github.Repository) {
 	backupDir := config.BackupDir
-	if backupDir == "" {
-		backupDir = filepath.Join(os.Getenv("HOME"), "git-backups")
-	}
-
 	os.MkdirAll(backupDir, os.ModePerm)
 
 	var wg sync.WaitGroup

@@ -12,12 +12,17 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var (
+	cfgFile   string
+	backupDir string
+)
+
 var rootCmd = &cobra.Command{
 	Use:   "git-sync",
 	Short: "A tool to backup and sync your git repositories",
 	Run: func(cmd *cobra.Command, args []string) {
 		var cfg config.Config
-		cfg, err := config.LoadConfig()
+		cfg, err := config.LoadConfig(cfgFile)
 
 		if err != nil {
 			log.Default().Println("Config file not found, creating a new one...")
@@ -27,17 +32,17 @@ var rootCmd = &cobra.Command{
 				Token:           "",
 				Repos:           []string{},
 				IncludeAllRepos: true,
-				BackupDir:       "",
+				BackupDir:       config.GetBackupDir(backupDir),
 			}
 
-			err = config.SaveConfig(cfg)
+			err = config.SaveConfig(cfg, cfgFile)
 		}
 
 		if err != nil {
 			log.Fatal("Error in saving/loading config file: ", err)
 		}
 
-		log.Default().Println("Config loaded from: ", config.GetConfigPath())
+		log.Default().Println("Config loaded from: ", config.GetConfigFile(cfgFile))
 
 		if cfg.Username == "" {
 			log.Fatal("No username found in config file, please add one.")
@@ -70,6 +75,10 @@ var rootCmd = &cobra.Command{
 			repos = r
 		}
 
+		if cfg.BackupDir == "" {
+			log.Fatal("No backup directory found in config file, please add one.")
+		}
+
 		sync.SyncRepos(cfg, repos)
 	},
 }
@@ -82,6 +91,6 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.PersistentFlags().StringP("config", "c", "", "config file (default is $HOME/.config/git-sync/config.yaml)")
-	rootCmd.PersistentFlags().StringP("backup-dir", "b", "", "directory to backup repositories (default is $HOME/git-backups)")
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.config/git-sync/config.yaml)")
+	rootCmd.PersistentFlags().StringVar(&backupDir, "backup-dir", "", "directory to backup repositories (default is $HOME/git-backups)")
 }
