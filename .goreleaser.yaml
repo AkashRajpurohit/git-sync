@@ -42,7 +42,10 @@ archives:
       {{ tolower .ProjectName }}_
       {{ tolower .RawVersion }}_
       {{ tolower .Os }}_
-      {{ tolower .Arch }}
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ tolower .Arch }}{{ end }}
+      {{- if .Arm }}v{{ tolower .Arm }}{{ end }}
     # use zip for windows archives
     format_overrides:
       - goos: windows
