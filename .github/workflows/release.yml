@@ -37,9 +37,11 @@ jobs:
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Get current date
-        run: echo "curr_date=$(date --utc +%Y-%m-%dT%H:%M:%SZ)" >> $GITHUB_ENV
+      
+      - name: Set env
+        run: |
+          echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+          echo "NOW=$(date --utc +%Y-%m-%dT%H:%M:%SZ)" >> $GITHUB_ENV
 
       - name: Build & push Docker image to ghcr.io
         uses: mr-smithers-excellent/docker-build-push@v6
@@ -51,4 +53,4 @@ jobs:
           platform: linux/amd64,linux/arm64,linux/arm/v7
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          buildArgs: 'VERSION=${{ env.RELEASE_VERSION }},BUILD=${{ env.curr_date }}'
+          buildArgs: 'VERSION=${{ env.RELEASE_VERSION }},BUILD=${{ env.NOW }}'
