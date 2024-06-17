@@ -5,6 +5,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"sync"
 
 	"github.com/AkashRajpurohit/git-sync/config"
 	"github.com/google/go-github/v62/github"
@@ -18,12 +19,22 @@ func SyncRepos(config config.Config, repos []*github.Repository) {
 
 	os.MkdirAll(backupDir, os.ModePerm)
 
+	var wg sync.WaitGroup
+	sem := make(chan struct{}, 10) // Concurrency of 10
+
 	for _, repo := range repos {
 		if ShouldSync(repo.GetName(), config.Repos) {
-			log.Default().Println("Syncing: ", *repo.FullName)
-			CloneOrUpdateRepo(repo, backupDir)
+			wg.Add(1)
+			go func(repo *github.Repository) {
+				defer wg.Done()
+				sem <- struct{}{}
+				CloneOrUpdateRepo(repo, backupDir)
+				<-sem
+			}(repo)
 		}
 	}
+
+	wg.Wait()
 }
 
 func ShouldSync(repoName string, configuredRepos []string) bool {
