@@ -51,6 +51,4 @@ jobs:
           platform: linux/amd64,linux/arm64,linux/arm/v7
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          buildArgs: |
-            --build-arg VERSION=${{ env.RELEASE_VERSION }}
-            --build-arg BUILD=${{ env.curr_date }}
+          buildArgs: 'VERSION=${{ env.RELEASE_VERSION }},BUILD=${{ env.curr_date }}'
