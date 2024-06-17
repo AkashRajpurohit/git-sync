@@ -1,6 +1,7 @@
 package sync
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"os/exec"
@@ -24,7 +25,7 @@ func SyncRepos(config config.Config, repos []*github.Repository) {
 			go func(repo *github.Repository) {
 				defer wg.Done()
 				sem <- struct{}{}
-				CloneOrUpdateRepo(repo, backupDir)
+				CloneOrUpdateRepo(repo, backupDir, config)
 				<-sem
 			}(repo)
 		}
@@ -47,8 +48,8 @@ func ShouldSync(repoName string, configuredRepos []string) bool {
 	return false
 }
 
-func CloneOrUpdateRepo(repo *github.Repository, backupDir string) {
-	repoURL := repo.GetSSHURL()
+func CloneOrUpdateRepo(repo *github.Repository, backupDir string, config config.Config) {
+	repoURL := fmt.Sprintf("https://%s:%s@github.com/%s.git", config.Username, config.Token, repo.GetFullName())
 	repoPath := filepath.Join(backupDir, repo.GetName()+".git")
 
 	if _, err := os.Stat(repoPath); os.IsNotExist(err) {
