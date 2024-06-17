@@ -46,7 +46,7 @@ jobs:
       - name: Build & push Docker image to ghcr.io
         uses: mr-smithers-excellent/docker-build-push@v6
         with:
-          image: AkashRajpurohit/git-sync
+          image: git-sync
           tags: ${{ env.RELEASE_VERSION }},latest
           registry: ghcr.io
           multiPlatform: true
