@@ -51,17 +51,40 @@ With the increasing reliance on cloud-based repository hosting services like Git
 go get github.com/AkashRajpurohit/git-sync
 ```
 
-### Using `git clone`
+### Build from source
 
 ```bash
 git clone https://github.com/AkashRajpurohit/git-sync.git
 cd git-sync
 go install
+go build
+```
+
+### With Docker
+
+```bash
+docker run --rm -v /path/to/config/:/git-sync -v /path/to/backups:/backups ghcr.io/AkashRajpurohit/git-sync:latest
+```
+
+Or you can use the `docker-compose.yml` file to run the container.
+
+```yaml
+services:
+  git-sync:
+    image: ghcr.io/AkashRajpurohit/git-sync:latest
+    volumes:
+      - /path/to/config/:/git-sync
+      - /path/to/backups:/backups
+```
+
+```bash
+docker-compose up
 ```
 
 ### Download Pre-built Binaries
 
 Pre-built binaries are available for various platforms. You can download the latest release from the [Releases](https://github.com/AkashRajpurohit/git-sync/releases) page.
+
 
 ## Usage
 

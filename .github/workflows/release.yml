@@ -7,6 +7,9 @@ on:
 
 permissions:
   contents: write
+  packages: write
+  attestations: write
+  id-token: write
 
 jobs:
   release:
@@ -33,4 +36,21 @@ jobs:
           version: '~> v2'
           args: release --clean
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      - name: Get current date
+        run: echo "curr_date=$(date --utc +%Y-%m-%dT%H:%M:%SZ)" >> $GITHUB_ENV
+
+      - name: Build & push Docker image to ghcr.io
+        uses: mr-smithers-excellent/docker-build-push@v6
+        with:
+          image: git-sync
+          tags: ${{ env.RELEASE_VERSION }},latest
+          registry: ghcr.io
+          multiPlatform: true
+          platform: linux/amd64,linux/arm64,linux/arm/v7
+          username: ${{ github.actor }}
+          password: ${{ secrets.GH_TOKEN }}
+          buildArgs: |
+            --build-arg VERSION=${{ env.RELEASE_VERSION }}
+            --build-arg BUILD=${{ env.curr_date }}
