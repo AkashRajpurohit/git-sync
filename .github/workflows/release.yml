@@ -36,7 +36,7 @@ jobs:
           version: '~> v2'
           args: release --clean
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Get current date
         run: echo "curr_date=$(date --utc +%Y-%m-%dT%H:%M:%SZ)" >> $GITHUB_ENV
@@ -50,7 +50,7 @@ jobs:
           multiPlatform: true
           platform: linux/amd64,linux/arm64,linux/arm/v7
           username: ${{ github.actor }}
-          password: ${{ secrets.GH_TOKEN }}
+          password: ${{ secrets.GITHUB_TOKEN }}
           buildArgs: |
             --build-arg VERSION=${{ env.RELEASE_VERSION }}
             --build-arg BUILD=${{ env.curr_date }}
