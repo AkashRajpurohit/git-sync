@@ -63,7 +63,7 @@ go build
 ### With Docker
 
 ```bash
-docker run --rm -v /path/to/config/:/git-sync -v /path/to/backups:/backups ghcr.io/AkashRajpurohit/git-sync:latest
+docker run --rm -v /path/to/config/:/git-sync -v /path/to/backups:/backups ghcr.io/akashrajpurohit/git-sync:latest
 ```
 
 Or you can use the `docker-compose.yml` file to run the container.
@@ -71,7 +71,7 @@ Or you can use the `docker-compose.yml` file to run the container.
 ```yaml
 services:
   git-sync:
-    image: ghcr.io/AkashRajpurohit/git-sync:latest
+    image: ghcr.io/akashrajpurohit/git-sync:latest
     volumes:
       - /path/to/config/:/git-sync
       - /path/to/backups:/backups
