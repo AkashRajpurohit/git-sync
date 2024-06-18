@@ -3,6 +3,7 @@ package github
 import (
 	"context"
 
+	"github.com/AkashRajpurohit/git-sync/pkg/config"
 	gh "github.com/google/go-github/v62/github"
 	"golang.org/x/oauth2"
 )
@@ -28,7 +29,7 @@ func NewClient(username, token string) *Client {
 	}
 }
 
-func (c *Client) FetchAllRepos() ([]*gh.Repository, error) {
+func (c *Client) FetchAllRepos(cfg config.Config) ([]*gh.Repository, error) {
 	ctx := context.Background()
 	opt := &gh.RepositoryListByAuthenticatedUserOptions{
 		ListOptions: gh.ListOptions{PerPage: 100},
@@ -41,7 +42,14 @@ func (c *Client) FetchAllRepos() ([]*gh.Repository, error) {
 			return nil, err
 		}
 
-		allRepos = append(allRepos, repos...)
+		var reposToInclude []*gh.Repository
+		for _, repo := range repos {
+			if cfg.IncludeForks || !repo.GetFork() {
+				reposToInclude = append(reposToInclude, repo)
+			}
+		}
+
+		allRepos = append(allRepos, reposToInclude...)
 		if resp.NextPage == 0 {
 			break
 		}
@@ -52,11 +60,11 @@ func (c *Client) FetchAllRepos() ([]*gh.Repository, error) {
 	return allRepos, nil
 }
 
-func (c *Client) FetchRepos(repos []string) ([]*gh.Repository, error) {
+func (c *Client) FetchRepos(cfg config.Config) ([]*gh.Repository, error) {
 	ctx := context.Background()
 	var allRepos []*gh.Repository
 
-	for _, repo := range repos {
+	for _, repo := range cfg.Repos {
 		repo, _, err := c.Client.Repositories.Get(ctx, c.Username, repo)
 		if err != nil {
 			return nil, err

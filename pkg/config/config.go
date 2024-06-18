@@ -12,6 +12,7 @@ type Config struct {
 	Token           string   `mapstructure:"token"`
 	Repos           []string `mapstructure:"repos"`
 	IncludeAllRepos bool     `mapstructure:"include_all_repos"`
+	IncludeForks    bool     `mapstructure:"include_forks"`
 	BackupDir       string   `mapstructure:"backup_dir"`
 }
 
@@ -65,6 +66,7 @@ func SaveConfig(config Config, cfgFile string) error {
 	viper.Set("token", config.Token)
 	viper.Set("repos", config.Repos)
 	viper.Set("include_all_repos", config.IncludeAllRepos)
+	viper.Set("include_forks", config.IncludeForks)
 	viper.Set("backup_dir", config.BackupDir)
 
 	return viper.WriteConfig()

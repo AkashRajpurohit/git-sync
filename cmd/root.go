@@ -32,6 +32,7 @@ var rootCmd = &cobra.Command{
 				Token:           "",
 				Repos:           []string{},
 				IncludeAllRepos: true,
+				IncludeForks:    false,
 				BackupDir:       config.GetBackupDir(backupDir),
 			}
 
@@ -56,7 +57,7 @@ var rootCmd = &cobra.Command{
 		var repos []*gh.Repository
 
 		if cfg.IncludeAllRepos {
-			r, err := ghClient.FetchAllRepos()
+			r, err := ghClient.FetchAllRepos(cfg)
 			if err != nil {
 				log.Fatal("Error in fetching repositories: ", err)
 			}
@@ -65,7 +66,7 @@ var rootCmd = &cobra.Command{
 
 			repos = r
 		} else {
-			r, err := ghClient.FetchRepos(cfg.Repos)
+			r, err := ghClient.FetchRepos(cfg)
 			if err != nil {
 				log.Fatal("Error in fetching repositories: ", err)
 			}
