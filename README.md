@@ -26,6 +26,8 @@
 
 By using `git-sync`, you can easily clone or update your repositories to a specified local directory.
 
+[![asciicast](https://asciinema.org/a/664460.svg)](https://asciinema.org/a/664460)
+
 ## Why `git-sync`?
 
 Remember when `@defunkt` [GitHub account got banned?](https://twitter.com/defunkt/status/1754610843361362360) Well, he is the co-founder of GitHub so he did get this account un-banned but what if you are not that lucky? Recently I have seen many developers getting their GitHub account banned and losing access to their repositories. Some may be able to recover their account (but there is delay in that) and some may not be able to recover their account at all.
