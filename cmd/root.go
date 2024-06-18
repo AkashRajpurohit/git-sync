@@ -42,7 +42,7 @@ var rootCmd = &cobra.Command{
 			log.Fatal("Error in saving/loading config file: ", err)
 		}
 
-		log.Default().Println("Config loaded from: ", config.GetConfigFile(cfgFile))
+		log.Default().Println("Config loaded from:", config.GetConfigFile(cfgFile))
 
 		if cfg.Username == "" {
 			log.Fatal("No username found in config file, please add one.")
@@ -61,7 +61,7 @@ var rootCmd = &cobra.Command{
 				log.Fatal("Error in fetching repositories: ", err)
 			}
 
-			log.Default().Println("Total repositories found: ", len(r))
+			log.Default().Println("Total repositories found:", len(r))
 
 			repos = r
 		} else {
@@ -70,7 +70,7 @@ var rootCmd = &cobra.Command{
 				log.Fatal("Error in fetching repositories: ", err)
 			}
 
-			log.Default().Println("Total repositories found: ", len(r))
+			log.Default().Println("Total repositories found:", len(r))
 
 			repos = r
 		}

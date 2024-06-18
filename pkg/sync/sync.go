@@ -53,19 +53,19 @@ func CloneOrUpdateRepo(repo *github.Repository, backupDir string, config config.
 	repoPath := filepath.Join(backupDir, repo.GetName()+".git")
 
 	if _, err := os.Stat(repoPath); os.IsNotExist(err) {
-		log.Default().Println("Cloning: ", repo.GetName())
+		log.Default().Println("Cloning repo:", repo.GetName())
 
 		if _, err := exec.Command("git", "clone", "--bare", repoURL, repoPath).Output(); err != nil {
-			log.Printf("Error cloning repo %s: %v", repo.GetName(), err)
+			log.Printf("Error cloning repo %s: %v\n", repo.GetName(), err)
 		} else {
-			log.Printf("Cloned repo: %s\n", repo.GetName())
+			log.Default().Println("Cloned repo:", repo.GetName())
 		}
 	} else {
-		log.Printf("Updating repo: %s\n", repo.GetName())
+		log.Default().Println("Updating repo:", repo.GetName())
 		if _, err := exec.Command("git", "-C", repoPath, "fetch", "--all").Output(); err != nil {
-			log.Printf("Error updating repo %s: %v", repo.GetName(), err)
+			log.Printf("Error updating repo %s: %v\n", repo.GetName(), err)
 		} else {
-			log.Printf("Updated repo: %s\n", repo.GetName())
+			log.Default().Println("Updated repo:", repo.GetName())
 		}
 	}
 }
