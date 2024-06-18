@@ -5,9 +5,9 @@ import (
 	"log"
 	"os"
 
-	"github.com/AkashRajpurohit/git-sync/config"
-	"github.com/AkashRajpurohit/git-sync/github"
-	"github.com/AkashRajpurohit/git-sync/sync"
+	"github.com/AkashRajpurohit/git-sync/pkg/config"
+	"github.com/AkashRajpurohit/git-sync/pkg/github"
+	"github.com/AkashRajpurohit/git-sync/pkg/sync"
 	gh "github.com/google/go-github/v62/github"
 	"github.com/spf13/cobra"
 )

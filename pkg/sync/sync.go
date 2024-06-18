@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"sync"
 
-	"github.com/AkashRajpurohit/git-sync/config"
+	"github.com/AkashRajpurohit/git-sync/pkg/config"
 	"github.com/google/go-github/v62/github"
 )
 
