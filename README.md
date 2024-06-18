@@ -25,7 +25,7 @@ By using `git-sync`, you can easily clone or update your repositories to a speci
 
 ## Why `git-sync`?
 
-Remember when `@defunkt` [GitHub account got banned?](https://twitter.com/defunkt/status/1754610843361362360) Well, he is the co-founder of GitHub so he did get this account un-banned but what if you are not that lucky? What if you are not the co-founder of GitHub? What if you are not even a GitHub employee.
+Remember when `@defunkt` [GitHub account got banned?](https://twitter.com/defunkt/status/1754610843361362360) Well, he is the co-founder of GitHub so he did get this account un-banned but what if you are not that lucky? Recently I have seen many developers getting their GitHub account banned and losing access to their repositories. Some may be able to recover their account (but there is delay in that) and some may not be able to recover their account at all.
 
 With the increasing reliance on cloud-based repository hosting services like GitHub, it's crucial to have a backup plan. While GitHub is highly reliable, unexpected events like account bans, outages, or accidental deletions can occur.
 
@@ -42,7 +42,7 @@ With the increasing reliance on cloud-based repository hosting services like Git
 
 ### Prerequisites
 
-- [Go](https://golang.org/doc/install) (version 1.17 or later)
+- [Go](https://golang.org/doc/install) (version 1.22 or later)
 - [Git](https://git-scm.com/downloads)
 
 ### Using `go get`
@@ -84,7 +84,6 @@ docker-compose up
 ### Download Pre-built Binaries
 
 Pre-built binaries are available for various platforms. You can download the latest release from the [Releases](https://github.com/AkashRajpurohit/git-sync/releases) page.
-
 
 ## Usage
 
@@ -142,7 +141,7 @@ git-sync help
 
 #### Unix-based Systems
 
-You can set up periodic backups using cron jobs. For example, to back up your repositories every day at 12:00 AM, you can add the following cron job:
+You can set up periodic backups using [cron jobs or systemD timers](https://akashrajpurohit.com/blog/systemd-timers-vs-cron-jobs/?ref=git-sync). For example, to back up your repositories every day at 12:00 AM, you can add the following cron job:
 
 ```bash
 0 0 * * * /path/to/git-sync
