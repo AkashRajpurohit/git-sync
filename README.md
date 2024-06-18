@@ -3,9 +3,12 @@
 <br />
 <p align="center">
   <a href="https://github.com/AkashRajpurohit/git-sync/actions/workflows/release.yml">
-    <img alt="Build states" src="https://github.com/AkashRajpurohit/git-sync/actions/workflows/release.yml/badge.svg?branch=main">
+    <img alt="Build states" src="https://github.com/AkashRajpurohit/git-sync/actions/workflows/release.yml/badge.svg">
   </a>
-  <img alt="Visitors count" src="https://visitor-badge.laobi.icu/badge?page_id=@akashrajpurohit~git-sync.visitor-badge&style=flat-square&color=0088cc">
+  <a href="https://goreportcard.com/report/github.com/AkashRajpurohit/git-sync">
+    <img alt="Go Report Card" src="https://goreportcard.com/badge/github.com/AkashRajpurohit/git-sync">
+  </a>
+  <img alt="Visitors count" src="https://visitor-badge.laobi.icu/badge?page_id=@akashrajpurohit~git-sync.visitor-badge&style=flat-square">
   <a href="https://twitter.com/akashwhocodes">
     <img alt="follow on twitter" src="https://img.shields.io/twitter/follow/akashwhocodes.svg?style=social&label=@akashwhocodes">
   </a>
