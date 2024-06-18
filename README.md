@@ -106,6 +106,7 @@ token: your-personal-access-token
 repos: []
 backup_dir: /path/to/backup
 include_all_repos: true
+include_forks: false
 ```
 
 - `username`: Your GitHub username.
@@ -113,6 +114,7 @@ include_all_repos: true
 - `repos`: A list of repositories to back up. If `include_all_repos` is set to `true`, this field is ignored.
 - `backup_dir`: The directory where the repositories will be backed up. Default is `~/git-backups`.
 - `include_all_repos`: If set to `true`, all repositories owned by the user will be backed up. If set to `false`, only the repositories listed in the `repos` field will be backed up.
+- `include_forks`: If set to `true`, forks of the user's repositories will also be backed up. Default is `false`.
 
 ### Commands
 
