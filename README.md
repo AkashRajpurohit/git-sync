@@ -26,7 +26,7 @@
 
 By using `git-sync`, you can easily clone or update your repositories to a specified local directory.
 
-[![asciicast](https://asciinema.org/a/664460.svg)](https://asciinema.org/a/664460)
+[![asciicast](https://asciinema.org/a/664462.svg)](https://asciinema.org/a/664462)
 
 ## Why `git-sync`?
 
