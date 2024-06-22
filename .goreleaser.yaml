@@ -50,7 +50,6 @@ changelog:
   sort: asc
   filters:
     exclude:
-      - "^docs:"
       - "^test:"
 release:
   prerelease: auto
