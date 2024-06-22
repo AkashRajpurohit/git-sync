@@ -53,6 +53,10 @@ var rootCmd = &cobra.Command{
 			log.Fatal("No token found in config file, please add one. See here: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#about-personal-access-tokens")
 		}
 
+		if cfg.BackupDir == "" {
+			log.Fatal("No backup directory found in config file, please add one.")
+		}
+
 		ghClient := github.NewClient(cfg.Username, cfg.Token)
 		var repos []*gh.Repository
 
@@ -74,10 +78,6 @@ var rootCmd = &cobra.Command{
 			log.Default().Println("Total repositories found:", len(r))
 
 			repos = r
-		}
-
-		if cfg.BackupDir == "" {
-			log.Fatal("No backup directory found in config file, please add one.")
 		}
 
 		sync.SyncRepos(cfg, repos)
