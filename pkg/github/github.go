@@ -75,3 +75,26 @@ func (c *Client) FetchRepos(cfg config.Config) ([]*gh.Repository, error) {
 
 	return allRepos, nil
 }
+
+func GetGitHubRepos(cfg config.Config) ([]*gh.Repository, error) {
+	client := NewClient(cfg.Username, cfg.Token)
+
+	var repos []*gh.Repository
+	if cfg.IncludeAllRepos {
+		r, err := client.FetchAllRepos(cfg)
+		if err != nil {
+			return nil, err
+		}
+
+		repos = r
+	} else {
+		r, err := client.FetchRepos(cfg)
+		if err != nil {
+			return nil, err
+		}
+
+		repos = r
+	}
+
+	return repos, nil
+}

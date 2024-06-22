@@ -8,7 +8,6 @@ import (
 	"github.com/AkashRajpurohit/git-sync/pkg/config"
 	"github.com/AkashRajpurohit/git-sync/pkg/github"
 	"github.com/AkashRajpurohit/git-sync/pkg/sync"
-	gh "github.com/google/go-github/v62/github"
 	"github.com/spf13/cobra"
 )
 
@@ -57,28 +56,13 @@ var rootCmd = &cobra.Command{
 			log.Fatal("No backup directory found in config file, please add one.")
 		}
 
-		ghClient := github.NewClient(cfg.Username, cfg.Token)
-		var repos []*gh.Repository
+		repos, err := github.GetGitHubRepos(cfg)
 
-		if cfg.IncludeAllRepos {
-			r, err := ghClient.FetchAllRepos(cfg)
-			if err != nil {
-				log.Fatal("Error in fetching repositories: ", err)
-			}
-
-			log.Default().Println("Total repositories found:", len(r))
-
-			repos = r
-		} else {
-			r, err := ghClient.FetchRepos(cfg)
-			if err != nil {
-				log.Fatal("Error in fetching repositories: ", err)
-			}
-
-			log.Default().Println("Total repositories found:", len(r))
-
-			repos = r
+		if err != nil {
+			log.Fatal("Error fetching repositories: ", err)
 		}
+
+		log.Default().Println("Fetched", len(repos), "repositories")
 
 		sync.SyncRepos(cfg, repos)
 	},
