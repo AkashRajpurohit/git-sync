@@ -3,6 +3,7 @@ package config
 import (
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/spf13/viper"
 )
@@ -16,16 +17,24 @@ type Config struct {
 	BackupDir       string   `mapstructure:"backup_dir"`
 }
 
+func expandPath(path string) string {
+	if strings.HasPrefix(path, "~/") {
+		homeDir, _ := os.UserHomeDir()
+		return filepath.Join(homeDir, path[2:])
+	}
+	return path
+}
+
 func GetConfigFile(cfgFile string) string {
 	if cfgFile != "" {
-		return cfgFile
+		return expandPath(cfgFile)
 	}
 
 	if os.Getenv("GIT_SYNC_CONFIG_FILE") != "" {
-		return os.Getenv("GIT_SYNC_CONFIG_FILE")
+		return expandPath(os.Getenv("GIT_SYNC_CONFIG_FILE"))
 	}
 
-	return filepath.Join(os.Getenv("HOME"), ".config", "git-sync", "config.yaml")
+	return expandPath(filepath.Join(os.Getenv("HOME"), ".config", "git-sync", "config.yaml"))
 }
 
 func GetBackupDir(backupDir string) string {
