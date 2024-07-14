@@ -54,7 +54,7 @@ func LoadConfig(cfgFile string) (Config, error) {
 	configFile := GetConfigFile(cfgFile)
 
 	viper.AddConfigPath(filepath.Dir(configFile))
-	viper.SetConfigName("config")
+	viper.SetConfigFile(configFile)
 	viper.SetConfigType("yaml")
 
 	if err := viper.ReadInConfig(); err != nil {
