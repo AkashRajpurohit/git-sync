@@ -20,35 +20,19 @@ func SyncRepos(config config.Config, repos []*github.Repository) {
 	sem := make(chan struct{}, 10) // Concurrency of 10
 
 	for _, repo := range repos {
-		if ShouldSync(repo.GetName(), config.Repos) {
-			wg.Add(1)
-			go func(repo *github.Repository) {
-				defer wg.Done()
-				sem <- struct{}{}
-				CloneOrUpdateRepo(repo, backupDir, config)
-				<-sem
-			}(repo)
-		}
+		wg.Add(1)
+		go func(repo *github.Repository) {
+			defer wg.Done()
+			sem <- struct{}{}
+			cloneOrUpdateRepo(repo, backupDir, config)
+			<-sem
+		}(repo)
 	}
 
 	wg.Wait()
 }
 
-func ShouldSync(repoName string, configuredRepos []string) bool {
-	if len(configuredRepos) == 0 {
-		return true
-	}
-
-	for _, name := range configuredRepos {
-		if name == repoName {
-			return true
-		}
-	}
-
-	return false
-}
-
-func CloneOrUpdateRepo(repo *github.Repository, backupDir string, config config.Config) {
+func cloneOrUpdateRepo(repo *github.Repository, backupDir string, config config.Config) {
 	repoURL := fmt.Sprintf("https://%s:%s@github.com/%s.git", config.Username, config.Token, repo.GetFullName())
 	repoPath := filepath.Join(backupDir, repo.GetName()+".git")
 

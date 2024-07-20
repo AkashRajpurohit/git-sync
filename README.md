@@ -103,18 +103,75 @@ Here's an example configuration file:
 # Default path: ~/.config/git-sync/config.yml
 username: your-github-username
 token: your-personal-access-token
-repos: []
+include_repos: []
+exclude_repos: []
 backup_dir: /path/to/backup
-include_all_repos: true
 include_forks: false
 ```
 
 - `username`: Your GitHub username.
 - `token`: Your GitHub personal access token. You can create a new token [here](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#about-personal-access-tokens). Ensure that the token has the `repo` scope.
-- `repos`: A list of repositories to back up. If `include_all_repos` is set to `true`, this field is ignored.
+- `include_repos`: A list of repositories to include in the backup. If set then only these repositories will be backed up.
+- `exclude_repos`: A list of repositories to exclude from the backup. If set then all repositories except these will be backed up.
 - `backup_dir`: The directory where the repositories will be backed up. Default is `~/git-backups`.
-- `include_all_repos`: If set to `true`, all repositories owned by the user will be backed up. If set to `false`, only the repositories listed in the `repos` field will be backed up.
 - `include_forks`: If set to `true`, forks of the user's repositories will also be backed up. Default is `false`.
+
+Here are some dry run examples for different configurations:
+
+#### Include all repositories that I own (even forks)
+
+```yaml
+username: your-github-username
+token: your-personal-access-token
+include_repos: []
+exclude_repos: []
+backup_dir: /path/to/backup
+include_forks: true
+```
+
+#### Include all repositories that I own excluding forks
+
+```yaml
+username: your-github-username
+token: your-personal-access-token
+include_repos: []
+exclude_repos: []
+backup_dir: /path/to/backup
+include_forks: false
+```
+
+#### Include all repositories that I own excluding forks and some repositories
+
+```yaml
+username: your-github-username
+token: your-personal-access-token
+include_repos: []
+exclude_repos: ["repo1", "repo2"]
+backup_dir: /path/to/backup
+include_forks: false
+```
+
+#### Include only specific repositories
+
+```yaml
+username: your-github-username
+token: your-personal-access-token
+include_repos: ["repo1"]
+exclude_repos: []
+backup_dir: /path/to/backup
+include_forks: false
+```
+
+**NOTE:** In the above example if you passed `exclude_repos` as well then it will be ignored since you have passed `include_repos`. So an example like below will still have same effect as above and only "repo1" will be backed up.
+
+```yaml
+username: your-github-username
+token: your-personal-access-token
+include_repos: ["repo1"]
+exclude_repos: ["repo2", "repo3"]
+backup_dir: /path/to/backup
+include_forks: false
+```
 
 ### Commands
 

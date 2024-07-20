@@ -27,12 +27,12 @@ var rootCmd = &cobra.Command{
 			log.Default().Println("Config file not found, creating a new one...")
 
 			cfg = config.Config{
-				Username:        "",
-				Token:           "",
-				Repos:           []string{},
-				IncludeAllRepos: true,
-				IncludeForks:    false,
-				BackupDir:       config.GetBackupDir(backupDir),
+				Username:     "",
+				Token:        "",
+				IncludeRepos: []string{},
+				ExcludeRepos: []string{},
+				IncludeForks: false,
+				BackupDir:    config.GetBackupDir(backupDir),
 			}
 
 			err = config.SaveConfig(cfg, cfgFile)
@@ -54,6 +54,10 @@ var rootCmd = &cobra.Command{
 
 		if cfg.BackupDir == "" {
 			log.Fatal("No backup directory found in config file, please add one.")
+		}
+
+		if len(cfg.IncludeRepos) > 0 && len(cfg.ExcludeRepos) > 0 {
+			log.Default().Println("Both include and exclude repos are set, ignoring exclude repos")
 		}
 
 		repos, err := github.GetGitHubRepos(cfg)

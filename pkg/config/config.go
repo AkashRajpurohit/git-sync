@@ -9,12 +9,12 @@ import (
 )
 
 type Config struct {
-	Username        string   `mapstructure:"username"`
-	Token           string   `mapstructure:"token"`
-	Repos           []string `mapstructure:"repos"`
-	IncludeAllRepos bool     `mapstructure:"include_all_repos"`
-	IncludeForks    bool     `mapstructure:"include_forks"`
-	BackupDir       string   `mapstructure:"backup_dir"`
+	Username     string   `mapstructure:"username"`
+	Token        string   `mapstructure:"token"`
+	IncludeRepos []string `mapstructure:"include_repos"`
+	ExcludeRepos []string `mapstructure:"exclude_repos"`
+	IncludeForks bool     `mapstructure:"include_forks"`
+	BackupDir    string   `mapstructure:"backup_dir"`
 }
 
 func expandPath(path string) string {
@@ -73,8 +73,8 @@ func SaveConfig(config Config, cfgFile string) error {
 
 	viper.Set("username", config.Username)
 	viper.Set("token", config.Token)
-	viper.Set("repos", config.Repos)
-	viper.Set("include_all_repos", config.IncludeAllRepos)
+	viper.Set("include_repos", config.IncludeRepos)
+	viper.Set("exclude_repos", config.ExcludeRepos)
 	viper.Set("include_forks", config.IncludeForks)
 	viper.Set("backup_dir", config.BackupDir)
 

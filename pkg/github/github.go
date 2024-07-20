@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/AkashRajpurohit/git-sync/pkg/config"
+	"github.com/AkashRajpurohit/git-sync/pkg/helpers"
 	gh "github.com/google/go-github/v62/github"
 	"golang.org/x/oauth2"
 )
@@ -29,7 +30,7 @@ func NewClient(username, token string) *Client {
 	}
 }
 
-func (c *Client) FetchAllRepos(cfg config.Config) ([]*gh.Repository, error) {
+func (c *Client) fetchAllRepos(cfg config.Config) ([]*gh.Repository, error) {
 	ctx := context.Background()
 	opt := &gh.RepositoryListByAuthenticatedUserOptions{
 		ListOptions: gh.ListOptions{PerPage: 100},
@@ -44,9 +45,15 @@ func (c *Client) FetchAllRepos(cfg config.Config) ([]*gh.Repository, error) {
 
 		var reposToInclude []*gh.Repository
 		for _, repo := range repos {
-			if cfg.IncludeForks || !repo.GetFork() {
-				reposToInclude = append(reposToInclude, repo)
+			if !cfg.IncludeForks && repo.GetFork() {
+				continue
 			}
+
+			if helpers.IsRepoExcluded(cfg.ExcludeRepos, repo.GetName()) {
+				continue
+			}
+
+			reposToInclude = append(reposToInclude, repo)
 		}
 
 		allRepos = append(allRepos, reposToInclude...)
@@ -60,11 +67,11 @@ func (c *Client) FetchAllRepos(cfg config.Config) ([]*gh.Repository, error) {
 	return allRepos, nil
 }
 
-func (c *Client) FetchRepos(cfg config.Config) ([]*gh.Repository, error) {
+func (c *Client) fetchRepos(repos []string) ([]*gh.Repository, error) {
 	ctx := context.Background()
 	var allRepos []*gh.Repository
 
-	for _, repo := range cfg.Repos {
+	for _, repo := range repos {
 		repo, _, err := c.Client.Repositories.Get(ctx, c.Username, repo)
 		if err != nil {
 			return nil, err
@@ -80,15 +87,18 @@ func GetGitHubRepos(cfg config.Config) ([]*gh.Repository, error) {
 	client := NewClient(cfg.Username, cfg.Token)
 
 	var repos []*gh.Repository
-	if cfg.IncludeAllRepos {
-		r, err := client.FetchAllRepos(cfg)
+	// If include_repos is set, only fetch those repos and that's it
+	// no checks for forks or exclude_repos
+	if len(cfg.IncludeRepos) > 0 {
+		r, err := client.fetchRepos(cfg.IncludeRepos)
 		if err != nil {
 			return nil, err
 		}
 
 		repos = r
 	} else {
-		r, err := client.FetchRepos(cfg)
+		// for any other case, fetch all repos and then filter them
+		r, err := client.fetchAllRepos(cfg)
 		if err != nil {
 			return nil, err
 		}
