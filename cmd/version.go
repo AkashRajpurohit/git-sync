@@ -11,7 +11,7 @@ var versionCmd = &cobra.Command{
 	Use:   "version",
 	Short: "Print the version number of git-sync",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Printf("git-sync version %s\n", version.Version)
+		fmt.Printf("git-sync\nVersion: %s\nBuild: %s", version.Version, version.Build)
 	},
 }
 
