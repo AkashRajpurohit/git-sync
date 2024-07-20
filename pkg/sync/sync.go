@@ -64,7 +64,7 @@ func CloneOrUpdateRepo(repo *github.Repository, backupDir string, config config.
 	} else {
 		log.Default().Println("Updating repo:", repo.GetName())
 
-		cmd := exec.Command("sh", "-c", fmt.Sprintf("git --git-dir %s fetch origin \"*:*\"", repoPath))
+		cmd := exec.Command("git", "--git-dir", repoPath, "fetch", "--prune", "origin", "*:*")
 		if err := cmd.Run(); err != nil {
 			log.Printf("Error updating repo %s: %v\n", repo.GetName(), err)
 		} else {
