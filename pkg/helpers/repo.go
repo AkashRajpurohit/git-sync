@@ -1,8 +1,11 @@
 package helpers
 
+import "path/filepath"
+
 func IsRepoExcluded(excludedRepos []string, repoName string) bool {
 	for _, excludedRepo := range excludedRepos {
-		if excludedRepo == repoName {
+		match, err := filepath.Match(excludedRepo, repoName)
+		if err == nil && match {
 			return true
 		}
 	}
@@ -11,7 +14,8 @@ func IsRepoExcluded(excludedRepos []string, repoName string) bool {
 
 func IsRepoIncluded(includedRepos []string, repoName string) bool {
 	for _, includedRepo := range includedRepos {
-		if includedRepo == repoName {
+		match, err := filepath.Match(includedRepo, repoName)
+		if err == nil && match {
 			return true
 		}
 	}
