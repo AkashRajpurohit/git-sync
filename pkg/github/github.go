@@ -30,7 +30,7 @@ func NewClient(username, token string) *Client {
 	}
 }
 
-func (c *Client) fetchAllRepos(cfg config.Config) ([]*gh.Repository, error) {
+func (c *Client) fetchListOfRepos(cfg config.Config) ([]*gh.Repository, error) {
 	ctx := context.Background()
 	opt := &gh.RepositoryListByAuthenticatedUserOptions{
 		ListOptions: gh.ListOptions{PerPage: 100},
@@ -45,14 +45,30 @@ func (c *Client) fetchAllRepos(cfg config.Config) ([]*gh.Repository, error) {
 
 		var reposToInclude []*gh.Repository
 		for _, repo := range repos {
+
+			// If include repos are set, only include those and skip the rest
+			if len(cfg.IncludeRepos) > 0 {
+				if helpers.IsRepoIncluded(cfg.IncludeRepos, repo.GetName()) {
+					reposToInclude = append(reposToInclude, repo)
+				}
+
+				continue
+			}
+
+			// If exclude repos are set, exclude those and move to next checks if any
+			if len(cfg.ExcludeRepos) > 0 {
+				if helpers.IsRepoExcluded(cfg.ExcludeRepos, repo.GetName()) {
+					continue
+				}
+			}
+
+			// If include forks is not set, skip forks
 			if !cfg.IncludeForks && repo.GetFork() {
 				continue
 			}
 
-			if helpers.IsRepoExcluded(cfg.ExcludeRepos, repo.GetName()) {
-				continue
-			}
-
+			// If none of the above conditions are met, include the repo
+			// This usually means that you don't have include_repos or the current repo is not in exclude_repos
 			reposToInclude = append(reposToInclude, repo)
 		}
 
@@ -67,43 +83,12 @@ func (c *Client) fetchAllRepos(cfg config.Config) ([]*gh.Repository, error) {
 	return allRepos, nil
 }
 
-func (c *Client) fetchRepos(repos []string) ([]*gh.Repository, error) {
-	ctx := context.Background()
-	var allRepos []*gh.Repository
-
-	for _, repo := range repos {
-		repo, _, err := c.Client.Repositories.Get(ctx, c.Username, repo)
-		if err != nil {
-			return nil, err
-		}
-
-		allRepos = append(allRepos, repo)
-	}
-
-	return allRepos, nil
-}
-
 func GetGitHubRepos(cfg config.Config) ([]*gh.Repository, error) {
 	client := NewClient(cfg.Username, cfg.Token)
 
-	var repos []*gh.Repository
-	// If include_repos is set, only fetch those repos and that's it
-	// no checks for forks or exclude_repos
-	if len(cfg.IncludeRepos) > 0 {
-		r, err := client.fetchRepos(cfg.IncludeRepos)
-		if err != nil {
-			return nil, err
-		}
-
-		repos = r
-	} else {
-		// for any other case, fetch all repos and then filter them
-		r, err := client.fetchAllRepos(cfg)
-		if err != nil {
-			return nil, err
-		}
-
-		repos = r
+	repos, err := client.fetchListOfRepos(cfg)
+	if err != nil {
+		return nil, err
 	}
 
 	return repos, nil
