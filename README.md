@@ -109,12 +109,18 @@ backup_dir: /path/to/backup
 include_forks: false
 ```
 
-- `username`: Your GitHub username.
-- `token`: Your GitHub personal access token. You can create a new token [here](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#about-personal-access-tokens). Ensure that the token has the `repo` scope.
-- `include_repos`: A list of repositories to include in the backup. If set then only these repositories will be backed up.
-- `exclude_repos`: A list of repositories to exclude from the backup. If set then all repositories except these will be backed up.
-- `backup_dir`: The directory where the repositories will be backed up. Default is `~/git-backups`.
-- `include_forks`: If set to `true`, forks of the user's repositories will also be backed up. Default is `false`.
+| Field          | Description                                                                                                      |
+|----------------|------------------------------------------------------------------------------------------------------------------|
+| `username`     | Your GitHub username.                                                                                            |
+| `token`        | Your GitHub personal access token. You can create a new token [here](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#about-personal-access-tokens). Ensure that the token has the `repo` scope. |
+| `include_repos` | A list of repositories to include in the backup. If set then only these repositories will be backed up.          |
+| `exclude_repos` | A list of repositories to exclude from the backup. If set then all repositories except these will be backed up.  |
+| `backup_dir`   | The directory where the repositories will be backed up. Default is `~/git-backups`.                              |
+| `include_forks`| If set to `true`, forks of the user's repositories will also be backed up. Default is `false`.                   |
+
+> Note: The `include_repos` and `exclude_repos` fields accept repository name as well as glob patterns. The patterns supported are those defined by [filepath.Match](https://pkg.go.dev/path/filepath#Match).
+
+---
 
 Here are some dry run examples for different configurations:
 
@@ -169,6 +175,30 @@ username: your-github-username
 token: your-personal-access-token
 include_repos: ["repo1"]
 exclude_repos: ["repo2", "repo3"]
+backup_dir: /path/to/backup
+include_forks: false
+```
+
+#### Include / Exclude repositories using glob patterns
+
+To include all repos which start with `repo`, you can use the following configuration:
+
+```yaml
+username: your-github-username
+token: your-personal-access-token
+include_repos: ["repo*"]
+exclude_repos: []
+backup_dir: /path/to/backup
+include_forks: false
+```
+
+Same way you can exclude all repos which start with `repo`:
+
+```yaml
+username: your-github-username
+token: your-personal-access-token
+include_repos: []
+exclude_repos: ["repo*"]
 backup_dir: /path/to/backup
 include_forks: false
 ```
