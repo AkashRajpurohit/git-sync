@@ -2,13 +2,13 @@ package sync
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"sync"
 
 	"github.com/AkashRajpurohit/git-sync/pkg/config"
+	"github.com/AkashRajpurohit/git-sync/pkg/logger"
 	"github.com/google/go-github/v62/github"
 )
 
@@ -37,22 +37,22 @@ func cloneOrUpdateRepo(repo *github.Repository, backupDir string, config config.
 	repoPath := filepath.Join(backupDir, repo.GetName()+".git")
 
 	if _, err := os.Stat(repoPath); os.IsNotExist(err) {
-		log.Default().Println("Cloning repo:", repo.GetName())
+		logger.Info("Cloning repo: ", repo.GetName())
 
 		cmd := exec.Command("git", "clone", "--bare", repoURL, repoPath)
 		if err := cmd.Run(); err != nil {
-			log.Printf("Error cloning repo %s: %v\n", repo.GetName(), err)
+			logger.Fatalf("Error cloning repo %s: %v\n", repo.GetName(), err)
 		} else {
-			log.Default().Println("Cloned repo:", repo.GetName())
+			logger.Info("Cloned repo: ", repo.GetName())
 		}
 	} else {
-		log.Default().Println("Updating repo:", repo.GetName())
+		logger.Info("Updating repo: ", repo.GetName())
 
 		cmd := exec.Command("git", "--git-dir", repoPath, "fetch", "--prune", "origin", "+*:*")
 		if err := cmd.Run(); err != nil {
-			log.Printf("Error updating repo %s: %v\n", repo.GetName(), err)
+			logger.Fatalf("Error updating repo %s: %v\n", repo.GetName(), err)
 		} else {
-			log.Default().Println("Updated repo:", repo.GetName())
+			logger.Info("Updated repo: ", repo.GetName())
 		}
 	}
 }

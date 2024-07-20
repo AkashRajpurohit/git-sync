@@ -5,6 +5,7 @@ import (
 
 	"github.com/AkashRajpurohit/git-sync/pkg/config"
 	"github.com/AkashRajpurohit/git-sync/pkg/helpers"
+	"github.com/AkashRajpurohit/git-sync/pkg/logger"
 	gh "github.com/google/go-github/v62/github"
 	"golang.org/x/oauth2"
 )
@@ -16,12 +17,15 @@ type Client struct {
 }
 
 func NewClient(username, token string) *Client {
+	logger.Debug("Creating new GitHub client ⏳")
 	ctx := context.Background()
 	ts := oauth2.StaticTokenSource(
 		&oauth2.Token{AccessToken: token},
 	)
 	tc := oauth2.NewClient(ctx, ts)
 	client := gh.NewClient(tc)
+
+	logger.Debug("GitHub client created ✅")
 
 	return &Client{
 		Username: username,
@@ -31,6 +35,7 @@ func NewClient(username, token string) *Client {
 }
 
 func (c *Client) fetchListOfRepos(cfg config.Config) ([]*gh.Repository, error) {
+	logger.Debug("Fetching list of repositories ⏳")
 	ctx := context.Background()
 	opt := &gh.RepositoryListByAuthenticatedUserOptions{
 		ListOptions: gh.ListOptions{PerPage: 100},
@@ -45,10 +50,12 @@ func (c *Client) fetchListOfRepos(cfg config.Config) ([]*gh.Repository, error) {
 
 		var reposToInclude []*gh.Repository
 		for _, repo := range repos {
+			repoName := repo.GetName()
 
 			// If include repos are set, only include those and skip the rest
 			if len(cfg.IncludeRepos) > 0 {
-				if helpers.IsRepoIncluded(cfg.IncludeRepos, repo.GetName()) {
+				if helpers.IsRepoIncluded(cfg.IncludeRepos, repoName) {
+					logger.Debug("[include_repos] Repo included: ", repoName)
 					reposToInclude = append(reposToInclude, repo)
 				}
 
@@ -57,18 +64,21 @@ func (c *Client) fetchListOfRepos(cfg config.Config) ([]*gh.Repository, error) {
 
 			// If exclude repos are set, exclude those and move to next checks if any
 			if len(cfg.ExcludeRepos) > 0 {
-				if helpers.IsRepoExcluded(cfg.ExcludeRepos, repo.GetName()) {
+				if helpers.IsRepoExcluded(cfg.ExcludeRepos, repoName) {
+					logger.Debug("[exclude_repos] Repo excluded: ", repoName)
 					continue
 				}
 			}
 
 			// If include forks is not set, skip forks
 			if !cfg.IncludeForks && repo.GetFork() {
+				logger.Debug("[include_forks] Repo excluded: ", repoName)
 				continue
 			}
 
 			// If none of the above conditions are met, include the repo
 			// This usually means that you don't have include_repos or the current repo is not in exclude_repos
+			logger.Debug("Repo included: ", repoName)
 			reposToInclude = append(reposToInclude, repo)
 		}
 
@@ -77,6 +87,7 @@ func (c *Client) fetchListOfRepos(cfg config.Config) ([]*gh.Repository, error) {
 			break
 		}
 
+		logger.Debug("Fetching next page: ", resp.NextPage)
 		opt.Page = resp.NextPage
 	}
 

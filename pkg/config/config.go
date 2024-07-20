@@ -5,6 +5,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/AkashRajpurohit/git-sync/pkg/logger"
 	"github.com/spf13/viper"
 )
 
@@ -27,26 +28,34 @@ func expandPath(path string) string {
 
 func GetConfigFile(cfgFile string) string {
 	if cfgFile != "" {
+		logger.Debug("Using config file: ", cfgFile)
 		return expandPath(cfgFile)
 	}
 
 	if os.Getenv("GIT_SYNC_CONFIG_FILE") != "" {
+		logger.Debug("Using OS env GIT_SYNC_CONFIG_FILE: ", os.Getenv("GIT_SYNC_CONFIG_FILE"))
 		return expandPath(os.Getenv("GIT_SYNC_CONFIG_FILE"))
 	}
 
-	return expandPath(filepath.Join(os.Getenv("HOME"), ".config", "git-sync", "config.yaml"))
+	defaultConfigFilePath := filepath.Join(os.Getenv("HOME"), ".config", "git-sync", "config.yaml")
+	logger.Debug("Using default config file: ", defaultConfigFilePath)
+	return expandPath(defaultConfigFilePath)
 }
 
 func GetBackupDir(backupDir string) string {
 	if backupDir != "" {
-		return backupDir
+		logger.Debug("Using backup directory: ", backupDir)
+		return expandPath(backupDir)
 	}
 
 	if os.Getenv("GIT_SYNC_BACKUP_DIR") != "" {
-		return os.Getenv("GIT_SYNC_BACKUP_DIR")
+		logger.Debug("Using OS env GIT_SYNC_BACKUP_DIR: ", os.Getenv("GIT_SYNC_BACKUP_DIR"))
+		return expandPath(os.Getenv("GIT_SYNC_BACKUP_DIR"))
 	}
 
-	return filepath.Join(os.Getenv("HOME"), "git-backups")
+	defaultBackupDir := filepath.Join(os.Getenv("HOME"), "git-backups")
+	logger.Debug("Using default backup directory: ", defaultBackupDir)
+	return expandPath(defaultBackupDir)
 }
 
 func LoadConfig(cfgFile string) (Config, error) {
