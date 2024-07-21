@@ -1,4 +1,14 @@
 {
   "projectName": "git-sync",
-  "projectOwner": "AkashRajpurohit"
+  "projectOwner": "AkashRajpurohit",
+	"files": ["README.md"],
+	"contributors": [
+		{
+			"login": "AkashRajpurohit",
+			"name": "Akash Rajpurohit",
+			"avatar_url": "https://avatars.githubusercontent.com/u/30044630?v=4",
+			"profile": "https://github.com/AkashRajpurohit",
+			"contributions": ["code","ideas","review","doc"]
+		}
+	]
 }
