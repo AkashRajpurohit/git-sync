@@ -14,6 +14,8 @@ type Config struct {
 	Token        string   `mapstructure:"token"`
 	IncludeRepos []string `mapstructure:"include_repos"`
 	ExcludeRepos []string `mapstructure:"exclude_repos"`
+	IncludeOrgs  []string `mapstructure:"include_orgs"`
+	ExcludeOrgs  []string `mapstructure:"exclude_orgs"`
 	IncludeForks bool     `mapstructure:"include_forks"`
 	BackupDir    string   `mapstructure:"backup_dir"`
 }
