@@ -51,7 +51,11 @@ func (c *Client) fetchListOfRepos(cfg config.Config) ([]*gh.Repository, error) {
 		var reposToInclude []*gh.Repository
 		for _, repo := range repos {
 			repoName := repo.GetName()
-			orgName := repo.GetOrganization().GetName()
+
+			orgName := "personal"
+			if repo.GetOrganization() != nil {
+				orgName = repo.GetOrganization().GetName()
+			}
 
 			// If include orgs are set, only include those and skip the rest
 			if len(cfg.IncludeOrgs) > 0 {
