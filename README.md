@@ -118,6 +118,8 @@ include_forks: false
 | `token`        | Your GitHub personal access token. You can create a new token [here](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#about-personal-access-tokens). Ensure that the token has the `repo` scope. |
 | `include_repos` | A list of repositories to include in the backup. If set then only these repositories will be backed up.          |
 | `exclude_repos` | A list of repositories to exclude from the backup. If set then all repositories except these will be backed up.  |
+| `include_orgs` | A list of orgs to include in the backup. If set then only these orgs will be backed up.          |
+| `exclude_orgs` | A list of orgs to exclude from the backup. If set then all orgs except these will be backed up.  |
 | `backup_dir`   | The directory where the repositories will be backed up. Default is `~/git-backups`.                              |
 | `include_forks`| If set to `true`, forks of the user's repositories will also be backed up. Default is `false`.                   |
 
