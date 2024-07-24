@@ -51,14 +51,15 @@ func (c *Client) fetchListOfRepos(cfg config.Config) ([]*gh.Repository, error) {
 		var reposToInclude []*gh.Repository
 		for _, repo := range repos {
 			repoName := repo.GetName()
-			orgName := "personal"
+			isOrganizationRepo := repo.Owner.GetType() == "Organization"
+			orgName := "user"
 
-			if repo.Owner.GetType() == "Organization" {
+			if isOrganizationRepo {
 				orgName = repo.GetOrganization().GetName()
 			}
 
 			// If include orgs are set, only include those and skip the rest
-			if len(cfg.IncludeOrgs) > 0 {
+			if isOrganizationRepo && len(cfg.IncludeOrgs) > 0 {
 				if helpers.IsOrgIncluded(cfg.IncludeOrgs, orgName) {
 					reposToInclude = append(reposToInclude, repo)
 				}
@@ -67,8 +68,8 @@ func (c *Client) fetchListOfRepos(cfg config.Config) ([]*gh.Repository, error) {
 			}
 
 			// If exclude orgs are set, exclude those and move to next checks if any
-			if len(cfg.ExcludeOrgs) > 0 {
-				if helpers.IsOrgExcluded(cfg.ExcludeOrgs, repoName) {
+			if isOrganizationRepo && len(cfg.ExcludeOrgs) > 0 {
+				if helpers.IsOrgExcluded(cfg.ExcludeOrgs, orgName) {
 					continue
 				}
 			}
