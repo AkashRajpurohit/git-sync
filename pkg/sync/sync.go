@@ -34,7 +34,8 @@ func SyncRepos(config config.Config, repos []*github.Repository) {
 
 func cloneOrUpdateRepo(repo *github.Repository, backupDir string, config config.Config) {
 	repoURL := fmt.Sprintf("https://%s:%s@github.com/%s.git", config.Username, config.Token, repo.GetFullName())
-	repoPath := filepath.Join(backupDir, repo.GetName()+".git")
+	repoOwner := repo.GetOwner().GetLogin()
+	repoPath := filepath.Join(backupDir, repoOwner, repo.GetName()+".git")
 
 	if _, err := os.Stat(repoPath); os.IsNotExist(err) {
 		logger.Info("Cloning repo: ", repo.GetName())
