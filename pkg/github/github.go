@@ -55,8 +55,9 @@ func (c *Client) fetchListOfRepos(cfg config.Config) ([]*gh.Repository, error) {
 			orgName := repo.Owner.GetLogin()
 
 			// If include orgs are set, only include those and skip the rest
-			if isOrganizationRepo && len(cfg.IncludeOrgs) > 0 {
-				if helpers.IsOrgIncluded(cfg.IncludeOrgs, orgName) {
+			if len(cfg.IncludeOrgs) > 0 {
+				if isOrganizationRepo && helpers.IsOrgIncluded(cfg.IncludeOrgs, orgName) {
+					logger.Debug("[include_orgs] Repo included: ", repoName)
 					reposToInclude = append(reposToInclude, repo)
 				}
 
@@ -64,8 +65,9 @@ func (c *Client) fetchListOfRepos(cfg config.Config) ([]*gh.Repository, error) {
 			}
 
 			// If exclude orgs are set, exclude those and move to next checks if any
-			if isOrganizationRepo && len(cfg.ExcludeOrgs) > 0 {
-				if helpers.IsOrgExcluded(cfg.ExcludeOrgs, orgName) {
+			if len(cfg.ExcludeOrgs) > 0 {
+				if isOrganizationRepo && helpers.IsOrgExcluded(cfg.ExcludeOrgs, orgName) {
+					logger.Debug("[exclude_orgs] Repo excluded: ", repoName)
 					continue
 				}
 			}
