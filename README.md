@@ -108,6 +108,8 @@ username: your-github-username
 token: your-personal-access-token
 include_repos: []
 exclude_repos: []
+include_orgs: []
+exclude_orgs: []
 backup_dir: /path/to/backup
 include_forks: false
 ```
@@ -123,7 +125,7 @@ include_forks: false
 | `backup_dir`   | The directory where the repositories will be backed up. Default is `~/git-backups`.                              |
 | `include_forks`| If set to `true`, forks of the user's repositories will also be backed up. Default is `false`.                   |
 
-> Note: The `include_repos` and `exclude_repos` fields accept repository name as well as glob patterns. The patterns supported are those defined by [filepath.Match](https://pkg.go.dev/path/filepath#Match).
+> Note: The `include_repos`, `exclude_repos`, `include_orgs` and `exclude_orgs` fields accept repository/organization name as well as glob patterns. The patterns supported are those defined by [filepath.Match](https://pkg.go.dev/path/filepath#Match).
 
 ---
 
@@ -136,6 +138,8 @@ username: your-github-username
 token: your-personal-access-token
 include_repos: []
 exclude_repos: []
+include_orgs: []
+exclude_orgs: []
 backup_dir: /path/to/backup
 include_forks: true
 ```
@@ -147,6 +151,8 @@ username: your-github-username
 token: your-personal-access-token
 include_repos: []
 exclude_repos: []
+include_orgs: []
+exclude_orgs: []
 backup_dir: /path/to/backup
 include_forks: false
 ```
@@ -158,6 +164,8 @@ username: your-github-username
 token: your-personal-access-token
 include_repos: []
 exclude_repos: ["repo1", "repo2"]
+include_orgs: []
+exclude_orgs: []
 backup_dir: /path/to/backup
 include_forks: false
 ```
@@ -169,6 +177,8 @@ username: your-github-username
 token: your-personal-access-token
 include_repos: ["repo1"]
 exclude_repos: []
+include_orgs: []
+exclude_orgs: []
 backup_dir: /path/to/backup
 include_forks: false
 ```
@@ -180,9 +190,39 @@ username: your-github-username
 token: your-personal-access-token
 include_repos: ["repo1"]
 exclude_repos: ["repo2", "repo3"]
+include_orgs: []
+exclude_orgs: []
 backup_dir: /path/to/backup
 include_forks: false
 ```
+
+#### Include / Exclude repositories only from specific organizations
+
+```yaml
+username: your-github-username
+token: your-personal-access-token
+include_repos: []
+exclude_repos: []
+include_orgs: ["org1", "org2"]
+exclude_orgs: []
+backup_dir: /path/to/backup
+include_forks: false
+```
+
+Similarly you can exclude repositories from specific organizations:
+
+```yaml
+username: your-github-username
+token: your-personal-access-token
+include_repos: []
+exclude_repos: []
+include_orgs: []
+exclude_orgs: ["org1", "org2"]
+backup_dir: /path/to/backup
+include_forks: false
+```
+
+> **NOTE:** When you are using `exclude_orgs` option, it means that all _organization_ repositories from the organizations mentioned in the list will be excluded from the backup. If you want to exclude only specific repositories from the organizations then you can use `exclude_repos` option.
 
 #### Include / Exclude repositories using glob patterns
 
@@ -193,6 +233,8 @@ username: your-github-username
 token: your-personal-access-token
 include_repos: ["repo*"]
 exclude_repos: []
+include_orgs: []
+exclude_orgs: []
 backup_dir: /path/to/backup
 include_forks: false
 ```
@@ -204,6 +246,8 @@ username: your-github-username
 token: your-personal-access-token
 include_repos: []
 exclude_repos: ["repo*"]
+include_orgs: []
+exclude_orgs: []
 backup_dir: /path/to/backup
 include_forks: false
 ```
