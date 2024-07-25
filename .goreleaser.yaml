@@ -51,5 +51,6 @@ changelog:
   filters:
     exclude:
       - "^test:"
+      - "^docs:"
 release:
   prerelease: auto
