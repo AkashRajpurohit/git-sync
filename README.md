@@ -33,9 +33,9 @@ By using `git-sync`, you can easily clone or update your repositories to a speci
 
 ## Why `git-sync`?
 
-Remember when `@defunkt` [GitHub account got banned?](https://twitter.com/defunkt/status/1754610843361362360) Well, he is the co-founder of GitHub so he did get this account un-banned but what if you are not that lucky? Recently I have seen many developers getting their GitHub account banned and losing access to their repositories. Some may be able to recover their account (but there is delay in that) and some may not be able to recover their account at all.
+Remember when `@defunkt` [GitHub account got banned?](https://twitter.com/defunkt/status/1754610843361362360) Well, he is the co-founder of GitHub so he did get his account un-banned pretty quickly but what if you are not that lucky?
 
-With the increasing reliance on cloud-based repository hosting services like GitHub, it's crucial to have a backup plan. While GitHub is highly reliable, unexpected events like account bans, outages, or accidental deletions can occur.
+Recently I have seen many developers [getting their GitHub account banned](https://www.reddit.com/r/github/search/?q=account+got+banned&sort=new) and losing access to their repositories. Some may be able to recover their account (but there is delay in that) and some may not be able to recover their account at all. What would you do if you lose access to your repositories? What if GitHub goes down? What if you accidentally delete your repositories? The answer is simple, you should have a backup of your repositories.
 
 `git-sync` provides a straightforward way to back up all your repositories locally, ensuring you have access to your code whenever you need it. It does this by doing a bare clone of all your repositories in a specified directory so that you can recover your code in case of any unforeseen circumstances as well as the file size of your backups is minimal.
 
