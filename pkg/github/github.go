@@ -2,21 +2,22 @@ package github
 
 import (
 	"context"
+	"os"
+	"sync"
 
 	"github.com/AkashRajpurohit/git-sync/pkg/config"
 	"github.com/AkashRajpurohit/git-sync/pkg/helpers"
 	"github.com/AkashRajpurohit/git-sync/pkg/logger"
+	ghSync "github.com/AkashRajpurohit/git-sync/pkg/sync"
 	gh "github.com/google/go-github/v62/github"
 	"golang.org/x/oauth2"
 )
 
-type Client struct {
-	Username string
-	Token    string
-	Client   *gh.Client
+type GitHubClient struct {
+	Client *gh.Client
 }
 
-func NewClient(username, token string) *Client {
+func NewGitHubClient(token string) *GitHubClient {
 	logger.Debug("Creating new GitHub client ⏳")
 	ctx := context.Background()
 	ts := oauth2.StaticTokenSource(
@@ -27,14 +28,41 @@ func NewClient(username, token string) *Client {
 
 	logger.Debug("GitHub client created ✅")
 
-	return &Client{
-		Username: username,
-		Token:    token,
-		Client:   client,
+	return &GitHubClient{
+		Client: client,
 	}
 }
 
-func (c *Client) fetchListOfRepos(cfg config.Config) ([]*gh.Repository, error) {
+func (c GitHubClient) Sync(cfg config.Config) error {
+	backupDir := cfg.BackupDir
+	os.MkdirAll(backupDir, os.ModePerm)
+
+	repos, err := c.getRepos(cfg)
+	if err != nil {
+		return err
+	}
+
+	logger.Info("Total repositories: ", len(repos))
+
+	var wg sync.WaitGroup
+	sem := make(chan struct{}, 10) // Concurrency of 10
+
+	for _, repo := range repos {
+		wg.Add(1)
+		go func(repo *gh.Repository) {
+			defer wg.Done()
+			sem <- struct{}{}
+			ghSync.CloneOrUpdateRepo(repo.GetOwner().GetLogin(), repo.GetName(), cfg)
+			<-sem
+		}(repo)
+	}
+
+	wg.Wait()
+
+	return nil
+}
+
+func (c GitHubClient) getRepos(cfg config.Config) ([]*gh.Repository, error) {
 	logger.Debug("Fetching list of repositories ⏳")
 	ctx := context.Background()
 	opt := &gh.RepositoryListByAuthenticatedUserOptions{
@@ -112,15 +140,4 @@ func (c *Client) fetchListOfRepos(cfg config.Config) ([]*gh.Repository, error) {
 	}
 
 	return allRepos, nil
-}
-
-func GetGitHubRepos(cfg config.Config) ([]*gh.Repository, error) {
-	client := NewClient(cfg.Username, cfg.Token)
-
-	repos, err := client.fetchListOfRepos(cfg)
-	if err != nil {
-		return nil, err
-	}
-
-	return repos, nil
 }

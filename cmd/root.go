@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/AkashRajpurohit/git-sync/pkg/client"
 	"github.com/AkashRajpurohit/git-sync/pkg/config"
 	"github.com/AkashRajpurohit/git-sync/pkg/github"
 	"github.com/AkashRajpurohit/git-sync/pkg/logger"
-	"github.com/AkashRajpurohit/git-sync/pkg/sync"
 	"github.com/spf13/cobra"
 )
 
@@ -66,15 +66,10 @@ var rootCmd = &cobra.Command{
 
 		logger.Info("Valid config found ✅")
 
-		repos, err := github.GetGitHubRepos(cfg)
+		var client client.Client
 
-		if err != nil {
-			logger.Fatalf("Error fetching repositories: ", err)
-		}
-
-		logger.Info("Total repositories: ", len(repos))
-
-		sync.SyncRepos(cfg, repos)
+		client = github.NewGitHubClient(cfg.Token)
+		client.Sync(cfg)
 
 		logger.Info("All repositories synced ✅")
 	},
