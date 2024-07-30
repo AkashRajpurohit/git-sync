@@ -12,7 +12,7 @@ import (
 
 func CloneOrUpdateRepo(repoOwner, repoName string, config config.Config) {
 	repoFullName := fmt.Sprintf("%s/%s", repoOwner, repoName)
-	repoURL := fmt.Sprintf("%s://%s:%s@%s/%s.git", config.Server.Protocol, config.Server.Domain, config.Username, config.Token, repoFullName)
+	repoURL := fmt.Sprintf("%s://%s:%s@%s/%s.git", config.Server.Protocol, config.Username, config.Token, config.Server.Domain, repoFullName)
 	repoPath := filepath.Join(config.BackupDir, repoOwner, repoName+".git")
 
 	if _, err := os.Stat(repoPath); os.IsNotExist(err) {
