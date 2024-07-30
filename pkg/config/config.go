@@ -93,8 +93,12 @@ func SaveConfig(config Config, cfgFile string) error {
 	viper.Set("token", config.Token)
 	viper.Set("include_repos", config.IncludeRepos)
 	viper.Set("exclude_repos", config.ExcludeRepos)
+	viper.Set("include_orgs", config.IncludeOrgs)
+	viper.Set("exclude_orgs", config.ExcludeOrgs)
 	viper.Set("include_forks", config.IncludeForks)
 	viper.Set("backup_dir", config.BackupDir)
+	viper.Set("platform", config.Platform)
+	viper.Set("server", config.Server)
 
 	return viper.WriteConfig()
 }

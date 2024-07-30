@@ -40,6 +40,8 @@ var rootCmd = &cobra.Command{
 				},
 				IncludeRepos: []string{},
 				ExcludeRepos: []string{},
+				IncludeOrgs:  []string{},
+				ExcludeOrgs:  []string{},
 				IncludeForks: false,
 				BackupDir:    config.GetBackupDir(backupDir),
 			}
