@@ -97,7 +97,7 @@ Pre-built binaries are available for various platforms. You can download the lat
 
 ### Configuration
 
-Before using `git-sync`, you need to create a configuration file named `config.yml`. The default path for the configuration file is `~/.config/git-sync/config.yaml`.
+Before using `git-sync`, you need to create a configuration file named `config.yaml`. The default path for the configuration file is `~/.config/git-sync/config.yaml`.
 
 Here's an example configuration file:
 
