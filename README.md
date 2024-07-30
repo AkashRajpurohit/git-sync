@@ -71,7 +71,7 @@ go build
 ### With Docker
 
 ```bash
-docker run \
+docker run --rm \
   --name=git-sync \
   -v ~/.config/git-sync/config.yaml:/git-sync/config.yaml \
   -v ~/git-backups:/backups \
