@@ -71,7 +71,11 @@ go build
 ### With Docker
 
 ```bash
-docker run --rm -v /path/to/config/:/git-sync -v /path/to/backups:/backups ghcr.io/akashrajpurohit/git-sync:latest
+docker run \
+  --name=git-sync \
+  -v ~/.config/git-sync/config.yaml:/git-sync/config.yaml \
+  -v ~/git-backups:/backups \
+  ghcr.io/akashrajpurohit/git-sync:latest
 ```
 
 Or you can use the `docker-compose.yml` file to run the container.
@@ -81,8 +85,8 @@ services:
   git-sync:
     image: ghcr.io/akashrajpurohit/git-sync:latest
     volumes:
-      - /path/to/config/:/git-sync
-      - /path/to/backups:/backups
+      - ~/.config/git-sync/config.yaml:/git-sync/config.yaml
+      - ~/git-backups:/backups
 ```
 
 ```bash
