@@ -97,33 +97,44 @@ Pre-built binaries are available for various platforms. You can download the lat
 
 ### Configuration
 
-Before using `git-sync`, you need to create a configuration file named `config.yml`. The default path for the configuration file is `~/.config/git-sync/config.yml`.
+Before using `git-sync`, you need to create a configuration file named `config.yml`. The default path for the configuration file is `~/.config/git-sync/config.yaml`.
 
 Here's an example configuration file:
 
 ```yaml
-# Configuration file for git-sync
-# Default path: ~/.config/git-sync/config.yml
-username: your-github-username
-token: your-personal-access-token
-include_repos: []
-exclude_repos: []
-include_orgs: []
-exclude_orgs: []
+# Git Sync Configuration
+
+# Repository settings
+include_forks: false # Include forked repositories
+include_repos: [] # Include specific repositories
+exclude_repos: [] # Exclude specific repositories
+include_orgs: [] # Include repositories from specific organizations
+exclude_orgs: [] # Exclude repositories from specific organizations
+
+# Authentication
+token: <personal_access_token>
+username: <username>
+
+# Server settings
 backup_dir: /path/to/backup
-include_forks: false
+platform: github
+server:
+  domain: github.com
+  protocol: https
 ```
 
-| Field          | Description                                                                                                      |
-|----------------|------------------------------------------------------------------------------------------------------------------|
-| `username`     | Your GitHub username.                                                                                            |
-| `token`        | Your GitHub personal access token. You can create a new token [here](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#about-personal-access-tokens). Ensure that the token has the `repo` scope. |
-| `include_repos` | A list of repositories to include in the backup. If set then only these repositories will be backed up.          |
-| `exclude_repos` | A list of repositories to exclude from the backup. If set then all repositories except these will be backed up.  |
-| `include_orgs` | A list of orgs to include in the backup. If set then repositories only from these organizations will be backed up          |
-| `exclude_orgs` | A list of orgs to exclude from the backup. If set then all organization repositories except these orgs will be backed up.  |
-| `backup_dir`   | The directory where the repositories will be backed up. Default is `~/git-backups`.                              |
-| `include_forks`| If set to `true`, forks of the user's repositories will also be backed up. Default is `false`.                   |
+| Field           | Description                                                                                                                                                                                                                                                         |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `username`      | Your GitHub username.                                                                                                                                                                                                                                               |
+| `token`         | Your GitHub personal access token. You can create a new token [here](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#about-personal-access-tokens). Ensure that the token has the `repo` scope. |
+| `include_repos` | A list of repositories to include in the backup. If set then only these repositories will be backed up.                                                                                                                                                             |
+| `exclude_repos` | A list of repositories to exclude from the backup. If set then all repositories except these will be backed up.                                                                                                                                                     |
+| `include_orgs`  | A list of orgs to include in the backup. If set then repositories only from these organizations will be backed up                                                                                                                                                   |
+| `exclude_orgs`  | A list of orgs to exclude from the backup. If set then all organization repositories except these orgs will be backed up.                                                                                                                                           |
+| `backup_dir`    | The directory where the repositories will be backed up. Default is `~/git-backups`.                                                                                                                                                                                 |
+| `include_forks` | If set to `true`, forks of the user's repositories will also be backed up. Default is `false`.                                                                                                                                                                      |
+| `platform`      | The platform to use for syncing repositories. Currently only supports `github`.                                                                                                                                                                                     |
+| `server`        | The server settings. This includes the `domain` and the protocol which is `http` or `https`                                                                                                                                                                         |
 
 > Note: The `include_repos`, `exclude_repos`, `include_orgs` and `exclude_orgs` fields accept repository/organization name as well as glob patterns. The patterns supported are those defined by [filepath.Match](https://pkg.go.dev/path/filepath#Match).
 
@@ -142,6 +153,10 @@ include_orgs: []
 exclude_orgs: []
 backup_dir: /path/to/backup
 include_forks: true
+platform: github
+server:
+  domain: github.com
+  protocol: https
 ```
 
 #### Include all repositories that I own excluding forks
@@ -155,6 +170,10 @@ include_orgs: []
 exclude_orgs: []
 backup_dir: /path/to/backup
 include_forks: false
+platform: github
+server:
+  domain: github.com
+  protocol: https
 ```
 
 #### Include all repositories that I own excluding forks and some repositories
@@ -168,6 +187,10 @@ include_orgs: []
 exclude_orgs: []
 backup_dir: /path/to/backup
 include_forks: false
+platform: github
+server:
+  domain: github.com
+  protocol: https
 ```
 
 #### Include only specific repositories
@@ -181,6 +204,10 @@ include_orgs: []
 exclude_orgs: []
 backup_dir: /path/to/backup
 include_forks: false
+platform: github
+server:
+  domain: github.com
+  protocol: https
 ```
 
 **NOTE:** In the above example if you passed `exclude_repos` as well then it will be ignored since you have passed `include_repos`. So an example like below will still have same effect as above and only "repo1" will be backed up.
@@ -194,6 +221,10 @@ include_orgs: []
 exclude_orgs: []
 backup_dir: /path/to/backup
 include_forks: false
+platform: github
+server:
+  domain: github.com
+  protocol: https
 ```
 
 #### Include / Exclude repositories only from specific organizations
@@ -207,6 +238,10 @@ include_orgs: ["org1", "org2"]
 exclude_orgs: []
 backup_dir: /path/to/backup
 include_forks: false
+platform: github
+server:
+  domain: github.com
+  protocol: https
 ```
 
 Similarly you can exclude repositories from specific organizations:
@@ -220,6 +255,10 @@ include_orgs: []
 exclude_orgs: ["org1", "org2"]
 backup_dir: /path/to/backup
 include_forks: false
+platform: github
+server:
+  domain: github.com
+  protocol: https
 ```
 
 > **NOTE:** When you are using `exclude_orgs` option, it means that all _organization_ repositories from the organizations mentioned in the list will be excluded from the backup. If you want to exclude only specific repositories from the organizations then you can use `exclude_repos` option.
@@ -237,6 +276,10 @@ include_orgs: []
 exclude_orgs: []
 backup_dir: /path/to/backup
 include_forks: false
+platform: github
+server:
+  domain: github.com
+  protocol: https
 ```
 
 Same way you can exclude all repos which start with `repo`:
@@ -250,6 +293,10 @@ include_orgs: []
 exclude_orgs: []
 backup_dir: /path/to/backup
 include_forks: false
+platform: github
+server:
+  domain: github.com
+  protocol: https
 ```
 
 ### Commands
@@ -279,6 +326,35 @@ To view the help message, run the following command:
 ```bash
 git-sync help
 ```
+
+### Flags
+
+#### Configuration File
+
+You can specify the path to the configuration file using the `--config` flag. For example:
+
+```bash
+git-sync --config /path/to/config.yaml
+```
+
+#### Backup Directory
+
+You can specify the backup directory using the `--backup-dir` flag. For example:
+
+```bash
+git-sync --backup-dir /path/to/backup
+```
+
+#### Log level
+
+You can specify the log level using the `--log-level` flag. For example:
+
+```bash
+git-sync --log-level=debug
+```
+
+Default log level is `info`.
+
 
 ### Setup Periodic Backups
 
