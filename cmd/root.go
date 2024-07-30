@@ -27,11 +27,17 @@ var rootCmd = &cobra.Command{
 		cfg, err := config.LoadConfig(cfgFile)
 
 		if err != nil {
+			logger.Debugf("Error in loading config file: ", err)
 			logger.Info("Config file not found, creating a new one...")
 
 			cfg = config.Config{
-				Username:     "",
-				Token:        "",
+				Username: "",
+				Token:    "",
+				Platform: "github",
+				Server: config.Server{
+					Domain:   "github.com",
+					Protocol: "https",
+				},
 				IncludeRepos: []string{},
 				ExcludeRepos: []string{},
 				IncludeForks: false,
@@ -64,12 +70,21 @@ var rootCmd = &cobra.Command{
 			logger.Warn("Both include and exclude repos are set, ignoring exclude repos")
 		}
 
-		logger.Info("Valid config found ✅")
-
 		var client client.Client
 
-		client = github.NewGitHubClient(cfg.Token)
-		client.Sync(cfg)
+		switch cfg.Platform {
+		case "github":
+			client = github.NewGitHubClient(cfg.Token)
+		default:
+			logger.Fatalf("Platform %s not supported", cfg.Platform)
+		}
+
+		logger.Info("Valid config found ✅")
+
+		err = client.Sync(cfg)
+		if err != nil {
+			logger.Fatalf("Error syncing repositories: ", err)
+		}
 
 		logger.Info("All repositories synced ✅")
 	},

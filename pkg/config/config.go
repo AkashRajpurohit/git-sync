@@ -9,9 +9,16 @@ import (
 	"github.com/spf13/viper"
 )
 
+type Server struct {
+	Domain   string `mapstructure:"domain"`
+	Protocol string `mapstructure:"protocol"`
+}
+
 type Config struct {
 	Username     string   `mapstructure:"username"`
 	Token        string   `mapstructure:"token"`
+	Platform     string   `mapstructure:"platform"`
+	Server       Server   `mapstructure:"server"`
 	IncludeRepos []string `mapstructure:"include_repos"`
 	ExcludeRepos []string `mapstructure:"exclude_repos"`
 	IncludeOrgs  []string `mapstructure:"include_orgs"`
