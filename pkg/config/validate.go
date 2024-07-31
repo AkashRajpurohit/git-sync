@@ -8,7 +8,7 @@ func ValidateConfig(cfg Config) error {
 	}
 
 	if cfg.Token == "" {
-		return fmt.Errorf("token cannot be empty. See here: https://github.com/AkashRajpurohit/git-sync#how-do-i-create-a-github-personal-access-token")
+		return fmt.Errorf("token cannot be empty. See here: https://github.com/AkashRajpurohit/git-sync/wiki/Configuration")
 	}
 
 	if cfg.BackupDir == "" {
