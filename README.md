@@ -20,6 +20,8 @@
     <a href="https://github.com/AkashRajpurohit/git-sync/issues/new?template=bug_report.yml">Bug report</a>
     ·
     <a href="https://github.com/AkashRajpurohit/git-sync/issues/new?template=feature_request.yml">Feature request</a>
+    ·
+    <a href="https://github.com/AkashRajpurohit/git-sync/wiki">Read Docs</a>
   </p>
 </p>
 <br />
