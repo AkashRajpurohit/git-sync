@@ -47,10 +47,14 @@ var rootCmd = &cobra.Command{
 			}
 
 			err = config.SaveConfig(cfg, cfgFile)
+			if err != nil {
+				logger.Fatal("Error in saving config file: ", err)
+			}
 		}
 
-		if err != nil {
-			logger.Fatal("Error in saving/loading config file: ", err)
+		// If backupDir option is passed in the command line, use that instead of the one in the config file
+		if backupDir != "" {
+			cfg.BackupDir = config.GetBackupDir(backupDir)
 		}
 
 		logger.Info("Config loaded from: ", config.GetConfigFile(cfgFile))
