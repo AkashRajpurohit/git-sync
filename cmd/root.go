@@ -60,20 +60,9 @@ var rootCmd = &cobra.Command{
 		logger.Info("Config loaded from: ", config.GetConfigFile(cfgFile))
 		logger.Info("Validating config ⏳")
 
-		if cfg.Username == "" {
-			logger.Fatal("No username found in config file, please add one.")
-		}
-
-		if cfg.Token == "" {
-			logger.Fatal("No token found in config file, please add one. See here: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#about-personal-access-tokens")
-		}
-
-		if cfg.BackupDir == "" {
-			logger.Fatal("No backup directory found in config file, please add one.")
-		}
-
-		if len(cfg.IncludeRepos) > 0 && len(cfg.ExcludeRepos) > 0 {
-			logger.Warn("Both include and exclude repos are set, ignoring exclude repos")
+		err = config.ValidateConfig(cfg)
+		if err != nil {
+			logger.Fatalf("Error validating config: %s", err)
 		}
 
 		var client client.Client
