@@ -7,6 +7,7 @@ import (
 	"github.com/AkashRajpurohit/git-sync/pkg/client"
 	"github.com/AkashRajpurohit/git-sync/pkg/config"
 	"github.com/AkashRajpurohit/git-sync/pkg/github"
+	"github.com/AkashRajpurohit/git-sync/pkg/gitlab"
 	"github.com/AkashRajpurohit/git-sync/pkg/logger"
 	"github.com/spf13/cobra"
 )
@@ -65,11 +66,16 @@ var rootCmd = &cobra.Command{
 			logger.Fatalf("Error validating config: %s", err)
 		}
 
+		// Create backup directory if it doesn't exist
+		os.MkdirAll(cfg.BackupDir, os.ModePerm)
+
 		var client client.Client
 
 		switch cfg.Platform {
 		case "github":
 			client = github.NewGitHubClient(cfg.Token)
+		case "gitlab":
+			client = gitlab.NewGitlabClient(cfg.Token)
 		default:
 			logger.Fatalf("Platform %s not supported", cfg.Platform)
 		}
@@ -78,7 +84,7 @@ var rootCmd = &cobra.Command{
 
 		err = client.Sync(cfg)
 		if err != nil {
-			logger.Fatalf("Error syncing repositories: ", err)
+			logger.Fatalf("Error syncing repositories: %s", err)
 		}
 
 		logger.Info("All repositories synced ✅")

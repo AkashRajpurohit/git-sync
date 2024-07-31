@@ -2,13 +2,12 @@ package github
 
 import (
 	"context"
-	"os"
 	"sync"
 
 	"github.com/AkashRajpurohit/git-sync/pkg/config"
 	"github.com/AkashRajpurohit/git-sync/pkg/helpers"
 	"github.com/AkashRajpurohit/git-sync/pkg/logger"
-	ghSync "github.com/AkashRajpurohit/git-sync/pkg/sync"
+	gitSync "github.com/AkashRajpurohit/git-sync/pkg/sync"
 	gh "github.com/google/go-github/v62/github"
 	"golang.org/x/oauth2"
 )
@@ -34,9 +33,6 @@ func NewGitHubClient(token string) *GitHubClient {
 }
 
 func (c GitHubClient) Sync(cfg config.Config) error {
-	backupDir := cfg.BackupDir
-	os.MkdirAll(backupDir, os.ModePerm)
-
 	repos, err := c.getRepos(cfg)
 	if err != nil {
 		return err
@@ -52,7 +48,7 @@ func (c GitHubClient) Sync(cfg config.Config) error {
 		go func(repo *gh.Repository) {
 			defer wg.Done()
 			sem <- struct{}{}
-			ghSync.CloneOrUpdateRepo(repo.GetOwner().GetLogin(), repo.GetName(), cfg)
+			gitSync.CloneOrUpdateRepo(repo.GetOwner().GetLogin(), repo.GetName(), cfg)
 			<-sem
 		}(repo)
 	}
