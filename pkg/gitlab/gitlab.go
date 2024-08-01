@@ -60,11 +60,12 @@ func (c GitlabClient) GetProjects(cfg config.Config) ([]*gl.Project, error) {
 	var projectsToInclude []*gl.Project
 	for _, project := range projects {
 		projectName := project.Path
-		IsGroupProject := project.Namespace.Kind == "group"
+		isFork := project.ForkedFromProject != nil
+		isGroupProject := project.Namespace.Kind == "group"
 		groupName := project.Namespace.FullPath
 
 		if len(cfg.IncludeOrgs) > 0 {
-			if IsGroupProject && helpers.IsIncludedInList(cfg.IncludeOrgs, groupName) {
+			if isGroupProject && helpers.IsIncludedInList(cfg.IncludeOrgs, groupName) {
 				logger.Debug("[include_groups] Project included: ", projectName)
 				projectsToInclude = append(projectsToInclude, project)
 			}
@@ -74,7 +75,7 @@ func (c GitlabClient) GetProjects(cfg config.Config) ([]*gl.Project, error) {
 
 		// If exclude orgs are set, exclude those and move to next checks if any
 		if len(cfg.ExcludeOrgs) > 0 {
-			if IsGroupProject && helpers.IsExcludedInList(cfg.ExcludeOrgs, groupName) {
+			if isGroupProject && helpers.IsExcludedInList(cfg.ExcludeOrgs, groupName) {
 				logger.Debug("[exclude_groups] Project excluded: ", projectName)
 				continue
 			}
@@ -94,6 +95,11 @@ func (c GitlabClient) GetProjects(cfg config.Config) ([]*gl.Project, error) {
 				logger.Debug("[exclude_projects] Project excluded: ", projectName)
 				continue
 			}
+		}
+
+		if !cfg.IncludeForks && isFork {
+			logger.Debug("[include_forks] Fork excluded: ", projectName)
+			continue
 		}
 
 		logger.Debug("Project included: ", projectName)
