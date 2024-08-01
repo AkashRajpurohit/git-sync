@@ -26,7 +26,7 @@ func NewGitlabClient(token string) *GitlabClient {
 }
 
 func (c GitlabClient) Sync(cfg config.Config) error {
-	projects, err := c.GetProjects(cfg)
+	projects, err := c.getProjects(cfg)
 	if err != nil {
 		return err
 	}
@@ -51,7 +51,7 @@ func (c GitlabClient) Sync(cfg config.Config) error {
 	return nil
 }
 
-func (c GitlabClient) GetProjects(cfg config.Config) ([]*gl.Project, error) {
+func (c GitlabClient) getProjects(cfg config.Config) ([]*gl.Project, error) {
 	projects, _, err := c.Client.Projects.ListProjects(&gl.ListProjectsOptions{Owned: &[]bool{true}[0]})
 	if err != nil {
 		return nil, err
