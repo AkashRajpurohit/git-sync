@@ -80,7 +80,7 @@ func (c GitHubClient) getRepos(cfg config.Config) ([]*gh.Repository, error) {
 
 			// If include orgs are set, only include those and skip the rest
 			if len(cfg.IncludeOrgs) > 0 {
-				if isOrganizationRepo && helpers.IsOrgIncluded(cfg.IncludeOrgs, orgName) {
+				if isOrganizationRepo && helpers.IsIncludedInList(cfg.IncludeOrgs, orgName) {
 					logger.Debug("[include_orgs] Repo included: ", repoName)
 					reposToInclude = append(reposToInclude, repo)
 				}
@@ -90,7 +90,7 @@ func (c GitHubClient) getRepos(cfg config.Config) ([]*gh.Repository, error) {
 
 			// If exclude orgs are set, exclude those and move to next checks if any
 			if len(cfg.ExcludeOrgs) > 0 {
-				if isOrganizationRepo && helpers.IsOrgExcluded(cfg.ExcludeOrgs, orgName) {
+				if isOrganizationRepo && helpers.IsExcludedInList(cfg.ExcludeOrgs, orgName) {
 					logger.Debug("[exclude_orgs] Repo excluded: ", repoName)
 					continue
 				}
@@ -98,7 +98,7 @@ func (c GitHubClient) getRepos(cfg config.Config) ([]*gh.Repository, error) {
 
 			// If include repos are set, only include those and skip the rest
 			if len(cfg.IncludeRepos) > 0 {
-				if helpers.IsRepoIncluded(cfg.IncludeRepos, repoName) {
+				if helpers.IsIncludedInList(cfg.IncludeRepos, repoName) {
 					logger.Debug("[include_repos] Repo included: ", repoName)
 					reposToInclude = append(reposToInclude, repo)
 				}
@@ -108,7 +108,7 @@ func (c GitHubClient) getRepos(cfg config.Config) ([]*gh.Repository, error) {
 
 			// If exclude repos are set, exclude those and move to next checks if any
 			if len(cfg.ExcludeRepos) > 0 {
-				if helpers.IsRepoExcluded(cfg.ExcludeRepos, repoName) {
+				if helpers.IsExcludedInList(cfg.ExcludeRepos, repoName) {
 					logger.Debug("[exclude_repos] Repo excluded: ", repoName)
 					continue
 				}
