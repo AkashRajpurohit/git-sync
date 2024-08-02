@@ -8,7 +8,7 @@ builds:
   - env:
       - CGO_ENABLED=0
     ldflags:
-      - -s -w -X github.com/AkashRajpurohit/git-sync/pkg/version.Version={{.Version}} -X github.com/AkashRajpurohit/git-sync/pkg/version.Build={{.Date}}
+      - -s -w -X github.com/AkashRajpurohit/git-sync/pkg/version.Version=v{{.Version}} -X github.com/AkashRajpurohit/git-sync/pkg/version.Build={{.Date}}
     goos:
       - linux
       - windows
