@@ -28,7 +28,7 @@
 
 By using `git-sync`, you can easily clone and keep your backups in sync with your remote repositories. This tool is designed to be simple to use, with a straightforward configuration file that allows you to specify the repositories you want to back up and where you want to store them.
 
-[![asciicast](https://asciinema.org/a/664462.svg)](https://asciinema.org/a/664462)
+[![asciicast](https://asciinema.org/a/670519.svg)](https://asciinema.org/a/670519)
 
 ## Why `git-sync`?
 
