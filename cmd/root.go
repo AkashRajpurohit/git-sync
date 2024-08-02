@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/AkashRajpurohit/git-sync/pkg/bitbucket"
 	"github.com/AkashRajpurohit/git-sync/pkg/client"
 	"github.com/AkashRajpurohit/git-sync/pkg/config"
 	"github.com/AkashRajpurohit/git-sync/pkg/github"
@@ -44,6 +45,7 @@ var rootCmd = &cobra.Command{
 				IncludeOrgs:  []string{},
 				ExcludeOrgs:  []string{},
 				IncludeForks: false,
+				Workspace:    "",
 				BackupDir:    config.GetBackupDir(backupDir),
 			}
 
@@ -76,11 +78,14 @@ var rootCmd = &cobra.Command{
 			client = github.NewGitHubClient(cfg.Token)
 		case "gitlab":
 			client = gitlab.NewGitlabClient(cfg.Token)
+		case "bitbucket":
+			client = bitbucket.NewBitbucketClient(cfg.Username, cfg.Token)
 		default:
 			logger.Fatalf("Platform %s not supported", cfg.Platform)
 		}
 
 		logger.Info("Valid config found ✅")
+		logger.Infof("Using Platform: %s", cfg.Platform)
 
 		err = client.Sync(cfg)
 		if err != nil {

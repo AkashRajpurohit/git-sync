@@ -4,6 +4,7 @@ go 1.22.5
 
 require (
 	github.com/google/go-github/v63 v63.0.0
+	github.com/ktrysmt/go-bitbucket v0.9.80
 	github.com/spf13/cobra v1.8.1
 	github.com/spf13/viper v1.19.0
 	github.com/xanzy/go-gitlab v0.107.0
@@ -30,6 +31,7 @@ require (
 	github.com/subosito/gotenv v1.6.0 // indirect
 	go.uber.org/multierr v1.10.0 // indirect
 	golang.org/x/exp v0.0.0-20230905200255-921286631fa9 // indirect
+	golang.org/x/net v0.24.0 // indirect
 	golang.org/x/sys v0.20.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 	golang.org/x/time v0.5.0 // indirect

@@ -78,7 +78,6 @@ func (c GitHubClient) getRepos(cfg config.Config) ([]*gh.Repository, error) {
 			isOrganizationRepo := repo.Owner.GetType() == "Organization"
 			orgName := repo.Owner.GetLogin()
 
-			// If include orgs are set, only include those and skip the rest
 			if len(cfg.IncludeOrgs) > 0 {
 				if isOrganizationRepo && helpers.IsIncludedInList(cfg.IncludeOrgs, orgName) {
 					logger.Debug("[include_orgs] Repo included: ", repoName)
@@ -88,7 +87,6 @@ func (c GitHubClient) getRepos(cfg config.Config) ([]*gh.Repository, error) {
 				continue
 			}
 
-			// If exclude orgs are set, exclude those and move to next checks if any
 			if len(cfg.ExcludeOrgs) > 0 {
 				if isOrganizationRepo && helpers.IsExcludedInList(cfg.ExcludeOrgs, orgName) {
 					logger.Debug("[exclude_orgs] Repo excluded: ", repoName)
@@ -96,7 +94,6 @@ func (c GitHubClient) getRepos(cfg config.Config) ([]*gh.Repository, error) {
 				}
 			}
 
-			// If include repos are set, only include those and skip the rest
 			if len(cfg.IncludeRepos) > 0 {
 				if helpers.IsIncludedInList(cfg.IncludeRepos, repoName) {
 					logger.Debug("[include_repos] Repo included: ", repoName)
@@ -106,7 +103,6 @@ func (c GitHubClient) getRepos(cfg config.Config) ([]*gh.Repository, error) {
 				continue
 			}
 
-			// If exclude repos are set, exclude those and move to next checks if any
 			if len(cfg.ExcludeRepos) > 0 {
 				if helpers.IsExcludedInList(cfg.ExcludeRepos, repoName) {
 					logger.Debug("[exclude_repos] Repo excluded: ", repoName)
@@ -114,7 +110,6 @@ func (c GitHubClient) getRepos(cfg config.Config) ([]*gh.Repository, error) {
 				}
 			}
 
-			// If include forks is not set, skip forks
 			if !cfg.IncludeForks && repo.GetFork() {
 				logger.Debug("[include_forks] Repo excluded: ", repoName)
 				continue

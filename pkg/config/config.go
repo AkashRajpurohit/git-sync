@@ -25,6 +25,7 @@ type Config struct {
 	ExcludeOrgs  []string `mapstructure:"exclude_orgs"`
 	IncludeForks bool     `mapstructure:"include_forks"`
 	BackupDir    string   `mapstructure:"backup_dir"`
+	Workspace    string   `mapstructure:"workspace"`
 }
 
 func expandPath(path string) string {
@@ -99,6 +100,7 @@ func SaveConfig(config Config, cfgFile string) error {
 	viper.Set("backup_dir", config.BackupDir)
 	viper.Set("platform", config.Platform)
 	viper.Set("server", config.Server)
+	viper.Set("workspace", config.Workspace)
 
 	return viper.WriteConfig()
 }

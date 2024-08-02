@@ -23,5 +23,9 @@ func ValidateConfig(cfg Config) error {
 		return fmt.Errorf("server protocol can only be http or https")
 	}
 
+	if cfg.Platform == "bitbucket" && cfg.Workspace == "" {
+		return fmt.Errorf("workspace cannot be empty for bitbucket")
+	}
+
 	return nil
 }
