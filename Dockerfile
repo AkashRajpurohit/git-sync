@@ -19,7 +19,7 @@ RUN go mod download \
 
 COPY . /go/src/app/
 
-RUN go build -a -installsuffix cgo -ldflags="-w -s -X github.com/AkashRajpurohit/git-sync/version.Version=${VERSION} -X github.com/AkashRajpurohit/git-sync/version.Build=${BUILD}" -o git-sync . \
+RUN go build -a -installsuffix cgo -ldflags="-w -s -X github.com/AkashRajpurohit/git-sync/pkg/version.Version=${VERSION} -X github.com/AkashRajpurohit/git-sync/pkg/version.Build=${BUILD}" -o git-sync . \
   && upx -q git-sync
 
 # Application image
