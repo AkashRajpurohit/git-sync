@@ -24,9 +24,9 @@
 <br />
 <hr />
 
-`git-sync` is a CLI tool designed to help you back up your Git repositories. This tool ensures you have a local copy of your repositories, safeguarding against potential issues such as account bans or data loss on GitHub.
+`git-sync` is a CLI tool designed to help you back up your Git repositories. This tool ensures you have a local copy of your repositories, safeguarding against potential issues such as account bans or data loss.
 
-By using `git-sync`, you can easily clone or update your repositories to a specified local directory.
+By using `git-sync`, you can easily clone and keep your backups in sync with your remote repositories. This tool is designed to be simple to use, with a straightforward configuration file that allows you to specify the repositories you want to back up and where you want to store them.
 
 [![asciicast](https://asciinema.org/a/664462.svg)](https://asciinema.org/a/664462)
 
