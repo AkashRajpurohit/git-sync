@@ -3,7 +3,7 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/AkashRajpurohit/git-sync/version"
+	"github.com/AkashRajpurohit/git-sync/pkg/version"
 	"github.com/spf13/cobra"
 )
 
