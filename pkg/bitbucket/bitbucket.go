@@ -45,6 +45,7 @@ func (c BitbucketClient) Sync(cfg config.Config) error {
 	}
 
 	wg.Wait()
+	logger.Info("All repositories synced ✅")
 
 	return nil
 }

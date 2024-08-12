@@ -47,6 +47,7 @@ func (c GitlabClient) Sync(cfg config.Config) error {
 	}
 
 	wg.Wait()
+	logger.Info("All projects synced ✅")
 
 	return nil
 }

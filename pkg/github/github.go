@@ -54,6 +54,7 @@ func (c GitHubClient) Sync(cfg config.Config) error {
 	}
 
 	wg.Wait()
+	logger.Info("All repositories synced ✅")
 
 	return nil
 }

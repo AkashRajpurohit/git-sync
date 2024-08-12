@@ -10,6 +10,7 @@ import (
 	"github.com/AkashRajpurohit/git-sync/pkg/github"
 	"github.com/AkashRajpurohit/git-sync/pkg/gitlab"
 	"github.com/AkashRajpurohit/git-sync/pkg/logger"
+	ch "github.com/robfig/cron/v3"
 	"github.com/spf13/cobra"
 )
 
@@ -17,6 +18,7 @@ var (
 	cfgFile   string
 	backupDir string
 	logLevel  string = "info"
+	cron      string
 )
 
 var rootCmd = &cobra.Command{
@@ -87,12 +89,30 @@ var rootCmd = &cobra.Command{
 		logger.Info("Valid config found ✅")
 		logger.Infof("Using Platform: %s", cfg.Platform)
 
-		err = client.Sync(cfg)
-		if err != nil {
-			logger.Fatalf("Error syncing repositories: %s", err)
-		}
+		if cron != "" {
+			c := ch.New()
+			_, err := c.AddFunc(cron, func() {
+				err := client.Sync(cfg)
+				if err != nil {
+					logger.Fatalf("Error syncing repositories: %s", err)
+				}
+			})
 
-		logger.Info("All repositories synced ✅")
+			if err != nil {
+				logger.Fatalf("Error adding cron job: %s", err)
+			}
+
+			c.Start()
+			logger.Infof("Cron job scheduled to run at: %s", cron)
+
+			// Wait indefinitely
+			select {}
+		} else {
+			err = client.Sync(cfg)
+			if err != nil {
+				logger.Fatalf("Error syncing repositories: %s", err)
+			}
+		}
 	},
 }
 
@@ -107,4 +127,5 @@ func init() {
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.config/git-sync/config.yaml)")
 	rootCmd.PersistentFlags().StringVar(&backupDir, "backup-dir", "", "directory to backup repositories (default is $HOME/git-backups)")
 	rootCmd.PersistentFlags().StringVar(&logLevel, "log-level", "info", "log level (debug, info, warn, error, fatal)")
+	rootCmd.PersistentFlags().StringVar(&cron, "cron", "", "cron expression to run the sync job periodically")
 }
