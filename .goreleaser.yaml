@@ -51,3 +51,10 @@ changelog:
       - "^docs:"
 release:
   prerelease: auto
+  discussion_category_name: Release
+  mode: append
+  header: |
+    ## Welcome to the new release of {{ .Tag }}!
+
+    Here's a quick overview of what's new:
+  
