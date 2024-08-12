@@ -1,6 +1,10 @@
 package config
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/robfig/cron/v3"
+)
 
 func ValidateConfig(cfg Config) error {
 	if cfg.Username == "" {
@@ -25,6 +29,13 @@ func ValidateConfig(cfg Config) error {
 
 	if cfg.Platform == "bitbucket" && cfg.Workspace == "" {
 		return fmt.Errorf("workspace cannot be empty for bitbucket")
+	}
+
+	if cfg.Cron != "" {
+		_, err := cron.ParseStandard(cfg.Cron)
+		if err != nil {
+			return fmt.Errorf("invalid cron expression %s", cfg.Cron)
+		}
 	}
 
 	return nil

@@ -26,6 +26,7 @@ type Config struct {
 	IncludeForks bool     `mapstructure:"include_forks"`
 	BackupDir    string   `mapstructure:"backup_dir"`
 	Workspace    string   `mapstructure:"workspace"`
+	Cron         string   `mapstructure:"cron"`
 }
 
 func expandPath(path string) string {
@@ -101,6 +102,7 @@ func SaveConfig(config Config, cfgFile string) error {
 	viper.Set("platform", config.Platform)
 	viper.Set("server", config.Server)
 	viper.Set("workspace", config.Workspace)
+	viper.Set("cron", config.Cron)
 
 	return viper.WriteConfig()
 }

@@ -48,6 +48,7 @@ var rootCmd = &cobra.Command{
 				ExcludeOrgs:  []string{},
 				IncludeForks: false,
 				Workspace:    "",
+				Cron:         "",
 				BackupDir:    config.GetBackupDir(backupDir),
 			}
 
@@ -60,6 +61,11 @@ var rootCmd = &cobra.Command{
 		// If backupDir option is passed in the command line, use that instead of the one in the config file
 		if backupDir != "" {
 			cfg.BackupDir = config.GetBackupDir(backupDir)
+		}
+
+		// If cron option is passed in the command line, use that instead of the one in the config file
+		if cron != "" {
+			cfg.Cron = cron
 		}
 
 		logger.Info("Config loaded from: ", config.GetConfigFile(cfgFile))
@@ -89,9 +95,9 @@ var rootCmd = &cobra.Command{
 		logger.Info("Valid config found ✅")
 		logger.Infof("Using Platform: %s", cfg.Platform)
 
-		if cron != "" {
+		if cfg.Cron != "" {
 			c := ch.New()
-			_, err := c.AddFunc(cron, func() {
+			_, err := c.AddFunc(cfg.Cron, func() {
 				err := client.Sync(cfg)
 				if err != nil {
 					logger.Fatalf("Error syncing repositories: %s", err)
@@ -103,7 +109,7 @@ var rootCmd = &cobra.Command{
 			}
 
 			c.Start()
-			logger.Infof("Cron job scheduled to run at: %s", cron)
+			logger.Infof("Cron job scheduled to run at: %s", cfg.Cron)
 
 			// Wait indefinitely
 			select {}
