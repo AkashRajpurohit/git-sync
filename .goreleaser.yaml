@@ -52,5 +52,4 @@ changelog:
 release:
   prerelease: auto
   discussion_category_name: Release
-  mode: append
   
