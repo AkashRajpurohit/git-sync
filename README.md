@@ -41,6 +41,7 @@ Recently I have seen many developers [getting their GitHub account banned](https
 ## Features ✨
 
 - **Backup All Repositories:** Automatically clone or update all your GitHub repositories to a local directory.
+- **Peridoc Sync:** Keep your backups in sync with your remote repositories by running `git-sync` [periodically](https://github.com/AkashRajpurohit/git-sync/wiki/Setup-Periodic-Backups).
 - **Bare Clone:** Efficiently back up repositories using bare clones to save space and speed up the process.
 - **Concurrency:** Sync multiple repositories concurrently to reduce the time required for backup.
 - **Configuration File:** Easily manage your settings through a YAML configuration file.
