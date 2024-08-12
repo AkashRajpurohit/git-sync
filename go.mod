@@ -1,6 +1,6 @@
 module github.com/AkashRajpurohit/git-sync
 
-go 1.22.5
+go 1.22.6
 
 require (
 	github.com/google/go-github/v63 v63.0.0
