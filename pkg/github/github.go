@@ -49,7 +49,7 @@ func (c GitHubClient) Sync(cfg config.Config) error {
 			defer wg.Done()
 			sem <- struct{}{}
 			gitSync.CloneOrUpdateRepo(repo.GetOwner().GetLogin(), repo.GetName(), cfg)
-			if repo.GetHasWiki() {
+			if cfg.IncludeWiki && repo.GetHasWiki() {
 				gitSync.SyncWiki(repo.GetOwner().GetLogin(), repo.GetName(), cfg)
 			}
 			<-sem

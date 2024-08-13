@@ -47,6 +47,7 @@ var rootCmd = &cobra.Command{
 				IncludeOrgs:  []string{},
 				ExcludeOrgs:  []string{},
 				IncludeForks: false,
+				IncludeWiki:  true,
 				Workspace:    "",
 				Cron:         "",
 				BackupDir:    config.GetBackupDir(backupDir),

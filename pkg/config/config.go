@@ -24,6 +24,7 @@ type Config struct {
 	IncludeOrgs  []string `mapstructure:"include_orgs"`
 	ExcludeOrgs  []string `mapstructure:"exclude_orgs"`
 	IncludeForks bool     `mapstructure:"include_forks"`
+	IncludeWiki  bool     `mapstructure:"include_wiki"`
 	BackupDir    string   `mapstructure:"backup_dir"`
 	Workspace    string   `mapstructure:"workspace"`
 	Cron         string   `mapstructure:"cron"`
@@ -98,6 +99,7 @@ func SaveConfig(config Config, cfgFile string) error {
 	viper.Set("include_orgs", config.IncludeOrgs)
 	viper.Set("exclude_orgs", config.ExcludeOrgs)
 	viper.Set("include_forks", config.IncludeForks)
+	viper.Set("include_wiki", config.IncludeWiki)
 	viper.Set("backup_dir", config.BackupDir)
 	viper.Set("platform", config.Platform)
 	viper.Set("server", config.Server)
