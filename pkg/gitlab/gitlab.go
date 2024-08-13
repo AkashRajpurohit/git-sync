@@ -42,6 +42,9 @@ func (c GitlabClient) Sync(cfg config.Config) error {
 			defer wg.Done()
 			sem <- struct{}{}
 			gitSync.CloneOrUpdateRepo(project.Namespace.FullPath, project.Path, cfg)
+			if project.WikiEnabled {
+				gitSync.SyncWiki(project.Namespace.FullPath, project.Path, cfg)
+			}
 			<-sem
 		}(project)
 	}

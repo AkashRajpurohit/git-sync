@@ -40,6 +40,9 @@ func (c BitbucketClient) Sync(cfg config.Config) error {
 			defer wg.Done()
 			sem <- struct{}{}
 			gitSync.CloneOrUpdateRepo(cfg.Workspace, repo.Name, cfg)
+			if repo.Has_wiki {
+				gitSync.SyncWiki(cfg.Workspace, repo.Name, cfg)
+			}
 			<-sem
 		}(repo)
 	}
