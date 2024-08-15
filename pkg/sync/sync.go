@@ -5,6 +5,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strings"
 
 	"github.com/AkashRajpurohit/git-sync/pkg/config"
 	"github.com/AkashRajpurohit/git-sync/pkg/logger"
@@ -54,13 +55,20 @@ func SyncWiki(repoOwner, repoName string, config config.Config) {
 	if _, err := os.Stat(repoWikiPath); os.IsNotExist(err) {
 		logger.Info("Cloning wiki: ", repoFullName)
 
-		cmd := exec.Command("git", "clone", repoWikiURL, repoWikiPath)
-		if err := cmd.Run(); err != nil {
-			// Do not fail if wiki does not exist, it can be possible that the repo does not have a wiki
-			// but in the repository settings wiki have been enabled
-			// Log as warning instead of error, so that it does not fail the whole process
-			logger.Warnf("Error cloning wiki %s: %v\n", repoFullName, err)
-			logger.Warnf("It is possible that the repository %s does not have a wiki created. In such case, go to your repository settings and disable the wiki if its not being used.", repoFullName)
+		output, err := exec.Command("git", "clone", repoWikiURL, repoWikiPath).CombinedOutput()
+		if err != nil {
+			exitErr, ok := err.(*exec.ExitError)
+			if ok && exitErr.ExitCode() == 128 {
+				// Check if the output contains "not found" to handle the scenario
+				// where wiki is enabled but does not exist
+				if strings.Contains(string(output), "not found") {
+					logger.Warnf("The wiki for repository %s does not exist. Please check your repository settings and make sure that either wiki is disabled if it is not being used or create a wiki page to start with.", repoFullName)
+				} else {
+					logger.Fatalf("Error cloning wiki %s: %v\n", repoFullName, err)
+				}
+			} else {
+				logger.Fatalf("Error cloning wiki %s: %v\n", repoFullName, err)
+			}
 		} else {
 			logger.Info("Cloned wiki: ", repoFullName)
 		}
@@ -69,7 +77,7 @@ func SyncWiki(repoOwner, repoName string, config config.Config) {
 
 		cmd := exec.Command("git", "-C", repoWikiPath, "pull", "--prune", "origin")
 		if err := cmd.Run(); err != nil {
-			logger.Warnf("Error updating wiki %s: %v\n", repoFullName, err)
+			logger.Fatalf("Error updating wiki %s: %v\n", repoFullName, err)
 		} else {
 			logger.Info("Updated wiki: ", repoFullName)
 		}
