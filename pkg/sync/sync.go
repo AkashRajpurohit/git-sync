@@ -56,7 +56,11 @@ func SyncWiki(repoOwner, repoName string, config config.Config) {
 
 		cmd := exec.Command("git", "clone", repoWikiURL, repoWikiPath)
 		if err := cmd.Run(); err != nil {
-			logger.Fatalf("Error cloning wiki %s: %v\n", repoFullName, err)
+			// Do not fail if wiki does not exist, it can be possible that the repo does not have a wiki
+			// but in the repository settings wiki have been enabled
+			// Log as warning instead of error, so that it does not fail the whole process
+			logger.Warnf("Error cloning wiki %s: %v\n", repoFullName, err)
+			logger.Warnf("It is possible that the repository %s does not have a wiki created. In such case, go to your repository settings and disable the wiki if its not being used.", repoFullName)
 		} else {
 			logger.Info("Cloned wiki: ", repoFullName)
 		}
@@ -65,7 +69,7 @@ func SyncWiki(repoOwner, repoName string, config config.Config) {
 
 		cmd := exec.Command("git", "-C", repoWikiPath, "pull", "--prune", "origin")
 		if err := cmd.Run(); err != nil {
-			logger.Fatalf("Error updating wiki %s: %v\n", repoFullName, err)
+			logger.Warnf("Error updating wiki %s: %v\n", repoFullName, err)
 		} else {
 			logger.Info("Updated wiki: ", repoFullName)
 		}
