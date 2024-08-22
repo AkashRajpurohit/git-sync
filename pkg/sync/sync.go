@@ -23,8 +23,9 @@ func CloneOrUpdateRepo(repoOwner, repoName string, config config.Config) {
 	if _, err := os.Stat(repoPath); os.IsNotExist(err) {
 		logger.Info("Cloning repo: ", repoFullName)
 
-		cmd := exec.Command("git", "clone", "--bare", repoURL, repoPath)
-		if err := cmd.Run(); err != nil {
+		output, err := exec.Command("git", "clone", "--bare", repoURL, repoPath).CombinedOutput()
+		logger.Debugf("Output: %s\n", output)
+		if err != nil {
 			logger.Fatalf("Error cloning repo %s: %v\n", repoFullName, err)
 		} else {
 			logger.Info("Cloned repo: ", repoFullName)
@@ -32,8 +33,9 @@ func CloneOrUpdateRepo(repoOwner, repoName string, config config.Config) {
 	} else {
 		logger.Info("Updating repo: ", repoFullName)
 
-		cmd := exec.Command("git", "--git-dir", repoPath, "fetch", "--prune", "origin", "+*:*")
-		if err := cmd.Run(); err != nil {
+		output, err := exec.Command("git", "--git-dir", repoPath, "fetch", "--prune", "origin", "+*:*").CombinedOutput()
+		logger.Debugf("Output: %s\n", output)
+		if err != nil {
 			logger.Fatalf("Error updating repo %s: %v\n", repoFullName, err)
 		} else {
 			logger.Info("Updated repo: ", repoFullName)
@@ -56,6 +58,7 @@ func SyncWiki(repoOwner, repoName string, config config.Config) {
 		logger.Info("Cloning wiki: ", repoFullName)
 
 		output, err := exec.Command("git", "clone", repoWikiURL, repoWikiPath).CombinedOutput()
+		logger.Debugf("Output: %s\n", output)
 		if err != nil {
 			exitErr, ok := err.(*exec.ExitError)
 			if ok && exitErr.ExitCode() == 128 {
@@ -75,8 +78,9 @@ func SyncWiki(repoOwner, repoName string, config config.Config) {
 	} else {
 		logger.Info("Updating wiki: ", repoFullName)
 
-		cmd := exec.Command("git", "-C", repoWikiPath, "pull", "--prune", "origin")
-		if err := cmd.Run(); err != nil {
+		output, err := exec.Command("git", "-C", repoWikiPath, "pull", "--prune", "origin").CombinedOutput()
+		logger.Debugf("Output: %s\n", output)
+		if err != nil {
 			logger.Fatalf("Error updating wiki %s: %v\n", repoFullName, err)
 		} else {
 			logger.Info("Updated wiki: ", repoFullName)
