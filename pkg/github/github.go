@@ -8,7 +8,7 @@ import (
 	"github.com/AkashRajpurohit/git-sync/pkg/helpers"
 	"github.com/AkashRajpurohit/git-sync/pkg/logger"
 	gitSync "github.com/AkashRajpurohit/git-sync/pkg/sync"
-	gh "github.com/google/go-github/v63/github"
+	gh "github.com/google/go-github/v64/github"
 	"golang.org/x/oauth2"
 )
 
