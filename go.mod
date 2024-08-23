@@ -5,7 +5,7 @@ go 1.22.6
 require (
 	github.com/google/go-github/v63 v63.0.0
 	github.com/ktrysmt/go-bitbucket v0.9.80
-	github.com/robfig/cron/v3 v3.0.0
+	github.com/robfig/cron/v3 v3.0.1
 	github.com/spf13/cobra v1.8.1
 	github.com/spf13/viper v1.19.0
 	github.com/xanzy/go-gitlab v0.107.0
