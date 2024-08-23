@@ -5,6 +5,7 @@ go 1.22.6
 require (
 	github.com/google/go-github/v63 v63.0.0
 	github.com/ktrysmt/go-bitbucket v0.9.80
+	github.com/robfig/cron/v3 v3.0.0
 	github.com/spf13/cobra v1.8.1
 	github.com/spf13/viper v1.19.0
 	github.com/xanzy/go-gitlab v0.107.0
@@ -22,7 +23,6 @@ require (
 	github.com/magiconair/properties v1.8.7 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.2 // indirect
-	github.com/robfig/cron/v3 v3.0.0 // indirect
 	github.com/sagikazarmark/locafero v0.4.0 // indirect
 	github.com/sagikazarmark/slog-shim v0.1.0 // indirect
 	github.com/sourcegraph/conc v0.3.0 // indirect
