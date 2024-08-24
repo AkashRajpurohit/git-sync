@@ -24,6 +24,7 @@ RUN go build -a -installsuffix cgo -ldflags="-w -s -X github.com/AkashRajpurohit
 
 # Application image
 FROM alpine:latest
+WORKDIR /opt/go
 
 LABEL maintainer="AkashRajpurohit <me@akashrajpurohit.com>"
 LABEL org.opencontainers.image.authors="AkashRajpurohit <me@akashrajpurohit.com>"
@@ -35,23 +36,14 @@ LABEL org.opencontainers.image.description="A tool to backup and sync your git r
 
 # Install git since it's required for the application
 RUN apk update && \
-  apk add git
+  apk add git su-exec
 
-# Environment variables for user and group ID
-ENV PUID=1000
-ENV PGID=1000
+RUN mkdir -p /git-sync /backups
 
-# Create a user with the specified UID and GID
-RUN addgroup -g ${PGID} gituser && \
-  adduser -D -G gituser -u ${PUID} gituser
+COPY --from=builder /go/src/app/git-sync /opt/go/git-sync
+COPY entrypoint.sh /entrypoint.sh
 
-# Set permissions for the working directory
-WORKDIR /opt/go
-RUN chown -R gituser:gituser /opt/go
+RUN chmod +x /entrypoint.sh
 
-# Switch to the new user
-USER gituser
-
-COPY --from=builder /go/src/app/git-sync  /opt/go/git-sync
+ENTRYPOINT ["/entrypoint.sh", "/opt/go/git-sync"]
 CMD ["--config", "/git-sync/config.yaml", "--backup-dir", "/backups"]
-ENTRYPOINT ["/opt/go/git-sync"]
