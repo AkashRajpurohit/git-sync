@@ -8,6 +8,10 @@
   <a href="https://goreportcard.com/report/github.com/AkashRajpurohit/git-sync">
     <img alt="Go Report Card" src="https://goreportcard.com/badge/github.com/AkashRajpurohit/git-sync">
   </a>
+  <img alt="GitHub Downloads" src="https://img.shields.io/github/downloads/AkashRajpurohit/git-sync/total">
+  <a href="https://github.com/AkashRajpurohit/git-sync/releases/latest">
+    <img alt="GitHub Release" src="https://img.shields.io/github/v/release/AkashRajpurohit/git-sync">
+  </a>
   <img alt="Visitors count" src="https://visitor-badge.laobi.icu/badge?page_id=@akashrajpurohit~git-sync.visitor-badge&style=flat-square">
   <a href="#contributors-">
     <img alt="All Contributors" src="https://img.shields.io/github/all-contributors/AkashRajpurohit/git-sync?color=1f85bf">
