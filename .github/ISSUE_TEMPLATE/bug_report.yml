@@ -1,0 +1,41 @@
+name: '🐛 Bug Report'
+description: Create a new bug report.
+body:
+  - type: textarea
+    attributes:
+      label: Describe the Bug
+      description: A clear and concise description of what the bug is.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Steps to reproduce
+      description: Expand the steps on reproducing the bug.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Relevant log output
+      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      render: shell
+  - type: input
+    attributes:
+      label: Which version of the software are you using?
+      description: 'For example: v0.9.0'
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Which operating system are you using?
+      description: 'For example: macOS 10.15.7'
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: runtime
+      description: How are you running the software?
+      options:
+        - Docker
+        - Binary
+    validations:
+      required: true
