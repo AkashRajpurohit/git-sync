@@ -1,3 +1,6 @@
+<p align="center">
+  <img src="./logo.png" alt="Git sync logo" height="200" />
+</p>
 <h1 align="center" style="border-bottom: none;">🔄 git-sync</h1>
 <h3 align="center">A tool to backup and sync your git repositories</h3>
 <br />
