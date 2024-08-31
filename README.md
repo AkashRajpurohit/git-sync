@@ -6,7 +6,6 @@
     <p>A simple tool to backup and sync your git repositories</p>
     <a target="_blank" href="https://github.com/AkashRajpurohit/git-sync/actions"><img src="https://github.com/AkashRajpurohit/git-sync/actions/workflows/release.yml/badge.svg?event=push" /></a>
     <a href="https://goreportcard.com/report/github.com/AkashRajpurohit/git-sync"><img alt="Go Report Card" src="https://goreportcard.com/badge/github.com/AkashRajpurohit/git-sync">
-    <a target="_blank" href="https://github.com/AkashRajpurohit/git-sync/commits/main"><img src="https://img.shields.io/github/last-commit/AkashRajpurohit/git-sync" /></a>
     <a target="_blank" href="https://github.com/AkashRajpurohit/git-sync/releases"><img src="https://img.shields.io/github/downloads/AkashRajpurohit/git-sync/total" /></a>
     <img alt="Visitors count" src="https://visitor-badge.laobi.icu/badge?page_id=@akashrajpurohit~git-sync.visitor-badge&style=flat-square">
     <a target="_blank" href="https://github.com/AkashRajpurohit/git-sync/releases"><img src="https://img.shields.io/github/go-mod/go-version/AkashRajpurohit/git-sync?filename=go.mod" /></a>
