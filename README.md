@@ -28,7 +28,7 @@
 
 ## 📺 Demo
 
-[![asciicast](https://asciinema.org/a/670519.svg)](https://asciinema.org/a/670519)
+[![asciicast](https://asciinema.org/a/674282.svg)](https://asciinema.org/a/674282)
 
 ## 🤔 Why `git-sync`?
 
