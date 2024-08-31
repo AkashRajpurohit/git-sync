@@ -1,43 +1,37 @@
-<p align="center">
-  <img src="./logo.png" alt="Git sync logo" height="200" />
-</p>
-<h1 align="center" style="border-bottom: none;">🔄 git-sync</h1>
-<h3 align="center">A tool to backup and sync your git repositories</h3>
-<br />
-<p align="center">
-  <a href="https://github.com/AkashRajpurohit/git-sync/actions/workflows/release.yml">
-    <img alt="Build states" src="https://github.com/AkashRajpurohit/git-sync/actions/workflows/release.yml/badge.svg">
-  </a>
-  <a href="https://goreportcard.com/report/github.com/AkashRajpurohit/git-sync">
-    <img alt="Go Report Card" src="https://goreportcard.com/badge/github.com/AkashRajpurohit/git-sync">
-  </a>
-  <img alt="GitHub Downloads" src="https://img.shields.io/github/downloads/AkashRajpurohit/git-sync/total">
-  <a href="https://github.com/AkashRajpurohit/git-sync/releases/latest">
-    <img alt="GitHub Release" src="https://img.shields.io/github/v/release/AkashRajpurohit/git-sync">
-  </a>
-  <img alt="Visitors count" src="https://visitor-badge.laobi.icu/badge?page_id=@akashrajpurohit~git-sync.visitor-badge&style=flat-square">
-  <a href="#contributors-">
-    <img alt="All Contributors" src="https://img.shields.io/github/all-contributors/AkashRajpurohit/git-sync?color=1f85bf">
-  </a>
-
-  <p align="center">
-    <a href="https://github.com/AkashRajpurohit/git-sync/issues/new?template=bug_report.yml">Bug report</a>
-    ·
-    <a href="https://github.com/AkashRajpurohit/git-sync/issues/new?template=feature_request.yml">Feature request</a>
-    ·
-    <a href="https://github.com/AkashRajpurohit/git-sync/wiki">Read Docs</a>
-  </p>
-</p>
-<br />
+<div align="center" width="100%">
+  <img src="./logo.png" alt="Git sync logo" width="150" />
+</div>
+<div align="center" width="100%">
+    <h2>🔄 git-sync</h2>
+    <p>A simple tool to backup and sync your git repositories</p>
+    <a target="_blank" href="https://github.com/AkashRajpurohit/git-sync/actions"><img src="https://github.com/AkashRajpurohit/git-sync/actions/workflows/release.yml/badge.svg?event=push" /></a>
+    <a href="https://goreportcard.com/report/github.com/AkashRajpurohit/git-sync"><img alt="Go Report Card" src="https://goreportcard.com/badge/github.com/AkashRajpurohit/git-sync">
+    <a target="_blank" href="https://github.com/AkashRajpurohit/git-sync/commits/main"><img src="https://img.shields.io/github/last-commit/AkashRajpurohit/git-sync" /></a>
+    <a target="_blank" href="https://github.com/AkashRajpurohit/git-sync/releases"><img src="https://img.shields.io/github/downloads/AkashRajpurohit/git-sync/total" /></a>
+    <img alt="Visitors count" src="https://visitor-badge.laobi.icu/badge?page_id=@akashrajpurohit~git-sync.visitor-badge&style=flat-square">
+    <a target="_blank" href="https://github.com/AkashRajpurohit/git-sync/releases"><img src="https://img.shields.io/github/go-mod/go-version/AkashRajpurohit/git-sync?filename=go.mod" /></a>
+    <a target="_blank" href="https://github.com/AkashRajpurohit/git-sync/releases"><img src="https://img.shields.io/github/v/release/AkashRajpurohit/git-sync?display_name=tag" /></a>
+    <a href="#-contributors"><img alt="All Contributors" src="https://img.shields.io/github/all-contributors/AkashRajpurohit/git-sync?color=1f85bf"></a>
+    <a target="_blank" href="https://github.com/AkashRajpurohit/git-sync"><img src="https://img.shields.io/github/stars/AkashRajpurohit/git-sync" /></a>
+    <br />
+    <br />
+    <p align="center">
+      <a href="https://github.com/AkashRajpurohit/git-sync/issues/new?template=bug_report.yml">Bug report</a>
+      ·
+      <a href="https://github.com/AkashRajpurohit/git-sync/issues/new?template=feature_request.yml">Feature request</a>
+      ·
+      <a href="https://github.com/AkashRajpurohit/git-sync/wiki">Read Docs</a>
+    </p>
+</div>
 <hr />
 
 `git-sync` is a CLI tool designed to help you back up your Git repositories. This tool ensures you have a local copy of your repositories, safeguarding against potential issues such as account bans or data loss.
 
-By using `git-sync`, you can easily clone and keep your backups in sync with your remote repositories. This tool is designed to be simple to use, with a straightforward configuration file that allows you to specify the repositories you want to back up and where you want to store them.
+## 📺 Demo
 
 [![asciicast](https://asciinema.org/a/670519.svg)](https://asciinema.org/a/670519)
 
-## Why `git-sync`?
+## 🤔 Why `git-sync`?
 
 Remember when `@defunkt` [GitHub account got banned?](https://twitter.com/defunkt/status/1754610843361362360) Well, he is the co-founder of GitHub so he did get his account un-banned pretty quickly but what if you are not that lucky?
 
@@ -45,7 +39,7 @@ Recently I have seen many developers [getting their GitHub account banned](https
 
 `git-sync` provides a straightforward way to back up all your repositories locally, ensuring you have access to your code whenever you need it. It does this by doing a bare clone of all your repositories in a specified directory so that you can recover your code in case of any unforeseen circumstances as well as the file size of your backups is minimal.
 
-## Features ✨
+## ✨ Features
 
 - **Backup All Repositories:** Automatically clone or update all your GitHub repositories to a local directory.
 - **Periodic Sync:** Keep your backups in sync with your remote repositories by running `git-sync` [periodically](https://github.com/AkashRajpurohit/git-sync/wiki/Setup-Periodic-Backups).
@@ -55,15 +49,15 @@ Recently I have seen many developers [getting their GitHub account banned](https
 - **Custom Backup Directory:** Specify the directory where you want to store your repositories.
 - **Multi Platform:** Currently this project supports backing up repositories from all major Git hosting services like GitHub, GitLab, and Bitbucket.
 
-## Getting Started 🚀
+## 🚀 Getting Started
 
 We have a thorough guide on how to set up and get started with `git-sync` in our [documentation](https://github.com/AkashRajpurohit/git-sync/wiki).
 
-## Bugs or Requests 🐛
+## 🐛 Bugs or Requests
 
 If you encounter any problems feel free to open an [issue](https://github.com/AkashRajpurohit/git-sync/issues/new?template=bug_report.yml). If you feel the project is missing a feature, please raise a [ticket](https://github.com/AkashRajpurohit/git-sync/issues/new?template=feature_request.yml) on GitHub and I'll look into it. Pull requests are also welcome.
 
-## Contributors 🫱🏻‍🫲🏼
+## 🫱🏻‍🫲🏼 Contributors
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
@@ -83,7 +77,7 @@ If you encounter any problems feel free to open an [issue](https://github.com/Ak
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
-## Where to find me? 👀
+## 👀 Who am I?
 
 [![Website Badge](https://img.shields.io/badge/-akashrajpurohit.com-3b5998?logo=google-chrome&logoColor=white)](https://akashrajpurohit.com/)
 [![Linkedin Badge](https://img.shields.io/badge/-@AkashRajpurohit-0e76a8?logo=Linkedin&logoColor=white)](https://linkedin.com/in/AkashRajpurohit)
