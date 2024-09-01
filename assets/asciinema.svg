@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1162.42" height="784" font-family="Consolas, Menlo, 'Bitstream Vera Sans Mono', monospace, 'Powerline Symbols'" font-size="14"><style>.br{font-weight:700}</style><rect width="100%" height="100%" rx="4" ry="4" style="fill:#121314"/><svg x="8.423" y="9.333" class="default-text-fill"><g style="shape-rendering:optimizeSpeed"><path d="M160.043 224h8.423v18.667h-8.423z" style="fill:#d9d9d9"/></g><text style="fill:#ccc">
+      <tspan y="0">
+        <tspan x="0" class="br" dy="1em" style="fill:#ddaf3c">
+ [
+        </tspan><tspan x="25.27" class="br" style="fill:#fff">
+akash
+        </tspan><tspan x="67.387" class="br" style="fill:#dd3c69">
+@
+        </tspan><tspan x="75.81" class="br" style="fill:#fff">
+yuji
+        </tspan><tspan x="109.503" class="br" style="fill:#26b0d7">
+] 
+        </tspan><tspan x="126.35" class="br" style="fill:#4ebf22">
+➜ 
+        </tspan><tspan x="143.197" class="br" style="fill:#54e1b9">
+~
+        </tspan><tspan x="160.043" style="fill:#4ebf22">
+git-sync
+        </tspan>
+      </tspan><tspan y="18.667">
+        <tspan x="0" dy="1em">
+{&quot;level&quot;:&quot;info&quot;,&quot;time&quot;:&quot;2024-08-31T20:41:28.918+0530&quot;,&quot;message&quot;:&quot;Logger initialized&quot;}
+        </tspan>
+      </tspan><tspan y="37.333">
+        <tspan x="0" dy="1em">
+{&quot;level&quot;:&quot;info&quot;,&quot;time&quot;:&quot;2024-08-31T20:41:28.918+0530&quot;,&quot;message&quot;:&quot;Config loaded from: /home/akash/.config/git-sync/config.yaml&quot;}
+        </tspan>
+      </tspan><tspan y="56">
+        <tspan x="0" dy="1em">
+{&quot;level&quot;:&quot;info&quot;,&quot;time&quot;:&quot;2024-08-31T20:41:28.918+0530&quot;,&quot;message&quot;:&quot;Validating config 
+        </tspan><tspan x="699.137">
+⏳
+        </tspan><tspan x="715.983">
+&quot;}
+        </tspan>
+      </tspan><tspan y="74.667">
+        <tspan x="0" dy="1em">
+{&quot;level&quot;:&quot;info&quot;,&quot;time&quot;:&quot;2024-08-31T20:41:28.918+0530&quot;,&quot;message&quot;:&quot;Valid config found 
+        </tspan><tspan x="707.56">
+✅
+        </tspan><tspan x="724.407">
+&quot;}
+        </tspan>
+      </tspan><tspan y="93.333">
+        <tspan x="0" dy="1em">
+{&quot;level&quot;:&quot;info&quot;,&quot;time&quot;:&quot;2024-08-31T20:41:28.918+0530&quot;,&quot;message&quot;:&quot;Using Platform: github&quot;}
+        </tspan>
+      </tspan><tspan y="112">
+        <tspan x="0" dy="1em">
+{&quot;level&quot;:&quot;info&quot;,&quot;time&quot;:&quot;2024-08-31T20:41:30.540+0530&quot;,&quot;message&quot;:&quot;Total repositories: 1&quot;}
+        </tspan>
+      </tspan><tspan y="130.667">
+        <tspan x="0" dy="1em">
+{&quot;level&quot;:&quot;info&quot;,&quot;time&quot;:&quot;2024-08-31T20:41:30.541+0530&quot;,&quot;message&quot;:&quot;Cloning repo: AkashRajpurohit/git-sync&quot;}
+        </tspan>
+      </tspan><tspan y="149.333">
+        <tspan x="0" dy="1em">
+{&quot;level&quot;:&quot;info&quot;,&quot;time&quot;:&quot;2024-08-31T20:41:31.409+0530&quot;,&quot;message&quot;:&quot;Cloned repo: AkashRajpurohit/git-sync&quot;}
+        </tspan>
+      </tspan><tspan y="168">
+        <tspan x="0" dy="1em">
+{&quot;level&quot;:&quot;info&quot;,&quot;time&quot;:&quot;2024-08-31T20:41:31.409+0530&quot;,&quot;message&quot;:&quot;Cloning wiki: AkashRajpurohit/git-sync&quot;}
+        </tspan>
+      </tspan><tspan y="186.667">
+        <tspan x="0" dy="1em">
+{&quot;level&quot;:&quot;info&quot;,&quot;time&quot;:&quot;2024-08-31T20:41:32.306+0530&quot;,&quot;message&quot;:&quot;Cloned wiki: AkashRajpurohit/git-sync&quot;}
+        </tspan>
+      </tspan><tspan y="205.333">
+        <tspan x="0" dy="1em">
+{&quot;level&quot;:&quot;info&quot;,&quot;time&quot;:&quot;2024-08-31T20:41:32.306+0530&quot;,&quot;message&quot;:&quot;All repositories synced 
+        </tspan><tspan x="749.677">
+✅
+        </tspan><tspan x="766.523">
+&quot;}
+        </tspan>
+      </tspan><tspan y="224">
+        <tspan x="0" class="br" dy="1em" style="fill:#ddaf3c">
+ [
+        </tspan><tspan x="25.27" class="br" style="fill:#fff">
+akash
+        </tspan><tspan x="67.387" class="br" style="fill:#dd3c69">
+@
+        </tspan><tspan x="75.81" class="br" style="fill:#fff">
+yuji
+        </tspan><tspan x="109.503" class="br" style="fill:#26b0d7">
+] 
+        </tspan><tspan x="126.35" class="br" style="fill:#4ebf22">
+➜ 
+        </tspan><tspan x="143.197" class="br" style="fill:#54e1b9">
+~
+        </tspan>
+      </tspan>
+    </text></svg><svg width="80" height="80" x="50%" y="50%" transform="translate(-40 -40)"><svg xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 0 5px rgba(0,0,0,.4))" viewBox="0 0 1000 1000"><defs><mask id="small-triangle-mask"><rect width="100%" height="100%" fill="#fff"/><path d="M700 500 400 326.795v346.41z"/></mask></defs><path fill="#fff" d="M1000 500 250 66.987v866.026z" mask="url(#small-triangle-mask)"/><path stroke="#fff" stroke-width="90" d="m673.205 400-346.41 200"/></svg></svg></svg>

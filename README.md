@@ -1,5 +1,5 @@
 <div align="center" width="100%">
-  <img src="./logo.png" alt="Git sync logo" width="150" />
+  <img src="./assets/logo.png" alt="Git sync logo" width="150" />
 </div>
 <div align="center" width="100%">
     <h2>🔄 git-sync</h2>
@@ -28,7 +28,7 @@
 
 ## 📺 Demo
 
-[![asciicast](https://asciinema.org/a/674282.svg)](https://asciinema.org/a/674282)
+[![asciicast](./assets/asciinema.svg)](https://asciinema.org/a/674282)
 
 ## 🤔 Why `git-sync`?
 
