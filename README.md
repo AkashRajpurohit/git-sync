@@ -52,6 +52,10 @@ Recently I have seen many developers [getting their GitHub account banned](https
 
 We have a thorough guide on how to set up and get started with `git-sync` in our [documentation](https://github.com/AkashRajpurohit/git-sync/wiki).
 
+## 🙏🏻 Support
+
+If you found the project helpful, consider giving it a star ⭐️. If you would like to support the project in other ways, you can [buy me a coffee](https://ko-fi.com/akashrajpurohit) or [sponsor me on GitHub](https://github.com/sponsors/AkashRajpurohit).
+
 ## 🐛 Bugs or Requests
 
 If you encounter any problems feel free to open an [issue](https://github.com/AkashRajpurohit/git-sync/issues/new?template=bug_report.yml). If you feel the project is missing a feature, please raise a [ticket](https://github.com/AkashRajpurohit/git-sync/issues/new?template=feature_request.yml) on GitHub and I'll look into it. Pull requests are also welcome.
