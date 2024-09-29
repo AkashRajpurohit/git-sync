@@ -7,6 +7,7 @@ import (
 	"github.com/AkashRajpurohit/git-sync/pkg/bitbucket"
 	"github.com/AkashRajpurohit/git-sync/pkg/client"
 	"github.com/AkashRajpurohit/git-sync/pkg/config"
+	"github.com/AkashRajpurohit/git-sync/pkg/forgejo"
 	"github.com/AkashRajpurohit/git-sync/pkg/github"
 	"github.com/AkashRajpurohit/git-sync/pkg/gitlab"
 	"github.com/AkashRajpurohit/git-sync/pkg/logger"
@@ -89,6 +90,8 @@ var rootCmd = &cobra.Command{
 			client = gitlab.NewGitlabClient(cfg.Token)
 		case "bitbucket":
 			client = bitbucket.NewBitbucketClient(cfg.Username, cfg.Token)
+		case "forgejo":
+			client = forgejo.NewForgejoClient(cfg.Server, cfg.Token)
 		default:
 			logger.Fatalf("Platform %s not supported", cfg.Platform)
 		}
