@@ -1,6 +1,7 @@
 package gitlab
 
 import (
+	"fmt"
 	"sync"
 
 	"github.com/AkashRajpurohit/git-sync/pkg/config"
@@ -14,8 +15,9 @@ type GitlabClient struct {
 	Client *gl.Client
 }
 
-func NewGitlabClient(token string) *GitlabClient {
-	client, err := gl.NewClient(token)
+func NewGitlabClient(token string, serverConfig config.Server) *GitlabClient {
+	baseURL := fmt.Sprintf("%s://%s/api/v4", serverConfig.Protocol, serverConfig.Domain)
+	client, err := gl.NewClient(token, gl.WithBaseURL(baseURL))
 	if err != nil {
 		return nil
 	}
@@ -56,9 +58,34 @@ func (c GitlabClient) Sync(cfg config.Config) error {
 }
 
 func (c GitlabClient) getProjects(cfg config.Config) ([]*gl.Project, error) {
-	projects, _, err := c.Client.Projects.ListProjects(&gl.ListProjectsOptions{Owned: &[]bool{true}[0]})
-	if err != nil {
-		return nil, err
+	requestOpts := &gl.ListProjectsOptions{
+		ListOptions: gl.ListOptions{
+			OrderBy:    "id",
+			Pagination: "keyset",
+			PerPage:    10,
+			Sort:       "asc",
+		},
+		Owned: &[]bool{true}[0],
+	}
+
+	options := []gl.RequestOptionFunc{}
+	var projects []*gl.Project
+	for {
+		pageResults, response, err := c.Client.Projects.ListProjects(requestOpts, options...)
+
+		if err != nil {
+			return nil, err
+		}
+
+		projects = append(projects, pageResults...)
+
+		if response.NextLink == "" {
+			break
+		}
+
+		options = []gl.RequestOptionFunc{
+			gl.WithKeysetPaginationParameters(response.NextLink),
+		}
 	}
 
 	var projectsToInclude []*gl.Project
