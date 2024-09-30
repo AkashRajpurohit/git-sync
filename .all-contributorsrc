@@ -35,6 +35,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "acompagno",
+      "name": "Andre Compagno",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4412299?v=4",
+      "profile": "https://github.com/acompagno",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "commitType": "docs",
