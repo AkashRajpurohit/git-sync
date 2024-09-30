@@ -87,7 +87,7 @@ var rootCmd = &cobra.Command{
 		case "github":
 			client = github.NewGitHubClient(cfg.Token)
 		case "gitlab":
-			client = gitlab.NewGitlabClient(cfg.Token, cfg.Server)
+			client = gitlab.NewGitlabClient(cfg.Server, cfg.Token)
 		case "bitbucket":
 			client = bitbucket.NewBitbucketClient(cfg.Username, cfg.Token)
 		case "forgejo":

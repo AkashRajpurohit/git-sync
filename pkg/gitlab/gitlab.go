@@ -15,7 +15,7 @@ type GitlabClient struct {
 	Client *gl.Client
 }
 
-func NewGitlabClient(token string, serverConfig config.Server) *GitlabClient {
+func NewGitlabClient(serverConfig config.Server, token string) *GitlabClient {
 	baseURL := fmt.Sprintf("%s://%s/api/v4", serverConfig.Protocol, serverConfig.Domain)
 	client, err := gl.NewClient(token, gl.WithBaseURL(baseURL))
 	if err != nil {
@@ -62,7 +62,7 @@ func (c GitlabClient) getProjects(cfg config.Config) ([]*gl.Project, error) {
 		ListOptions: gl.ListOptions{
 			OrderBy:    "id",
 			Pagination: "keyset",
-			PerPage:    10,
+			PerPage:    100,
 			Sort:       "asc",
 		},
 		Owned: &[]bool{true}[0],
