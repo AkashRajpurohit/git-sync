@@ -38,5 +38,10 @@ func ValidateConfig(cfg Config) error {
 		}
 	}
 
+	// validate that clone_type can only be `bare`, `full`, `mirror` or `shallow`
+	if cfg.CloneType != "bare" && cfg.CloneType != "full" && cfg.CloneType != "mirror" && cfg.CloneType != "shallow" {
+		return fmt.Errorf("clone_type can only be `bare`, `full`, `mirror` or `shallow`")
+	}
+
 	return nil
 }

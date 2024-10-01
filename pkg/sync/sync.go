@@ -15,6 +15,46 @@ func getBaseDirectoryPath(repoOwner, repoName string, config config.Config) stri
 	return filepath.Join(config.BackupDir, repoOwner, repoName)
 }
 
+func getGitCloneCommand(CloneType, repoPath, repoURL string) *exec.Cmd {
+	switch CloneType {
+	case "bare":
+		logger.Debugf("Cloning repo with bare clone type: %s", repoURL)
+		return exec.Command("git", "clone", "--bare", repoURL, repoPath)
+	case "full":
+		logger.Debugf("Cloning repo with full clone type: %s", repoURL)
+		return exec.Command("git", "clone", repoURL, repoPath)
+	case "mirror":
+		logger.Debugf("Cloning repo with mirror clone type: %s", repoURL)
+		return exec.Command("git", "clone", "--mirror", repoURL, repoPath)
+	case "shallow":
+		logger.Debugf("Cloning repo with shallow clone type: %s", repoURL)
+		return exec.Command("git", "clone", "--depth", "1", repoURL, repoPath)
+	default:
+		logger.Debugf("[Default] Cloning repo with bare clone type: %s", repoURL)
+		return exec.Command("git", "clone", "--bare", repoURL, repoPath)
+	}
+}
+
+func getGitFetchCommand(CloneType, repoPath string) *exec.Cmd {
+	switch CloneType {
+	case "bare":
+		logger.Debugf("Updating repo with bare clone type: %s", repoPath)
+		return exec.Command("git", "--git-dir", repoPath, "fetch", "--prune", "origin", "+*:*")
+	case "full":
+		logger.Debugf("Updating repo with full clone type: %s", repoPath)
+		return exec.Command("git", "-C", repoPath, "pull", "--prune")
+	case "mirror":
+		logger.Debugf("Updating repo with mirror clone type: %s", repoPath)
+		return exec.Command("git", "-C", repoPath, "fetch", "--prune", "origin", "+*:*")
+	case "shallow":
+		logger.Debugf("Updating repo with shallow clone type: %s", repoPath)
+		return exec.Command("git", "-C", repoPath, "pull", "--prune")
+	default:
+		logger.Debugf("[Default] Updating repo with bare clone type: %s", repoPath)
+		return exec.Command("git", "--git-dir", repoPath, "fetch", "--prune", "origin", "+*:*")
+	}
+}
+
 func CloneOrUpdateRepo(repoOwner, repoName string, config config.Config) {
 	repoFullName := fmt.Sprintf("%s/%s", repoOwner, repoName)
 	repoURL := fmt.Sprintf("%s://%s:%s@%s/%s.git", config.Server.Protocol, config.Username, config.Token, config.Server.Domain, repoFullName)
@@ -22,8 +62,9 @@ func CloneOrUpdateRepo(repoOwner, repoName string, config config.Config) {
 
 	if _, err := os.Stat(repoPath); os.IsNotExist(err) {
 		logger.Info("Cloning repo: ", repoFullName)
+		command := getGitCloneCommand(config.CloneType, repoPath, repoURL)
 
-		output, err := exec.Command("git", "clone", "--bare", repoURL, repoPath).CombinedOutput()
+		output, err := command.CombinedOutput()
 		logger.Debugf("Output: %s\n", output)
 		if err != nil {
 			logger.Fatalf("Error cloning repo %s: %v\n", repoFullName, err)
@@ -32,8 +73,9 @@ func CloneOrUpdateRepo(repoOwner, repoName string, config config.Config) {
 		}
 	} else {
 		logger.Info("Updating repo: ", repoFullName)
+		command := getGitFetchCommand(config.CloneType, repoPath)
 
-		output, err := exec.Command("git", "--git-dir", repoPath, "fetch", "--prune", "origin", "+*:*").CombinedOutput()
+		output, err := command.CombinedOutput()
 		logger.Debugf("Output: %s\n", output)
 		if err != nil {
 			logger.Fatalf("Error updating repo %s: %v\n", repoFullName, err)

@@ -28,6 +28,7 @@ type Config struct {
 	BackupDir    string   `mapstructure:"backup_dir"`
 	Workspace    string   `mapstructure:"workspace"`
 	Cron         string   `mapstructure:"cron"`
+	CloneType    string   `mapstructure:"clone_type"`
 }
 
 func expandPath(path string) string {
@@ -105,6 +106,7 @@ func SaveConfig(config Config, cfgFile string) error {
 	viper.Set("server", config.Server)
 	viper.Set("workspace", config.Workspace)
 	viper.Set("cron", config.Cron)
+	viper.Set("clone_type", config.CloneType)
 
 	return viper.WriteConfig()
 }

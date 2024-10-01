@@ -52,6 +52,7 @@ var rootCmd = &cobra.Command{
 				Workspace:    "",
 				Cron:         "",
 				BackupDir:    config.GetBackupDir(backupDir),
+				CloneType:    "bare",
 			}
 
 			err = config.SaveConfig(cfg, cfgFile)
@@ -68,6 +69,11 @@ var rootCmd = &cobra.Command{
 		// If cron option is passed in the command line, use that instead of the one in the config file
 		if cron != "" {
 			cfg.Cron = cron
+		}
+
+		// If no clone_type is not set in the config file, set it to bare
+		if cfg.CloneType == "" {
+			cfg.CloneType = "bare"
 		}
 
 		logger.Info("Config loaded from: ", config.GetConfigFile(cfgFile))
