@@ -46,6 +46,16 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "jasonbraganza",
+      "name": "Mario Jason Braganza",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4888781?v=4",
+      "profile": "https://janusworx.com",
+      "contributions": [
+        "bug",
+        "question"
+      ]
     }
   ],
   "commitType": "docs",
