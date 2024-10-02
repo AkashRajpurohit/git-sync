@@ -110,3 +110,25 @@ func SaveConfig(config Config, cfgFile string) error {
 
 	return viper.WriteConfig()
 }
+
+func GetInitialConfig() Config {
+	return Config{
+		Username: "",
+		Token:    "",
+		Platform: "github",
+		Server: Server{
+			Domain:   "github.com",
+			Protocol: "https",
+		},
+		IncludeRepos: []string{},
+		ExcludeRepos: []string{},
+		IncludeOrgs:  []string{},
+		ExcludeOrgs:  []string{},
+		IncludeForks: false,
+		IncludeWiki:  true,
+		Workspace:    "",
+		Cron:         "",
+		BackupDir:    GetBackupDir(""),
+		CloneType:    "bare",
+	}
+}

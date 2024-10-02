@@ -35,25 +35,7 @@ var rootCmd = &cobra.Command{
 			logger.Debugf("Error in loading config file: ", err)
 			logger.Info("Config file not found, creating a new one...")
 
-			cfg = config.Config{
-				Username: "",
-				Token:    "",
-				Platform: "github",
-				Server: config.Server{
-					Domain:   "github.com",
-					Protocol: "https",
-				},
-				IncludeRepos: []string{},
-				ExcludeRepos: []string{},
-				IncludeOrgs:  []string{},
-				ExcludeOrgs:  []string{},
-				IncludeForks: false,
-				IncludeWiki:  true,
-				Workspace:    "",
-				Cron:         "",
-				BackupDir:    config.GetBackupDir(backupDir),
-				CloneType:    "bare",
-			}
+			cfg = config.GetInitialConfig()
 
 			err = config.SaveConfig(cfg, cfgFile)
 			if err != nil {
