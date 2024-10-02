@@ -13,9 +13,28 @@ permissions:
   discussions: write
 
 jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: "go.mod"
+
+      - name: Run tests
+        run: go test -v ./...
+
   release:
     name: Release
     runs-on: ubuntu-latest
+    needs: [test]
 
     steps:
       - name: Checkout code
@@ -39,6 +58,7 @@ jobs:
   docker_build_and_push:
     name: Docker Build & Push
     runs-on: ubuntu-latest
+    needs: [test]
 
     steps:
       - name: Checkout code
