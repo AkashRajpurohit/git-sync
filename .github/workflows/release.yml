@@ -36,8 +36,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  docker_build:
-    name: Docker Build
+  docker_build_and_push:
+    name: Docker Build & Push
     runs-on: ubuntu-latest
 
     steps:
