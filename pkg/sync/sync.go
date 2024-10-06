@@ -35,23 +35,23 @@ func getGitCloneCommand(CloneType, repoPath, repoURL string) *exec.Cmd {
 	}
 }
 
-func getGitFetchCommand(CloneType, repoPath string) *exec.Cmd {
+func getGitFetchCommand(CloneType, repoPath, repoURL string) *exec.Cmd {
 	switch CloneType {
 	case "bare":
 		logger.Debugf("Updating repo with bare clone type: %s", repoPath)
-		return exec.Command("git", "--git-dir", repoPath, "fetch", "--prune", "origin", "+*:*")
+		return exec.Command("git", "--git-dir", repoPath, "fetch", "--prune", repoURL, "+*:*")
 	case "full":
 		logger.Debugf("Updating repo with full clone type: %s", repoPath)
-		return exec.Command("git", "-C", repoPath, "pull", "--prune")
+		return exec.Command("git", "-C", repoPath, "pull", "--prune", repoURL)
 	case "mirror":
 		logger.Debugf("Updating repo with mirror clone type: %s", repoPath)
-		return exec.Command("git", "-C", repoPath, "fetch", "--prune", "origin", "+*:*")
+		return exec.Command("git", "-C", repoPath, "fetch", "--prune", repoURL, "+*:*")
 	case "shallow":
 		logger.Debugf("Updating repo with shallow clone type: %s", repoPath)
-		return exec.Command("git", "-C", repoPath, "pull", "--prune")
+		return exec.Command("git", "-C", repoPath, "pull", "--prune", repoURL)
 	default:
 		logger.Debugf("[Default] Updating repo with bare clone type: %s", repoPath)
-		return exec.Command("git", "--git-dir", repoPath, "fetch", "--prune", "origin", "+*:*")
+		return exec.Command("git", "--git-dir", repoPath, "fetch", "--prune", repoURL, "+*:*")
 	}
 }
 
@@ -73,7 +73,7 @@ func CloneOrUpdateRepo(repoOwner, repoName string, config config.Config) {
 		}
 	} else {
 		logger.Info("Updating repo: ", repoFullName)
-		command := getGitFetchCommand(config.CloneType, repoPath)
+		command := getGitFetchCommand(config.CloneType, repoPath, repoURL)
 
 		output, err := command.CombinedOutput()
 		logger.Debugf("Output: %s\n", output)
