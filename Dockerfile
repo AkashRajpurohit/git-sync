@@ -27,12 +27,6 @@ FROM alpine:latest
 WORKDIR /opt/go
 
 LABEL maintainer="AkashRajpurohit <me@akashrajpurohit.com>"
-LABEL org.opencontainers.image.authors="AkashRajpurohit <me@akashrajpurohit.com>"
-LABEL org.opencontainers.image.version="${VERSION}"
-LABEL org.opencontainers.image.build-date="${BUILD_DATE}"
-LABEL org.opencontainers.image.source="https://github.com/AkashRajpurohit/git-sync"
-LABEL org.opencontainers.image.title="git-sync"
-LABEL org.opencontainers.image.description="A tool to backup and sync your git repositories"
 
 # Install git since it's required for the application
 RUN apk update && \
