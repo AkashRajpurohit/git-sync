@@ -4,7 +4,7 @@ go 1.23.1
 
 require (
 	codeberg.org/mvdkleijn/forgejo-sdk/forgejo v1.1.1
-	github.com/google/go-github/v65 v65.0.0
+	github.com/google/go-github/v66 v66.0.0
 	github.com/google/go-github/v66 v66.0.0
 	github.com/ktrysmt/go-bitbucket v0.9.80
 	github.com/robfig/cron/v3 v3.0.1
