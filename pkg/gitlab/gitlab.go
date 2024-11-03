@@ -106,7 +106,7 @@ func (c GitlabClient) getProjects(cfg config.Config) ([]*gl.Project, error) {
 
 		// If exclude orgs are set, exclude those and move to next checks if any
 		if len(cfg.ExcludeOrgs) > 0 {
-			if isGroupProject && helpers.IsExcludedInList(cfg.ExcludeOrgs, groupName) {
+			if isGroupProject && helpers.IsIncludedInList(cfg.ExcludeOrgs, groupName) {
 				logger.Debug("[exclude_groups] Project excluded: ", projectName)
 				continue
 			}
@@ -122,7 +122,7 @@ func (c GitlabClient) getProjects(cfg config.Config) ([]*gl.Project, error) {
 		}
 
 		if len(cfg.ExcludeRepos) > 0 {
-			if helpers.IsExcludedInList(cfg.ExcludeRepos, projectName) {
+			if helpers.IsIncludedInList(cfg.ExcludeRepos, projectName) {
 				logger.Debug("[exclude_projects] Project excluded: ", projectName)
 				continue
 			}

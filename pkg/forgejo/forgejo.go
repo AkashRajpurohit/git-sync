@@ -89,7 +89,7 @@ func (c ForgejoClient) getUserRepos(cfg config.Config) ([]*fg.Repository, error)
 			}
 
 			if len(cfg.ExcludeRepos) > 0 {
-				if helpers.IsExcludedInList(cfg.ExcludeRepos, repo.FullName) {
+				if helpers.IsIncludedInList(cfg.ExcludeRepos, repo.FullName) {
 					logger.Debug("[exclude_repos] Repo excluded: ", repo.Name)
 					continue
 				}

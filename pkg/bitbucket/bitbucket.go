@@ -81,7 +81,7 @@ func (c BitbucketClient) getRepos(cfg config.Config) ([]*bb.Repository, error) {
 			}
 
 			if len(cfg.ExcludeRepos) > 0 {
-				if helpers.IsExcludedInList(cfg.ExcludeRepos, repoName) {
+				if helpers.IsIncludedInList(cfg.ExcludeRepos, repoName) {
 					logger.Debug("[exclude_repos] Repo excluded: ", repoName)
 					continue
 				}
