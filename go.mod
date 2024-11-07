@@ -11,7 +11,7 @@ require (
 	github.com/spf13/viper v1.19.0
 	github.com/xanzy/go-gitlab v0.112.0
 	go.uber.org/zap v1.27.0
-	golang.org/x/oauth2 v0.23.0
+	golang.org/x/oauth2 v0.24.0
 )
 
 require (
