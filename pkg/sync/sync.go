@@ -78,7 +78,7 @@ func CloneOrUpdateRepo(repoOwner, repoName string, config config.Config) {
 		output, err := command.CombinedOutput()
 		logger.Debugf("Output: %s\n", output)
 		if err != nil {
-			logger.Fatalf("Error updating repo %s: %v\n", repoFullName, err)
+			logger.Debugf("Error updating repo %s: %v\n", repoFullName, err)
 		} else {
 			logger.Info("Updated repo: ", repoFullName)
 		}
