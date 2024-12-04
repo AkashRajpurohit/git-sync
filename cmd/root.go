@@ -11,6 +11,7 @@ import (
 	"github.com/AkashRajpurohit/git-sync/pkg/github"
 	"github.com/AkashRajpurohit/git-sync/pkg/gitlab"
 	"github.com/AkashRajpurohit/git-sync/pkg/logger"
+	"github.com/AkashRajpurohit/git-sync/pkg/raw"
 	ch "github.com/robfig/cron/v3"
 	"github.com/spf13/cobra"
 )
@@ -69,30 +70,51 @@ var rootCmd = &cobra.Command{
 		// Create backup directory if it doesn't exist
 		os.MkdirAll(cfg.BackupDir, os.ModePerm)
 
-		var client client.Client
+		var platformClient client.Client
+		var hasRawURLs bool = len(cfg.RawGitURLs) > 0
 
-		switch cfg.Platform {
-		case "github":
-			client = github.NewGitHubClient(cfg.Token)
-		case "gitlab":
-			client = gitlab.NewGitlabClient(cfg.Server, cfg.Token)
-		case "bitbucket":
-			client = bitbucket.NewBitbucketClient(cfg.Username, cfg.Token)
-		case "forgejo":
-			client = forgejo.NewForgejoClient(cfg.Server, cfg.Token)
-		default:
-			logger.Fatalf("Platform %s not supported", cfg.Platform)
+		// Only initialize platform client if raw URLs are not provided or if both are needed
+		if !hasRawURLs || (cfg.Username != "" && cfg.Token != "") {
+			switch cfg.Platform {
+			case "github":
+				platformClient = github.NewGitHubClient(cfg.Token)
+			case "gitlab":
+				platformClient = gitlab.NewGitlabClient(cfg.Server, cfg.Token)
+			case "bitbucket":
+				platformClient = bitbucket.NewBitbucketClient(cfg.Username, cfg.Token)
+			case "forgejo":
+				platformClient = forgejo.NewForgejoClient(cfg.Server, cfg.Token)
+			default:
+				if !hasRawURLs {
+					logger.Fatalf("Platform %s not supported", cfg.Platform)
+				}
+			}
 		}
 
 		logger.Info("Valid config found ✅")
-		logger.Infof("Using Platform: %s", cfg.Platform)
+		if platformClient != nil {
+			logger.Infof("Using Platform: %s", cfg.Platform)
+		}
+		if hasRawURLs {
+			logger.Infof("Found %d raw git URLs to sync", len(cfg.RawGitURLs))
+		}
 
 		if cfg.Cron != "" {
 			c := ch.New()
 			_, err := c.AddFunc(cfg.Cron, func() {
-				err := client.Sync(cfg)
-				if err != nil {
-					logger.Fatalf("Error syncing repositories: %s", err)
+				// First sync platform repositories if configured
+				if platformClient != nil {
+					if err := platformClient.Sync(cfg); err != nil {
+						logger.Errorf("Error syncing platform repositories: %s", err)
+					}
+				}
+
+				// Then sync raw git URLs if any
+				if hasRawURLs {
+					rawClient := raw.NewRawClient()
+					if err := rawClient.Sync(cfg); err != nil {
+						logger.Errorf("Error syncing raw repositories: %s", err)
+					}
 				}
 			})
 
@@ -106,9 +128,19 @@ var rootCmd = &cobra.Command{
 			// Wait indefinitely
 			select {}
 		} else {
-			err = client.Sync(cfg)
-			if err != nil {
-				logger.Fatalf("Error syncing repositories: %s", err)
+			// First sync platform repositories if configured
+			if platformClient != nil {
+				if err := platformClient.Sync(cfg); err != nil {
+					logger.Errorf("Error syncing platform repositories: %s", err)
+				}
+			}
+
+			// Then sync raw git URLs if any
+			if hasRawURLs {
+				rawClient := raw.NewRawClient()
+				if err := rawClient.Sync(cfg); err != nil {
+					logger.Errorf("Error syncing raw repositories: %s", err)
+				}
 			}
 		}
 	},

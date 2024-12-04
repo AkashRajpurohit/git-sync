@@ -85,6 +85,34 @@ func CloneOrUpdateRepo(repoOwner, repoName string, config config.Config) {
 	}
 }
 
+func CloneOrUpdateRawRepo(repoOwner, repoName, repoURL string, config config.Config) {
+	repoPath := filepath.Join(getBaseDirectoryPath(repoOwner, repoName, config), repoName+".git")
+
+	if _, err := os.Stat(repoPath); os.IsNotExist(err) {
+		logger.Info("Cloning raw repo: ", repoURL)
+		command := getGitCloneCommand(config.CloneType, repoPath, repoURL)
+
+		output, err := command.CombinedOutput()
+		logger.Debugf("Output: %s\n", output)
+		if err != nil {
+			logger.Fatalf("Error cloning raw repo %s: %v\n", repoURL, err)
+		} else {
+			logger.Info("Cloned raw repo: ", repoURL)
+		}
+	} else {
+		logger.Info("Updating raw repo: ", repoURL)
+		command := getGitFetchCommand(config.CloneType, repoPath, repoURL)
+
+		output, err := command.CombinedOutput()
+		logger.Debugf("Output: %s\n", output)
+		if err != nil {
+			logger.Debugf("Error updating raw repo %s: %v\n", repoURL, err)
+		} else {
+			logger.Info("Updated raw repo: ", repoURL)
+		}
+	}
+}
+
 func SyncWiki(repoOwner, repoName string, config config.Config) {
 	repoFullName := fmt.Sprintf("%s/%s", repoOwner, repoName)
 	repoWikiURL := fmt.Sprintf("%s://%s:%s@%s/%s.wiki.git", config.Server.Protocol, config.Username, config.Token, config.Server.Domain, repoFullName)
