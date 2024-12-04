@@ -2,7 +2,6 @@ package github
 
 import (
 	"context"
-	"sync"
 
 	"github.com/AkashRajpurohit/git-sync/pkg/config"
 	"github.com/AkashRajpurohit/git-sync/pkg/helpers"
@@ -38,27 +37,16 @@ func (c GitHubClient) Sync(cfg config.Config) error {
 		return err
 	}
 
-	logger.Info("Total repositories: ", len(repos))
+	gitSync.LogRepoCount(len(repos), "GitHub")
 
-	var wg sync.WaitGroup
-	sem := make(chan struct{}, 10) // Concurrency of 10
+	gitSync.SyncReposWithConcurrency(cfg, repos, func(repo *gh.Repository) {
+		gitSync.CloneOrUpdateRepo(repo.GetOwner().GetLogin(), repo.GetName(), cfg)
+		if cfg.IncludeWiki && repo.GetHasWiki() {
+			gitSync.SyncWiki(repo.GetOwner().GetLogin(), repo.GetName(), cfg)
+		}
+	})
 
-	for _, repo := range repos {
-		wg.Add(1)
-		go func(repo *gh.Repository) {
-			defer wg.Done()
-			sem <- struct{}{}
-			gitSync.CloneOrUpdateRepo(repo.GetOwner().GetLogin(), repo.GetName(), cfg)
-			if cfg.IncludeWiki && repo.GetHasWiki() {
-				gitSync.SyncWiki(repo.GetOwner().GetLogin(), repo.GetName(), cfg)
-			}
-			<-sem
-		}(repo)
-	}
-
-	wg.Wait()
-	logger.Info("All repositories synced ✅")
-
+	gitSync.LogSyncComplete("GitHub")
 	return nil
 }
 

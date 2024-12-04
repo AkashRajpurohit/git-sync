@@ -30,6 +30,7 @@ type Config struct {
 	Cron         string   `mapstructure:"cron"`
 	CloneType    string   `mapstructure:"clone_type"`
 	RawGitURLs   []string `mapstructure:"raw_git_urls"`
+	Concurrency  int      `mapstructure:"concurrency"`
 }
 
 func expandPath(path string) string {
@@ -109,6 +110,7 @@ func SaveConfig(config Config, cfgFile string) error {
 	viper.Set("cron", config.Cron)
 	viper.Set("clone_type", config.CloneType)
 	viper.Set("raw_git_urls", config.RawGitURLs)
+	viper.Set("concurrency", config.Concurrency)
 
 	return viper.WriteConfig()
 }
@@ -133,5 +135,6 @@ func GetInitialConfig() Config {
 		BackupDir:    GetBackupDir(""),
 		CloneType:    "bare",
 		RawGitURLs:   []string{},
+		Concurrency:  5,
 	}
 }

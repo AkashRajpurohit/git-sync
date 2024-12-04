@@ -1,8 +1,6 @@
 package bitbucket
 
 import (
-	"sync"
-
 	"github.com/AkashRajpurohit/git-sync/pkg/config"
 	"github.com/AkashRajpurohit/git-sync/pkg/helpers"
 	"github.com/AkashRajpurohit/git-sync/pkg/logger"
@@ -29,27 +27,16 @@ func (c BitbucketClient) Sync(cfg config.Config) error {
 		return err
 	}
 
-	logger.Info("Total repositories: ", len(repos))
+	gitSync.LogRepoCount(len(repos), "Bitbucket")
 
-	var wg sync.WaitGroup
-	sem := make(chan struct{}, 10) // Concurrency of 10
+	gitSync.SyncReposWithConcurrency(cfg, repos, func(repo *bb.Repository) {
+		gitSync.CloneOrUpdateRepo(cfg.Workspace, repo.Name, cfg)
+		if cfg.IncludeWiki && repo.Has_wiki {
+			gitSync.SyncWiki(cfg.Workspace, repo.Name, cfg)
+		}
+	})
 
-	for _, repo := range repos {
-		wg.Add(1)
-		go func(repo *bb.Repository) {
-			defer wg.Done()
-			sem <- struct{}{}
-			gitSync.CloneOrUpdateRepo(cfg.Workspace, repo.Name, cfg)
-			if cfg.IncludeWiki && repo.Has_wiki {
-				gitSync.SyncWiki(cfg.Workspace, repo.Name, cfg)
-			}
-			<-sem
-		}(repo)
-	}
-
-	wg.Wait()
-	logger.Info("All repositories synced ✅")
-
+	gitSync.LogSyncComplete("Bitbucket")
 	return nil
 }
 

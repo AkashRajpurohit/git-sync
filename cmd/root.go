@@ -44,6 +44,20 @@ var rootCmd = &cobra.Command{
 			}
 		}
 
+		// Backward Compatibility Starts
+		// TODO: Remove these before v1.0.0 release
+		// If concurrency is not set, set it to 5
+		if cfg.Concurrency == 0 {
+			cfg.Concurrency = 5
+		}
+
+		// If no clone_type is not set in the config file, set it to bare
+		if cfg.CloneType == "" {
+			cfg.CloneType = "bare"
+		}
+
+		// Backward Compatibility Ends
+
 		// If backupDir option is passed in the command line, use that instead of the one in the config file
 		if backupDir != "" {
 			cfg.BackupDir = config.GetBackupDir(backupDir)
@@ -52,11 +66,6 @@ var rootCmd = &cobra.Command{
 		// If cron option is passed in the command line, use that instead of the one in the config file
 		if cron != "" {
 			cfg.Cron = cron
-		}
-
-		// If no clone_type is not set in the config file, set it to bare
-		if cfg.CloneType == "" {
-			cfg.CloneType = "bare"
 		}
 
 		logger.Info("Config loaded from: ", config.GetConfigFile(cfgFile))

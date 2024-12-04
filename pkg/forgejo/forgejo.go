@@ -2,7 +2,6 @@ package forgejo
 
 import (
 	"fmt"
-	"sync"
 
 	fg "codeberg.org/mvdkleijn/forgejo-sdk/forgejo"
 	"github.com/AkashRajpurohit/git-sync/pkg/config"
@@ -39,27 +38,16 @@ func (c ForgejoClient) Sync(cfg config.Config) error {
 		return err
 	}
 
-	logger.Info("Total repositories: ", len(repos))
+	gitSync.LogRepoCount(len(repos), "Forgejo")
 
-	var wg sync.WaitGroup
-	sem := make(chan struct{}, 10) // Concurrency of 10
+	gitSync.SyncReposWithConcurrency(cfg, repos, func(repo *fg.Repository) {
+		gitSync.CloneOrUpdateRepo(repo.Owner.UserName, repo.Name, cfg)
+		if cfg.IncludeWiki && repo.HasWiki {
+			gitSync.SyncWiki(repo.Owner.UserName, repo.Name, cfg)
+		}
+	})
 
-	for _, repo := range repos {
-		wg.Add(1)
-		go func(repo *fg.Repository) {
-			defer wg.Done()
-			sem <- struct{}{}
-			gitSync.CloneOrUpdateRepo(repo.Owner.UserName, repo.Name, cfg)
-			if cfg.IncludeWiki && repo.HasWiki {
-				gitSync.SyncWiki(repo.Owner.UserName, repo.Name, cfg)
-			}
-			<-sem
-		}(repo)
-	}
-
-	wg.Wait()
-	logger.Info("All repositories synced ✅")
-
+	gitSync.LogSyncComplete("Forgejo")
 	return nil
 }
 

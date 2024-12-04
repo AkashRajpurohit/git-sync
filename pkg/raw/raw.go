@@ -3,10 +3,8 @@ package raw
 import (
 	"path/filepath"
 	"strings"
-	"sync"
 
 	"github.com/AkashRajpurohit/git-sync/pkg/config"
-	"github.com/AkashRajpurohit/git-sync/pkg/logger"
 	gitSync "github.com/AkashRajpurohit/git-sync/pkg/sync"
 )
 
@@ -35,24 +33,13 @@ func (c RawClient) Sync(cfg config.Config) error {
 		return nil
 	}
 
-	logger.Info("Total raw repositories: ", len(cfg.RawGitURLs))
+	gitSync.LogRepoCount(len(cfg.RawGitURLs), "raw")
 
-	var wg sync.WaitGroup
-	sem := make(chan struct{}, 10) // Concurrency of 10
+	gitSync.SyncWithConcurrency(cfg, cfg.RawGitURLs, func(url string) {
+		owner, name := c.extractRepoInfo(url)
+		gitSync.CloneOrUpdateRawRepo(owner, name, url, cfg)
+	})
 
-	for _, url := range cfg.RawGitURLs {
-		wg.Add(1)
-		go func(repoURL string) {
-			defer wg.Done()
-			sem <- struct{}{}
-			owner, name := c.extractRepoInfo(repoURL)
-			gitSync.CloneOrUpdateRawRepo(owner, name, repoURL, cfg)
-			<-sem
-		}(url)
-	}
-
-	wg.Wait()
-	logger.Info("All raw repositories synced ✅")
-
+	gitSync.LogSyncComplete("raw")
 	return nil
 }

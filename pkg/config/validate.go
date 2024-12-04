@@ -47,6 +47,11 @@ func ValidateConfig(cfg Config) error {
 		return fmt.Errorf("clone_type can only be `bare`, `full`, `mirror` or `shallow`")
 	}
 
+	// Validate concurrency
+	if cfg.Concurrency < 1 || cfg.Concurrency > 20 {
+		return fmt.Errorf("concurrency must be between 1 and 20")
+	}
+
 	// Validate cron if provided
 	if cfg.Cron != "" {
 		_, err := cron.ParseStandard(cfg.Cron)

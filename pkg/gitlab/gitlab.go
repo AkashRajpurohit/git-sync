@@ -2,7 +2,6 @@ package gitlab
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/AkashRajpurohit/git-sync/pkg/config"
 	"github.com/AkashRajpurohit/git-sync/pkg/helpers"
@@ -33,27 +32,16 @@ func (c GitlabClient) Sync(cfg config.Config) error {
 		return err
 	}
 
-	logger.Info("Total projects: ", len(projects))
+	gitSync.LogRepoCount(len(projects), "GitLab")
 
-	var wg sync.WaitGroup
-	sem := make(chan struct{}, 10) // Concurrency of 10
+	gitSync.SyncReposWithConcurrency(cfg, projects, func(project *gl.Project) {
+		gitSync.CloneOrUpdateRepo(project.Namespace.FullPath, project.Path, cfg)
+		if cfg.IncludeWiki && project.WikiEnabled {
+			gitSync.SyncWiki(project.Namespace.FullPath, project.Path, cfg)
+		}
+	})
 
-	for _, project := range projects {
-		wg.Add(1)
-		go func(project *gl.Project) {
-			defer wg.Done()
-			sem <- struct{}{}
-			gitSync.CloneOrUpdateRepo(project.Namespace.FullPath, project.Path, cfg)
-			if cfg.IncludeWiki && project.WikiEnabled {
-				gitSync.SyncWiki(project.Namespace.FullPath, project.Path, cfg)
-			}
-			<-sem
-		}(project)
-	}
-
-	wg.Wait()
-	logger.Info("All projects synced ✅")
-
+	gitSync.LogSyncComplete("GitLab")
 	return nil
 }
 
