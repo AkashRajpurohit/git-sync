@@ -53,7 +53,7 @@ func InitLogger(logLevel string) {
 		panic(err)
 	}
 	sugar = log.Sugar()
-	sugar.Info("Logger initialized")
+	sugar.Debug("Logger initialized")
 }
 
 func Debug(args ...interface{}) {
