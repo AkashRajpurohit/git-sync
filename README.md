@@ -10,6 +10,7 @@
     <a target="_blank" href="https://github.com/AkashRajpurohit/git-sync/pkgs/container/git-sync"><img src="https://img.shields.io/badge/dynamic/json?url=https://ipitio.github.io/backage/AkashRajpurohit/git-sync/git-sync.json&query=%24.downloads&logo=github&style=flat&color=066da5&label=Docker pulls" /></a>
     <img alt="Visitors count" src="https://visitor-badge.laobi.icu/badge?page_id=@akashrajpurohit~git-sync.visitor-badge&style=flat-square">
     <a target="_blank" href="https://github.com/AkashRajpurohit/git-sync/releases"><img src="https://img.shields.io/github/go-mod/go-version/AkashRajpurohit/git-sync?filename=go.mod" /></a>
+    <a href="https://ko-fi.com/akashrajpurohit"><img src="https://img.shields.io/badge/Ko--fi-F16061?style=flat-square&logo=ko-fi&logoColor=white" /></a>
     <a target="_blank" href="https://github.com/AkashRajpurohit/git-sync/releases"><img src="https://img.shields.io/github/v/release/AkashRajpurohit/git-sync?display_name=tag" /></a>
     <a href="#-contributors"><img alt="All Contributors" src="https://img.shields.io/github/all-contributors/AkashRajpurohit/git-sync?color=1f85bf"></a>
     <a target="_blank" href="https://github.com/AkashRajpurohit/git-sync"><img src="https://img.shields.io/github/stars/AkashRajpurohit/git-sync" /></a>
