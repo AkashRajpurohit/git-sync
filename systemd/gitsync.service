@@ -1,0 +1,10 @@
+[Unit]
+Description=Git Sync Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/git-sync --config ~/.config/git-sync/config.yaml --cron 10 * * * *
+
+[Install]
+WantedBy=multi-user.target
