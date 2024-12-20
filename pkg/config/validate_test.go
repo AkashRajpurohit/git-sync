@@ -58,6 +58,66 @@ func TestValidateConfig(t *testing.T) {
 		wantErr bool
 	}{
 		{
+			name: "Valid Config with Single Token",
+			cfg: Config{
+				BackupDir:   "test",
+				CloneType:   "bare",
+				Concurrency: 5,
+				Server: Server{
+					Domain:   "test",
+					Protocol: "https",
+				},
+				Username: "test",
+				Token:    "test",
+			},
+			wantErr: false,
+		},
+		{
+			name: "Valid Config with Multiple Tokens",
+			cfg: Config{
+				BackupDir:   "test",
+				CloneType:   "bare",
+				Concurrency: 5,
+				Server: Server{
+					Domain:   "test",
+					Protocol: "https",
+				},
+				Username: "test",
+				Tokens:   []string{"token1", "token2", "token3"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "Valid Config with Both Token and Tokens",
+			cfg: Config{
+				BackupDir:   "test",
+				CloneType:   "bare",
+				Concurrency: 5,
+				Server: Server{
+					Domain:   "test",
+					Protocol: "https",
+				},
+				Username: "test",
+				Token:    "single_token",
+				Tokens:   []string{"token1", "token2"},
+			},
+			wantErr: false,
+		},
+		{
+			name: "Invalid Config - No Tokens",
+			cfg: Config{
+				BackupDir:   "test",
+				CloneType:   "bare",
+				Concurrency: 5,
+				Server: Server{
+					Domain:   "test",
+					Protocol: "https",
+				},
+				Username: "test",
+			},
+			wantErr: true,
+		},
+		{
 			name: "Invalid Concurrency - Zero",
 			cfg: Config{
 				BackupDir:   "test",
@@ -68,7 +128,7 @@ func TestValidateConfig(t *testing.T) {
 					Protocol: "https",
 				},
 				Username: "test",
-				Token:    "test",
+				Tokens:   []string{"token1"},
 			},
 			wantErr: true,
 		},
@@ -83,7 +143,7 @@ func TestValidateConfig(t *testing.T) {
 					Protocol: "https",
 				},
 				Username: "test",
-				Token:    "test",
+				Tokens:   []string{"token1"},
 			},
 			wantErr: true,
 		},
@@ -98,7 +158,7 @@ func TestValidateConfig(t *testing.T) {
 					Protocol: "https",
 				},
 				Username: "test",
-				Token:    "test",
+				Tokens:   []string{"token1"},
 			},
 			wantErr: false,
 		},
@@ -158,21 +218,7 @@ func TestValidateConfig(t *testing.T) {
 				BackupDir:   "test",
 				CloneType:   "bare",
 				Concurrency: 5,
-				Token:       "test",
-				Server: Server{
-					Domain:   "test",
-					Protocol: "https",
-				},
-			},
-			wantErr: true,
-		},
-		{
-			name: "Empty Token with No Raw URLs",
-			cfg: Config{
-				Username:    "test",
-				BackupDir:   "test",
-				CloneType:   "bare",
-				Concurrency: 5,
+				Tokens:      []string{"token1"},
 				Server: Server{
 					Domain:   "test",
 					Protocol: "https",
@@ -184,7 +230,7 @@ func TestValidateConfig(t *testing.T) {
 			name: "Empty Server Domain with No Raw URLs",
 			cfg: Config{
 				Username:    "test",
-				Token:       "test",
+				Tokens:      []string{"token1"},
 				BackupDir:   "test",
 				CloneType:   "bare",
 				Concurrency: 5,
@@ -198,7 +244,7 @@ func TestValidateConfig(t *testing.T) {
 			name: "Invalid Server Protocol with No Raw URLs",
 			cfg: Config{
 				Username:    "test",
-				Token:       "test",
+				Tokens:      []string{"token1"},
 				BackupDir:   "test",
 				CloneType:   "bare",
 				Concurrency: 5,
@@ -213,7 +259,7 @@ func TestValidateConfig(t *testing.T) {
 			name: "Empty Workspace for Bitbucket with No Raw URLs",
 			cfg: Config{
 				Username:    "test",
-				Token:       "test",
+				Tokens:      []string{"token1"},
 				BackupDir:   "test",
 				CloneType:   "bare",
 				Concurrency: 5,
@@ -227,25 +273,10 @@ func TestValidateConfig(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "Valid Platform Config with No Raw URLs",
-			cfg: Config{
-				Username:    "test",
-				Token:       "test",
-				BackupDir:   "test",
-				CloneType:   "bare",
-				Concurrency: 5,
-				Server: Server{
-					Domain:   "test",
-					Protocol: "https",
-				},
-			},
-			wantErr: false,
-		},
-		{
 			name: "Valid Mixed Config (Platform + Raw URLs)",
 			cfg: Config{
 				Username:    "test",
-				Token:       "test",
+				Tokens:      []string{"token1", "token2"},
 				BackupDir:   "test",
 				CloneType:   "bare",
 				Concurrency: 5,
@@ -253,6 +284,7 @@ func TestValidateConfig(t *testing.T) {
 					Domain:   "test",
 					Protocol: "https",
 				},
+
 				RawGitURLs: []string{
 					"https://github.com/user/repo1.git",
 					"git@github.com:user/repo2.git",
