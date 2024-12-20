@@ -44,20 +44,6 @@ var rootCmd = &cobra.Command{
 			}
 		}
 
-		// Backward Compatibility Starts
-		// TODO: Remove these before v1.0.0 release
-		// If concurrency is not set, set it to 5
-		if cfg.Concurrency == 0 {
-			cfg.Concurrency = 5
-		}
-
-		// If no clone_type is not set in the config file, set it to bare
-		if cfg.CloneType == "" {
-			cfg.CloneType = "bare"
-		}
-
-		// Backward Compatibility Ends
-
 		// If backupDir option is passed in the command line, use that instead of the one in the config file
 		if backupDir != "" {
 			cfg.BackupDir = config.GetBackupDir(backupDir)
@@ -83,16 +69,16 @@ var rootCmd = &cobra.Command{
 		var hasRawURLs bool = len(cfg.RawGitURLs) > 0
 
 		// Only initialize platform client if raw URLs are not provided or if both are needed
-		if !hasRawURLs || (cfg.Username != "" && cfg.Token != "") {
+		if !hasRawURLs || (cfg.Username != "" && len(cfg.Tokens) > 0) {
 			switch cfg.Platform {
 			case "github":
-				platformClient = github.NewGitHubClient(cfg.Token)
+				platformClient = github.NewGitHubClient(cfg.Tokens)
 			case "gitlab":
-				platformClient = gitlab.NewGitlabClient(cfg.Server, cfg.Token)
+				platformClient = gitlab.NewGitlabClient(cfg.Server, cfg.Tokens)
 			case "bitbucket":
-				platformClient = bitbucket.NewBitbucketClient(cfg.Username, cfg.Token)
+				platformClient = bitbucket.NewBitbucketClient(cfg.Username, cfg.Tokens)
 			case "forgejo":
-				platformClient = forgejo.NewForgejoClient(cfg.Server, cfg.Token)
+				platformClient = forgejo.NewForgejoClient(cfg.Server, cfg.Tokens)
 			default:
 				if !hasRawURLs {
 					logger.Fatalf("Platform %s not supported", cfg.Platform)

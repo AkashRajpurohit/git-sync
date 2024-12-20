@@ -4,24 +4,32 @@ import (
 	"github.com/AkashRajpurohit/git-sync/pkg/config"
 	"github.com/AkashRajpurohit/git-sync/pkg/helpers"
 	"github.com/AkashRajpurohit/git-sync/pkg/logger"
-
 	gitSync "github.com/AkashRajpurohit/git-sync/pkg/sync"
+	"github.com/AkashRajpurohit/git-sync/pkg/token"
 	bb "github.com/ktrysmt/go-bitbucket"
 )
 
 type BitbucketClient struct {
-	Client *bb.Client
+	tokenManager *token.Manager
+	username     string
 }
 
-func NewBitbucketClient(username, password string) *BitbucketClient {
-	client := bb.NewBasicAuth(username, password)
-
+func NewBitbucketClient(username string, tokens []string) *BitbucketClient {
 	return &BitbucketClient{
-		Client: client,
+		tokenManager: token.NewManager(tokens),
+		username:     username,
 	}
 }
 
-func (c BitbucketClient) Sync(cfg config.Config) error {
+func (c *BitbucketClient) GetTokenManager() *token.Manager {
+	return c.tokenManager
+}
+
+func (c *BitbucketClient) createClient() *bb.Client {
+	return bb.NewBasicAuth(c.username, c.tokenManager.GetNextToken())
+}
+
+func (c *BitbucketClient) Sync(cfg config.Config) error {
 	repos, err := c.getRepos(cfg)
 	if err != nil {
 		return err
@@ -40,7 +48,8 @@ func (c BitbucketClient) Sync(cfg config.Config) error {
 	return nil
 }
 
-func (c BitbucketClient) getRepos(cfg config.Config) ([]*bb.Repository, error) {
+func (c *BitbucketClient) getRepos(cfg config.Config) ([]*bb.Repository, error) {
+	client := c.createClient()
 	opt := &bb.RepositoriesOptions{
 		Owner: cfg.Workspace,
 		Page:  &[]int{1}[0],
@@ -48,9 +57,11 @@ func (c BitbucketClient) getRepos(cfg config.Config) ([]*bb.Repository, error) {
 
 	var allRepos []*bb.Repository
 	for {
-		repos, err := c.Client.Repositories.ListForAccount(opt)
+		repos, err := client.Repositories.ListForAccount(opt)
 		if err != nil {
-			return nil, err
+			logger.Debugf("Error with current token, trying next token: %v", err)
+			client = c.createClient()
+			continue
 		}
 
 		var reposToInclude []*bb.Repository

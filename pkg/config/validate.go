@@ -74,9 +74,9 @@ func ValidateConfig(cfg Config) error {
 			return fmt.Errorf("username cannot be empty when no raw git URLs are provided")
 		}
 
-		// Token is required for platform-specific sync
-		if cfg.Token == "" {
-			return fmt.Errorf("token cannot be empty when no raw git URLs are provided. See here: https://github.com/AkashRajpurohit/git-sync/wiki/Configuration")
+		// At least one token is required for platform-specific sync
+		if len(cfg.Tokens) == 0 {
+			return fmt.Errorf("at least one token must be provided when no raw git URLs are provided. See here: https://github.com/AkashRajpurohit/git-sync/wiki/Configuration")
 		}
 
 		// Server configuration is required for platform-specific sync

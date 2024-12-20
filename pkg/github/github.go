@@ -7,31 +7,35 @@ import (
 	"github.com/AkashRajpurohit/git-sync/pkg/helpers"
 	"github.com/AkashRajpurohit/git-sync/pkg/logger"
 	gitSync "github.com/AkashRajpurohit/git-sync/pkg/sync"
+	"github.com/AkashRajpurohit/git-sync/pkg/token"
 	gh "github.com/google/go-github/v67/github"
 	"golang.org/x/oauth2"
 )
 
 type GitHubClient struct {
-	Client *gh.Client
+	tokenManager *token.Manager
 }
 
-func NewGitHubClient(token string) *GitHubClient {
-	logger.Debug("Creating new GitHub client ⏳")
-	ctx := context.Background()
-	ts := oauth2.StaticTokenSource(
-		&oauth2.Token{AccessToken: token},
-	)
-	tc := oauth2.NewClient(ctx, ts)
-	client := gh.NewClient(tc)
-
-	logger.Debug("GitHub client created ✅")
-
+func NewGitHubClient(tokens []string) *GitHubClient {
 	return &GitHubClient{
-		Client: client,
+		tokenManager: token.NewManager(tokens),
 	}
 }
 
-func (c GitHubClient) Sync(cfg config.Config) error {
+func (c *GitHubClient) GetTokenManager() *token.Manager {
+	return c.tokenManager
+}
+
+func (c *GitHubClient) createClient() *gh.Client {
+	ctx := context.Background()
+	ts := oauth2.StaticTokenSource(
+		&oauth2.Token{AccessToken: c.tokenManager.GetNextToken()},
+	)
+	tc := oauth2.NewClient(ctx, ts)
+	return gh.NewClient(tc)
+}
+
+func (c *GitHubClient) Sync(cfg config.Config) error {
 	repos, err := c.getRepos(cfg)
 	if err != nil {
 		return err
@@ -50,18 +54,21 @@ func (c GitHubClient) Sync(cfg config.Config) error {
 	return nil
 }
 
-func (c GitHubClient) getRepos(cfg config.Config) ([]*gh.Repository, error) {
+func (c *GitHubClient) getRepos(cfg config.Config) ([]*gh.Repository, error) {
 	logger.Debug("Fetching list of repositories ⏳")
 	ctx := context.Background()
+	client := c.createClient()
 	opt := &gh.RepositoryListByAuthenticatedUserOptions{
 		ListOptions: gh.ListOptions{PerPage: 100},
 	}
 
 	var allRepos []*gh.Repository
 	for {
-		repos, resp, err := c.Client.Repositories.ListByAuthenticatedUser(ctx, opt)
+		repos, resp, err := client.Repositories.ListByAuthenticatedUser(ctx, opt)
 		if err != nil {
-			return nil, err
+			logger.Debugf("Error with current token, trying next token: %v", err)
+			client = c.createClient()
+			continue
 		}
 
 		var reposToInclude []*gh.Repository
@@ -107,8 +114,6 @@ func (c GitHubClient) getRepos(cfg config.Config) ([]*gh.Repository, error) {
 				continue
 			}
 
-			// If none of the above conditions are met, include the repo
-			// This usually means that you don't have include_repos or the current repo is not in exclude_repos
 			logger.Debug("Repo included: ", repoName)
 			reposToInclude = append(reposToInclude, repo)
 		}

@@ -16,7 +16,8 @@ type Server struct {
 
 type Config struct {
 	Username     string   `mapstructure:"username"`
-	Token        string   `mapstructure:"token"`
+	Token        string   `mapstructure:"token"`  // Deprecated: Use Tokens instead
+	Tokens       []string `mapstructure:"tokens"` // New field for multiple tokens
 	Platform     string   `mapstructure:"platform"`
 	Server       Server   `mapstructure:"server"`
 	IncludeRepos []string `mapstructure:"include_repos"`
@@ -31,6 +32,37 @@ type Config struct {
 	CloneType    string   `mapstructure:"clone_type"`
 	RawGitURLs   []string `mapstructure:"raw_git_urls"`
 	Concurrency  int      `mapstructure:"concurrency"`
+}
+
+// PreprocessConfig handles backward compatibility for token field
+func PreprocessConfig(cfg *Config) {
+	// TODO: Remove these before v1.0.0 release
+	// If concurrency is not set, set it to 5
+	if cfg.Concurrency == 0 {
+		logger.Warn("Concurrency is required but not set. Add the 'concurrency' field to the config file as mentioned in the docs: https://github.com/AkashRajpurohit/git-sync/wiki/Configuration. Setting it to 5.")
+		cfg.Concurrency = 5
+	}
+
+	// If no clone_type is not set in the config file, set it to bare
+	if cfg.CloneType == "" {
+		logger.Warn("Clone type is required but not set. Add the 'clone_type' field to the config file as mentioned in the docs: https://github.com/AkashRajpurohit/git-sync/wiki/Configuration. Setting it to 'bare'.")
+		cfg.CloneType = "bare"
+	}
+
+	// If both are set, merge them with single token being first
+	if cfg.Token != "" && len(cfg.Tokens) > 0 {
+		logger.Warn("Both 'token' and 'tokens' fields are set. 'token' field is deprecated and will be merged with 'tokens'.")
+		cfg.Tokens = append([]string{cfg.Token}, cfg.Tokens...)
+	}
+
+	// If single token is set and tokens array is empty, convert single token to array
+	if cfg.Token != "" && len(cfg.Tokens) == 0 {
+		logger.Warn("Using 'token' field is deprecated. Please use 'tokens' array instead.")
+		cfg.Tokens = []string{cfg.Token}
+	}
+
+	// Clear the deprecated token field
+	cfg.Token = ""
 }
 
 func expandPath(path string) string {
@@ -86,7 +118,12 @@ func LoadConfig(cfgFile string) (Config, error) {
 	}
 
 	err := viper.Unmarshal(&config)
-	return config, err
+	if err != nil {
+		return config, err
+	}
+
+	PreprocessConfig(&config)
+	return config, nil
 }
 
 func SaveConfig(config Config, cfgFile string) error {
@@ -96,7 +133,7 @@ func SaveConfig(config Config, cfgFile string) error {
 	viper.SetConfigFile(configFile)
 
 	viper.Set("username", config.Username)
-	viper.Set("token", config.Token)
+	viper.Set("tokens", config.Tokens) // Save only tokens array
 	viper.Set("include_repos", config.IncludeRepos)
 	viper.Set("exclude_repos", config.ExcludeRepos)
 	viper.Set("include_orgs", config.IncludeOrgs)
@@ -118,7 +155,7 @@ func SaveConfig(config Config, cfgFile string) error {
 func GetInitialConfig() Config {
 	return Config{
 		Username: "",
-		Token:    "",
+		Tokens:   []string{},
 		Platform: "github",
 		Server: Server{
 			Domain:   "github.com",

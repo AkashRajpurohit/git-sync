@@ -7,26 +7,36 @@ import (
 	"github.com/AkashRajpurohit/git-sync/pkg/helpers"
 	"github.com/AkashRajpurohit/git-sync/pkg/logger"
 	gitSync "github.com/AkashRajpurohit/git-sync/pkg/sync"
+	"github.com/AkashRajpurohit/git-sync/pkg/token"
 	gl "github.com/xanzy/go-gitlab"
 )
 
 type GitlabClient struct {
-	Client *gl.Client
+	tokenManager *token.Manager
+	serverConfig config.Server
 }
 
-func NewGitlabClient(serverConfig config.Server, token string) *GitlabClient {
-	baseURL := fmt.Sprintf("%s://%s/api/v4", serverConfig.Protocol, serverConfig.Domain)
-	client, err := gl.NewClient(token, gl.WithBaseURL(baseURL))
-	if err != nil {
-		return nil
-	}
-
+func NewGitlabClient(serverConfig config.Server, tokens []string) *GitlabClient {
 	return &GitlabClient{
-		Client: client,
+		tokenManager: token.NewManager(tokens),
+		serverConfig: serverConfig,
 	}
 }
 
-func (c GitlabClient) Sync(cfg config.Config) error {
+func (c *GitlabClient) GetTokenManager() *token.Manager {
+	return c.tokenManager
+}
+
+func (c *GitlabClient) createClient() (*gl.Client, error) {
+	baseURL := fmt.Sprintf("%s://%s/api/v4", c.serverConfig.Protocol, c.serverConfig.Domain)
+	client, err := gl.NewClient(c.tokenManager.GetNextToken(), gl.WithBaseURL(baseURL))
+	if err != nil {
+		return nil, err
+	}
+	return client, nil
+}
+
+func (c *GitlabClient) Sync(cfg config.Config) error {
 	projects, err := c.getProjects(cfg)
 	if err != nil {
 		return err
@@ -45,7 +55,12 @@ func (c GitlabClient) Sync(cfg config.Config) error {
 	return nil
 }
 
-func (c GitlabClient) getProjects(cfg config.Config) ([]*gl.Project, error) {
+func (c *GitlabClient) getProjects(cfg config.Config) ([]*gl.Project, error) {
+	client, err := c.createClient()
+	if err != nil {
+		return nil, err
+	}
+
 	requestOpts := &gl.ListProjectsOptions{
 		ListOptions: gl.ListOptions{
 			OrderBy:    "id",
@@ -59,10 +74,15 @@ func (c GitlabClient) getProjects(cfg config.Config) ([]*gl.Project, error) {
 	options := []gl.RequestOptionFunc{}
 	var projects []*gl.Project
 	for {
-		pageResults, response, err := c.Client.Projects.ListProjects(requestOpts, options...)
+		pageResults, response, err := client.Projects.ListProjects(requestOpts, options...)
 
 		if err != nil {
-			return nil, err
+			logger.Debugf("Error with current token, trying next token: %v", err)
+			client, err = c.createClient()
+			if err != nil {
+				return nil, err
+			}
+			continue
 		}
 
 		projects = append(projects, pageResults...)
@@ -92,7 +112,6 @@ func (c GitlabClient) getProjects(cfg config.Config) ([]*gl.Project, error) {
 			continue
 		}
 
-		// If exclude orgs are set, exclude those and move to next checks if any
 		if len(cfg.ExcludeOrgs) > 0 {
 			if isGroupProject && helpers.IsIncludedInList(cfg.ExcludeOrgs, groupName) {
 				logger.Debug("[exclude_groups] Project excluded: ", projectName)
