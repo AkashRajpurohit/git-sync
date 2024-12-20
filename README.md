@@ -44,7 +44,7 @@ Recently I have seen many developers [getting their GitHub account banned](https
 
 - **Backup All Repositories:** Automatically clone or update all your GitHub repositories to a local directory.
 - **Periodic Sync:** Keep your backups in sync with your remote repositories by running `git-sync` [periodically](https://github.com/AkashRajpurohit/git-sync/wiki/Setup-Periodic-Backups).
-- **Bare Clone:** Efficiently back up repositories using bare clones to save space and speed up the process.
+- **Multi Clone:** While git-sync was designed to work with bare clones to save space and speed up the syncing process, it also supports shallow, mirror and full clones too.
 - **Concurrency:** Sync multiple repositories concurrently to reduce the time required for backup.
 - **Configuration File:** Easily manage your settings through a YAML configuration file.
 - **Custom Backup Directory:** Specify the directory where you want to store your repositories.
