@@ -55,7 +55,7 @@ var rootCmd = &cobra.Command{
 		}
 
 		logger.Info("Config loaded from: ", config.GetConfigFile(cfgFile))
-		logger.Info("Validating config ⏳")
+		logger.Debug("Validating config ⏳")
 
 		err = config.ValidateConfig(cfg)
 		if err != nil {
