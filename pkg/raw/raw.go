@@ -40,6 +40,6 @@ func (c RawClient) Sync(cfg config.Config) error {
 		gitSync.CloneOrUpdateRawRepo(owner, name, url, cfg)
 	})
 
-	gitSync.LogSyncComplete("raw")
+	gitSync.LogSyncSummary()
 	return nil
 }

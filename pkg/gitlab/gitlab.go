@@ -51,7 +51,7 @@ func (c *GitlabClient) Sync(cfg config.Config) error {
 		}
 	})
 
-	gitSync.LogSyncComplete("GitLab")
+	gitSync.LogSyncSummary()
 	return nil
 }
 

@@ -74,25 +74,31 @@ func CloneOrUpdateRepo(repoOwner, repoName string, config config.Config) {
 	if _, err := os.Stat(repoPath); os.IsNotExist(err) {
 		logger.Info("Cloning repo: ", repoFullName)
 		command := getGitCloneCommand(config.CloneType, repoPath, repoURL)
-
 		output, err := command.CombinedOutput()
 		logger.Debugf("Output: %s\n", output)
+
 		if err != nil {
-			logger.Fatalf("Error cloning repo %s: %v\n", repoFullName, err)
-		} else {
-			logger.Info("Cloned repo: ", repoFullName)
+			logger.Errorf("Failed to clone repo %s: %v", repoFullName, err)
+			recordRepoFailure(repoFullName, err)
+			return
 		}
+
+		logger.Info("Cloned repo: ", repoFullName)
+		recordRepoSuccess()
 	} else {
 		logger.Info("Updating repo: ", repoFullName)
 		command := getGitFetchCommand(config.CloneType, repoPath, repoURL)
-
 		output, err := command.CombinedOutput()
 		logger.Debugf("Output: %s\n", output)
+
 		if err != nil {
-			logger.Debugf("Error updating repo %s: %v\n", repoFullName, err)
-		} else {
-			logger.Info("Updated repo: ", repoFullName)
+			logger.Errorf("Failed to update repo %s: %v", repoFullName, err)
+			recordRepoFailure(repoFullName, err)
+			return
 		}
+
+		logger.Info("Updated repo: ", repoFullName)
+		recordRepoSuccess()
 	}
 }
 
@@ -102,25 +108,31 @@ func CloneOrUpdateRawRepo(repoOwner, repoName, repoURL string, config config.Con
 	if _, err := os.Stat(repoPath); os.IsNotExist(err) {
 		logger.Info("Cloning raw repo: ", repoURL)
 		command := getGitCloneCommand(config.CloneType, repoPath, repoURL)
-
 		output, err := command.CombinedOutput()
 		logger.Debugf("Output: %s\n", output)
+
 		if err != nil {
-			logger.Fatalf("Error cloning raw repo %s: %v\n", repoURL, err)
-		} else {
-			logger.Info("Cloned raw repo: ", repoURL)
+			logger.Errorf("Failed to clone raw repo %s: %v", repoURL, err)
+			recordRepoFailure(repoURL, err)
+			return
 		}
+
+		logger.Info("Cloned raw repo: ", repoURL)
+		recordRepoSuccess()
 	} else {
 		logger.Info("Updating raw repo: ", repoURL)
 		command := getGitFetchCommand(config.CloneType, repoPath, repoURL)
-
 		output, err := command.CombinedOutput()
 		logger.Debugf("Output: %s\n", output)
+
 		if err != nil {
-			logger.Debugf("Error updating raw repo %s: %v\n", repoURL, err)
-		} else {
-			logger.Info("Updated raw repo: ", repoURL)
+			logger.Errorf("Failed to update raw repo %s: %v", repoURL, err)
+			recordRepoFailure(repoURL, err)
+			return
 		}
+
+		logger.Info("Updated raw repo: ", repoURL)
+		recordRepoSuccess()
 	}
 }
 
@@ -141,34 +153,35 @@ func SyncWiki(repoOwner, repoName string, config config.Config) {
 
 	if _, err := os.Stat(repoWikiPath); os.IsNotExist(err) {
 		logger.Info("Cloning wiki: ", repoFullName)
-
-		output, err := exec.Command("git", "clone", repoWikiURL, repoWikiPath).CombinedOutput()
+		command := exec.Command("git", "clone", repoWikiURL, repoWikiPath)
+		output, err := command.CombinedOutput()
 		logger.Debugf("Output: %s\n", output)
+
 		if err != nil {
-			exitErr, ok := err.(*exec.ExitError)
-			if ok && exitErr.ExitCode() == 128 {
-				// Check if the output contains "not found" to handle the scenario
-				// where wiki is enabled but does not exist
-				if strings.Contains(string(output), "not found") {
-					logger.Warnf("The wiki for repository %s does not exist. Please check your repository settings and make sure that either wiki is disabled if it is not being used or create a wiki page to start with.", repoFullName)
-				} else {
-					logger.Fatalf("Error cloning wiki %s: %v\n", repoFullName, err)
-				}
-			} else {
-				logger.Fatalf("Error cloning wiki %s: %v\n", repoFullName, err)
+			if strings.Contains(string(output), "not found") {
+				logger.Warnf("The wiki for repository %s does not exist. Please check your repository settings and make sure that either wiki is disabled if it is not being used or create a wiki page to start with.", repoFullName)
+				return
 			}
-		} else {
-			logger.Info("Cloned wiki: ", repoFullName)
+			logger.Errorf("Failed to clone wiki %s: %v", repoFullName, err)
+			recordWikiFailure(repoFullName, err)
+			return
 		}
+
+		logger.Info("Cloned wiki: ", repoFullName)
+		recordWikiSuccess()
 	} else {
 		logger.Info("Updating wiki: ", repoFullName)
-
-		output, err := exec.Command("git", "-C", repoWikiPath, "pull", "--prune", "origin").CombinedOutput()
+		command := exec.Command("git", "-C", repoWikiPath, "pull", "--prune", "origin")
+		output, err := command.CombinedOutput()
 		logger.Debugf("Output: %s\n", output)
+
 		if err != nil {
-			logger.Fatalf("Error updating wiki %s: %v\n", repoFullName, err)
-		} else {
-			logger.Info("Updated wiki: ", repoFullName)
+			logger.Errorf("Failed to update wiki %s: %v", repoFullName, err)
+			recordWikiFailure(repoFullName, err)
+			return
 		}
+
+		logger.Info("Updated wiki: ", repoFullName)
+		recordWikiSuccess()
 	}
 }

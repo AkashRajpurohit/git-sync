@@ -44,7 +44,7 @@ func (c *BitbucketClient) Sync(cfg config.Config) error {
 		}
 	})
 
-	gitSync.LogSyncComplete("Bitbucket")
+	gitSync.LogSyncSummary()
 	return nil
 }
 

@@ -86,7 +86,7 @@ var rootCmd = &cobra.Command{
 			}
 		}
 
-		logger.Info("Valid config found ✅")
+		logger.Info("✅ Valid config found")
 		if platformClient != nil {
 			logger.Infof("Using Platform: %s", cfg.Platform)
 		}

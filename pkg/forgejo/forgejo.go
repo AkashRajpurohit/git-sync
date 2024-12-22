@@ -52,7 +52,7 @@ func (c *ForgejoClient) Sync(cfg config.Config) error {
 		}
 	})
 
-	gitSync.LogSyncComplete("Forgejo")
+	gitSync.LogSyncSummary()
 	return nil
 }
 

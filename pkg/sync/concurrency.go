@@ -44,7 +44,3 @@ func SyncReposWithConcurrency[T any](cfg config.Config, repos []T, syncFn func(T
 func LogRepoCount(count int, repoType string) {
 	logger.Info("Total ", repoType, " repositories: ", count)
 }
-
-func LogSyncComplete(repoType string) {
-	logger.Info("All ", repoType, " repositories synced ✅")
-}
