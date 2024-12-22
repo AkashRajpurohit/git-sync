@@ -32,11 +32,16 @@ func InitLogger(logLevel string) {
 		Development: false,
 		Encoding:    "json",
 		EncoderConfig: zapcore.EncoderConfig{
-			TimeKey:        "time",
-			LevelKey:       "level",
-			NameKey:        "logger",
-			MessageKey:     "message",
-			StacktraceKey:  "stacktrace",
+			TimeKey:    "time",
+			LevelKey:   "level",
+			NameKey:    "logger",
+			MessageKey: "message",
+			StacktraceKey: func() string {
+				if logLevel == "debug" {
+					return "stacktrace"
+				}
+				return ""
+			}(),
 			LineEnding:     zapcore.DefaultLineEnding,
 			EncodeLevel:    zapcore.LowercaseLevelEncoder,
 			EncodeTime:     zapcore.ISO8601TimeEncoder,
