@@ -73,9 +73,9 @@ func CloneOrUpdateRepo(repoOwner, repoName string, config config.Config) {
 
 	if _, err := os.Stat(repoPath); os.IsNotExist(err) {
 		logger.Info("Cloning repo: ", repoFullName)
-		command := getGitCloneCommand(config.CloneType, repoPath, repoURL)
 
 		err := retryOperation(config, func() error {
+			command := getGitCloneCommand(config.CloneType, repoPath, repoURL)
 			output, err := command.CombinedOutput()
 			logger.Debugf("Output: %s\n", output)
 			return err
@@ -91,9 +91,9 @@ func CloneOrUpdateRepo(repoOwner, repoName string, config config.Config) {
 		recordRepoSuccess()
 	} else {
 		logger.Info("Updating repo: ", repoFullName)
-		command := getGitFetchCommand(config.CloneType, repoPath, repoURL)
 
 		err := retryOperation(config, func() error {
+			command := getGitFetchCommand(config.CloneType, repoPath, repoURL)
 			output, err := command.CombinedOutput()
 			logger.Debugf("Output: %s\n", output)
 			return err
@@ -115,9 +115,9 @@ func CloneOrUpdateRawRepo(repoOwner, repoName, repoURL string, config config.Con
 
 	if _, err := os.Stat(repoPath); os.IsNotExist(err) {
 		logger.Info("Cloning raw repo: ", repoURL)
-		command := getGitCloneCommand(config.CloneType, repoPath, repoURL)
 
 		err := retryOperation(config, func() error {
+			command := getGitCloneCommand(config.CloneType, repoPath, repoURL)
 			output, err := command.CombinedOutput()
 			logger.Debugf("Output: %s\n", output)
 			return err
@@ -133,9 +133,9 @@ func CloneOrUpdateRawRepo(repoOwner, repoName, repoURL string, config config.Con
 		recordRepoSuccess()
 	} else {
 		logger.Info("Updating raw repo: ", repoURL)
-		command := getGitFetchCommand(config.CloneType, repoPath, repoURL)
 
 		err := retryOperation(config, func() error {
+			command := getGitFetchCommand(config.CloneType, repoPath, repoURL)
 			output, err := command.CombinedOutput()
 			logger.Debugf("Output: %s\n", output)
 			return err
@@ -169,10 +169,10 @@ func SyncWiki(repoOwner, repoName string, config config.Config) {
 
 	if _, err := os.Stat(repoWikiPath); os.IsNotExist(err) {
 		logger.Info("Cloning wiki: ", repoFullName)
-		command := exec.Command("git", "clone", repoWikiURL, repoWikiPath)
 		wikiNotFound := false
 
 		err := retryOperation(config, func() error {
+			command := exec.Command("git", "clone", repoWikiURL, repoWikiPath)
 			output, err := command.CombinedOutput()
 			logger.Debugf("Output: %s\n", output)
 			if err != nil && strings.Contains(string(output), "not found") {
@@ -197,9 +197,9 @@ func SyncWiki(repoOwner, repoName string, config config.Config) {
 		}
 	} else {
 		logger.Info("Updating wiki: ", repoFullName)
-		command := exec.Command("git", "-C", repoWikiPath, "pull", "--prune", "origin")
 
 		err := retryOperation(config, func() error {
+			command := exec.Command("git", "-C", repoWikiPath, "pull", "--prune", "origin")
 			output, err := command.CombinedOutput()
 			logger.Debugf("Output: %s\n", output)
 			return err
