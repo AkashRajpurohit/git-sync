@@ -56,6 +56,15 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "ImSingee",
+      "name": "Bryan",
+      "avatar_url": "https://avatars.githubusercontent.com/u/11208082?v=4",
+      "profile": "https://blog.singee.me",
+      "contributions": [
+        "ideas"
+      ]
     }
   ],
   "commitType": "docs",
