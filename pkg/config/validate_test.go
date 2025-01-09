@@ -63,6 +63,7 @@ func TestValidateConfig(t *testing.T) {
 				BackupDir:   "test",
 				CloneType:   "bare",
 				Concurrency: 5,
+				Platform:    "github",
 				Server: Server{
 					Domain:   "test",
 					Protocol: "https",
@@ -78,6 +79,7 @@ func TestValidateConfig(t *testing.T) {
 				BackupDir:   "test",
 				CloneType:   "bare",
 				Concurrency: 5,
+				Platform:    "github",
 				Server: Server{
 					Domain:   "test",
 					Protocol: "https",
@@ -93,6 +95,7 @@ func TestValidateConfig(t *testing.T) {
 				BackupDir:   "test",
 				CloneType:   "bare",
 				Concurrency: 5,
+				Platform:    "github",
 				Server: Server{
 					Domain:   "test",
 					Protocol: "https",
@@ -109,6 +112,7 @@ func TestValidateConfig(t *testing.T) {
 				BackupDir:   "test",
 				CloneType:   "bare",
 				Concurrency: 5,
+				Platform:    "github",
 				Server: Server{
 					Domain:   "test",
 					Protocol: "https",
@@ -123,6 +127,7 @@ func TestValidateConfig(t *testing.T) {
 				BackupDir:   "test",
 				CloneType:   "bare",
 				Concurrency: 0,
+				Platform:    "github",
 				Server: Server{
 					Domain:   "test",
 					Protocol: "https",
@@ -138,6 +143,7 @@ func TestValidateConfig(t *testing.T) {
 				BackupDir:   "test",
 				CloneType:   "bare",
 				Concurrency: -1,
+				Platform:    "github",
 				Server: Server{
 					Domain:   "test",
 					Protocol: "https",
@@ -153,6 +159,7 @@ func TestValidateConfig(t *testing.T) {
 				BackupDir:   "test",
 				CloneType:   "bare",
 				Concurrency: 10,
+				Platform:    "github",
 				Server: Server{
 					Domain:   "test",
 					Protocol: "https",
@@ -219,6 +226,7 @@ func TestValidateConfig(t *testing.T) {
 				CloneType:   "bare",
 				Concurrency: 5,
 				Tokens:      []string{"token1"},
+				Platform:    "github",
 				Server: Server{
 					Domain:   "test",
 					Protocol: "https",
@@ -233,6 +241,7 @@ func TestValidateConfig(t *testing.T) {
 				Tokens:      []string{"token1"},
 				BackupDir:   "test",
 				CloneType:   "bare",
+				Platform:    "github",
 				Concurrency: 5,
 				Server: Server{
 					Protocol: "https",
@@ -256,6 +265,17 @@ func TestValidateConfig(t *testing.T) {
 			wantErr: true,
 		},
 		{
+			name: "Empty Platform",
+			cfg: Config{
+				Username:    "test",
+				Tokens:      []string{"token1"},
+				BackupDir:   "test",
+				CloneType:   "bare",
+				Concurrency: 5,
+			},
+			wantErr: true,
+		},
+		{
 			name: "Empty Workspace for Bitbucket with No Raw URLs",
 			cfg: Config{
 				Username:    "test",
@@ -263,11 +283,11 @@ func TestValidateConfig(t *testing.T) {
 				BackupDir:   "test",
 				CloneType:   "bare",
 				Concurrency: 5,
+				Platform:    "bitbucket",
 				Server: Server{
 					Domain:   "test",
 					Protocol: "https",
 				},
-				Platform:  "bitbucket",
 				Workspace: "",
 			},
 			wantErr: true,

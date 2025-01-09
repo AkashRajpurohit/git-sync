@@ -79,6 +79,10 @@ func ValidateConfig(cfg Config) error {
 			return fmt.Errorf("at least one token must be provided when no raw git URLs are provided. See here: https://github.com/AkashRajpurohit/git-sync/wiki/Configuration")
 		}
 
+		if cfg.Platform != "github" && cfg.Platform != "gitlab" && cfg.Platform != "bitbucket" && cfg.Platform != "forgejo" {
+			return fmt.Errorf("platform can only be `github`, `gitlab`, `bitbucket` or `forgejo` when no raw git URLs are provided")
+		}
+
 		// Server configuration is required for platform-specific sync
 		if cfg.Server.Domain == "" {
 			return fmt.Errorf("server domain cannot be empty when no raw git URLs are provided")

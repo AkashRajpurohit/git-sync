@@ -32,6 +32,8 @@ var rootCmd = &cobra.Command{
 		var cfg config.Config
 		cfg, err := config.LoadConfig(cfgFile)
 
+		config.SetSensibleDefaults(&cfg)
+
 		if err != nil {
 			logger.Debugf("Error in loading config file: ", err)
 			logger.Info("Config file not found, creating a new one...")
