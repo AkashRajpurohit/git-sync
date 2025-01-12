@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -94,7 +95,7 @@ func LoadConfig(cfgFile string) (Config, error) {
 
 	err := viper.Unmarshal(&config)
 	if err != nil {
-		return config, err
+		return config, NewInvalidConfigError(fmt.Sprintf("failed to parse config file: %v.", err))
 	}
 
 	return config, nil

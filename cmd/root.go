@@ -29,22 +29,35 @@ var rootCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		logger.InitLogger(logLevel)
 
+		configPath := config.GetConfigFile(cfgFile)
 		var cfg config.Config
-		cfg, err := config.LoadConfig(cfgFile)
 
-		config.SetSensibleDefaults(&cfg)
-
-		if err != nil {
-			logger.Debugf("Error in loading config file: ", err)
+		// Check if config file exists
+		if _, err := os.Stat(configPath); os.IsNotExist(err) {
 			logger.Info("Config file not found, creating a new one...")
-
 			cfg = config.GetInitialConfig()
 
 			err = config.SaveConfig(cfg, cfgFile)
 			if err != nil {
 				logger.Fatal("Error in saving config file: ", err)
 			}
+			logger.Infof("Created new config file at: %s", configPath)
+			logger.Info("Please update the configuration according to your needs. See: https://github.com/AkashRajpurohit/git-sync/wiki/Configuration")
+			return
 		}
+
+		// Load existing config
+		cfg, err := config.LoadConfig(cfgFile)
+		if err != nil {
+			if _, ok := err.(*config.InvalidConfigError); ok {
+				logger.Errorf("Invalid configuration: %v", err)
+				logger.Info("Please check for correct configuration format at: https://github.com/AkashRajpurohit/git-sync/wiki/Configuration")
+				return
+			}
+			logger.Fatalf("Error loading config file: %v", err)
+		}
+
+		config.SetSensibleDefaults(&cfg)
 
 		// If backupDir option is passed in the command line, use that instead of the one in the config file
 		if backupDir != "" {
@@ -56,7 +69,7 @@ var rootCmd = &cobra.Command{
 			cfg.Cron = cron
 		}
 
-		logger.Info("Config loaded from: ", config.GetConfigFile(cfgFile))
+		logger.Info("Config loaded from: ", configPath)
 		logger.Debug("Validating config ⏳")
 
 		err = config.ValidateConfig(cfg)
