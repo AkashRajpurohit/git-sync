@@ -65,6 +65,16 @@
       "contributions": [
         "ideas"
       ]
+    },
+    {
+      "login": "3timeslazy",
+      "name": "Vladimir Fetisov",
+      "avatar_url": "https://avatars.githubusercontent.com/u/23486601?v=4",
+      "profile": "https://github.com/3timeslazy",
+      "contributions": [
+        "ideas",
+        "bug"
+      ]
     }
   ],
   "commitType": "docs",
