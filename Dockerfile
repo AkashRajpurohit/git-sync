@@ -1,4 +1,4 @@
-FROM golang:1.23.4-alpine AS builder
+FROM golang:1.23.5-alpine AS builder
 
 WORKDIR /go/src/app
 
@@ -9,13 +9,13 @@ ARG VERSION=main
 ARG BUILD="N/A"
 
 ENV GO111MODULE=on \
-	CGO_ENABLED=0 \
+  CGO_ENABLED=0 \
   GOOS=linux
 
 COPY go.mod go.sum /go/src/app/
 
 RUN go mod download \
-	&& go mod tidy
+  && go mod tidy
 
 COPY . /go/src/app/
 

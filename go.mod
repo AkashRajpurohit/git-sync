@@ -1,6 +1,6 @@
 module github.com/AkashRajpurohit/git-sync
 
-go 1.23.4
+go 1.23.5
 
 require (
 	codeberg.org/mvdkleijn/forgejo-sdk/forgejo v1.2.0
