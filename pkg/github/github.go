@@ -41,7 +41,7 @@ func (c *GitHubClient) Sync(cfg config.Config) error {
 		return err
 	}
 
-	gitSync.LogRepoCount(len(repos), "GitHub")
+	gitSync.LogRepoCount(len(repos), cfg.Platform)
 
 	gitSync.SyncReposWithConcurrency(cfg, repos, func(repo *gh.Repository) {
 		gitSync.CloneOrUpdateRepo(repo.GetOwner().GetLogin(), repo.GetName(), cfg)

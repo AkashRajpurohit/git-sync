@@ -35,7 +35,7 @@ func (c *BitbucketClient) Sync(cfg config.Config) error {
 		return err
 	}
 
-	gitSync.LogRepoCount(len(repos), "Bitbucket")
+	gitSync.LogRepoCount(len(repos), cfg.Platform)
 
 	gitSync.SyncReposWithConcurrency(cfg, repos, func(repo *bb.Repository) {
 		gitSync.CloneOrUpdateRepo(cfg.Workspace, repo.Name, cfg)

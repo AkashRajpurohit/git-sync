@@ -92,7 +92,8 @@ var rootCmd = &cobra.Command{
 				platformClient = gitlab.NewGitlabClient(cfg.Server, cfg.Tokens)
 			case "bitbucket":
 				platformClient = bitbucket.NewBitbucketClient(cfg.Username, cfg.Tokens)
-			case "forgejo":
+			case "forgejo", "gitea":
+				// Forgejo and Gitea have same API, so we can use the same client
 				platformClient = forgejo.NewForgejoClient(cfg.Server, cfg.Tokens)
 			default:
 				if !hasRawURLs {

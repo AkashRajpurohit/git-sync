@@ -42,7 +42,7 @@ func (c *GitlabClient) Sync(cfg config.Config) error {
 		return err
 	}
 
-	gitSync.LogRepoCount(len(projects), "GitLab")
+	gitSync.LogRepoCount(len(projects), cfg.Platform)
 
 	gitSync.SyncReposWithConcurrency(cfg, projects, func(project *gl.Project) {
 		gitSync.CloneOrUpdateRepo(project.Namespace.FullPath, project.Path, cfg)

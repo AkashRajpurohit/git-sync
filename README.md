@@ -49,7 +49,7 @@ Recently I have seen many developers [getting their GitHub account banned](https
 - **Concurrency:** Sync multiple repositories concurrently to reduce the time required for backup.
 - **Configuration File:** Easily manage your settings through a YAML configuration file.
 - **Custom Backup Directory:** Specify the directory where you want to store your repositories.
-- **Multi Platform:** Currently this project supports backing up repositories from all major Git hosting services like GitHub, GitLab, Bitbucket, and Forgejo.
+- **Multi Platform:** Currently this project supports backing up repositories from all major Git hosting services like GitHub, GitLab, Bitbucket, Gitea and Forgejo.
 
 ## 🚀 Getting Started
 

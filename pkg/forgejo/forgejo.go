@@ -43,7 +43,7 @@ func (c *ForgejoClient) Sync(cfg config.Config) error {
 		return err
 	}
 
-	gitSync.LogRepoCount(len(repos), "Forgejo")
+	gitSync.LogRepoCount(len(repos), cfg.Platform)
 
 	gitSync.SyncReposWithConcurrency(cfg, repos, func(repo *fg.Repository) {
 		gitSync.CloneOrUpdateRepo(repo.Owner.UserName, repo.Name, cfg)
