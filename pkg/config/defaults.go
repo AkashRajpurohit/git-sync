@@ -23,6 +23,11 @@ func SetSensibleDefaults(cfg *Config) {
 			cfg.Server.Domain = "v9.next.forgejo.org"
 			cfg.Server.Protocol = "https"
 		}
+
+		if cfg.Platform == "gitea" {
+			cfg.Server.Domain = "gitea.com"
+			cfg.Server.Protocol = "https"
+		}
 	}
 
 	// TODO: Remove these before v1.0.0 release
