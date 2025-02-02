@@ -37,11 +37,11 @@ checksum:
 snapshot:
   version_template: '{{ .Tag }}-{{ .ShortCommit }}-next'
 archives:
-  - format: tar.gz
+  - formats: [tar.gz]
     # use zip for windows archives
     format_overrides:
       - goos: windows
-        format: zip
+        formats: [zip]
 
 changelog:
   filters:
