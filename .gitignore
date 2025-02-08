@@ -2,3 +2,4 @@
 dist/
 git-sync
 git-sync.exe
+.vscode/
