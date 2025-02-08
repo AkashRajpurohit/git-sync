@@ -76,6 +76,15 @@
         "bug"
       ]
     }
+    {
+      "login": "lucasmodrich",
+      "name": "Lucas Modrich",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2934597?v=4",
+      "profile": "https://github.com/lucasmodrich",
+      "contributions": [
+        "code"
+      ]
+    }
   ],
   "commitType": "docs",
   "commitConvention": "angular",
