@@ -48,6 +48,7 @@ func (c *MSDevOpsClient) createClient() (git.Client, error) {
 	return client, nil
 }
 
+// derefString returns the value of a string pointer or an empty string if the pointer is nil.
 func derefString(ref *string) string {
 	if ref == nil {
 		return ""
