@@ -101,8 +101,8 @@ func (c *MSDevOpsClient) getUserRepos(cfg config.Config) ([]git.GitRepository, e
 	}
 
 	for _, repo := range *allRepos {
-		logger.Debugf("Found repo: %s", *repo.Name)
-		logger.Debugf("Repo WebURL: %s", *repo.WebUrl)
+		logger.Debugf("Found repo: %s", derefString(repo.Name))
+		logger.Debugf("Repo WebURL: %s", derefString(repo.WebUrl))
 	}
 
 	return *allRepos, nil
