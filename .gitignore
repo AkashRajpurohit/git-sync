@@ -1,5 +1,4 @@
 .DS_Store
 dist/
-git-sync
-git-sync.exe
+git-sync*
 .vscode/
