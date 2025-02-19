@@ -71,7 +71,6 @@ func (c *MSDevOpsClient) Sync(cfg config.Config) error {
 
 		// Need to manually construct the repo URL by inserting the user token into the URL
 		repoAuthURL := repoURL[:protoLen] + c.tokenManager.GetNextToken() + "@" + repoURL[protoLen:]
-		logger.Debugf("repoAuthURL: %s", repoAuthURL)
 
 		if *repo.IsDisabled {
 			logger.Warnf("Skipping repo %s as it is disabled", repoName)
