@@ -95,13 +95,9 @@ func (c *MSDevOpsClient) getUserRepos(cfg config.Config) ([]git.GitRepository, e
 	allRepos, err := client.GetRepositories(ctx, git.GetRepositoriesArgs{
 		Project: &cfg.Workspace,
 	})
+
 	if err != nil {
 		return nil, err
-	}
-
-	for _, repo := range *allRepos {
-		logger.Debugf("Found repo: %s", derefString(repo.Name))
-		logger.Debugf("Repo WebURL: %s", derefString(repo.WebUrl))
 	}
 
 	return *allRepos, nil
