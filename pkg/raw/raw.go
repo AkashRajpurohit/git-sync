@@ -35,11 +35,11 @@ func (c RawClient) Sync(cfg config.Config) error {
 
 	gitSync.LogRepoCount(len(cfg.RawGitURLs), "raw")
 
-	gitSync.SyncWithConcurrency(cfg, cfg.RawGitURLs, func(url string) {
-		owner, name := c.extractRepoInfo(url)
-		gitSync.CloneOrUpdateRawRepo(owner, name, url, cfg)
+	gitSync.SyncWithConcurrency(cfg, cfg.RawGitURLs, func(repoURL string) {
+		owner, name := c.extractRepoInfo(repoURL)
+		gitSync.CloneOrUpdateRawRepo(owner, name, repoURL, cfg)
 	})
 
-	gitSync.LogSyncSummary()
+	gitSync.LogSyncSummary(&cfg)
 	return nil
 }

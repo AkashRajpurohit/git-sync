@@ -20,25 +20,48 @@ type RetryConfig struct {
 	Delay int `mapstructure:"delay"` // in seconds
 }
 
+type NotificationConfig struct {
+	Enabled      bool          `mapstructure:"enabled"`
+	OnlyFailures bool          `mapstructure:"only_failures"`
+	Ntfy         *NtfyConfig   `mapstructure:"ntfy"`
+	Gotify       *GotifyConfig `mapstructure:"gotify"`
+}
+
+type NtfyConfig struct {
+	Topic    string   `mapstructure:"topic"`
+	Server   string   `mapstructure:"server"`   // Optional, defaults to ntfy.sh
+	Priority int      `mapstructure:"priority"` // Optional, 1-5 (min-max), defaults to 3
+	Username string   `mapstructure:"username"` // Optional, for authentication
+	Password string   `mapstructure:"password"` // Optional, for authentication
+	Tags     []string `mapstructure:"tags"`     // Optional, git-sync tag is always included
+}
+
+type GotifyConfig struct {
+	URL      string `mapstructure:"url"`
+	AppToken string `mapstructure:"app_token"`
+	Priority int    `mapstructure:"priority"`
+}
+
 type Config struct {
-	Username     string      `mapstructure:"username"`
-	Token        string      `mapstructure:"token"`  // Deprecated: Use Tokens instead
-	Tokens       []string    `mapstructure:"tokens"` // New field for multiple tokens
-	Platform     string      `mapstructure:"platform"`
-	Server       Server      `mapstructure:"server"`
-	IncludeRepos []string    `mapstructure:"include_repos"`
-	ExcludeRepos []string    `mapstructure:"exclude_repos"`
-	IncludeOrgs  []string    `mapstructure:"include_orgs"`
-	ExcludeOrgs  []string    `mapstructure:"exclude_orgs"`
-	IncludeForks bool        `mapstructure:"include_forks"`
-	IncludeWiki  bool        `mapstructure:"include_wiki"`
-	BackupDir    string      `mapstructure:"backup_dir"`
-	Workspace    string      `mapstructure:"workspace"`
-	Cron         string      `mapstructure:"cron"`
-	CloneType    string      `mapstructure:"clone_type"`
-	RawGitURLs   []string    `mapstructure:"raw_git_urls"`
-	Concurrency  int         `mapstructure:"concurrency"`
-	Retry        RetryConfig `mapstructure:"retry"`
+	Username     string             `mapstructure:"username"`
+	Token        string             `mapstructure:"token"`  // Deprecated: Use Tokens instead
+	Tokens       []string           `mapstructure:"tokens"` // New field for multiple tokens
+	Platform     string             `mapstructure:"platform"`
+	Server       Server             `mapstructure:"server"`
+	IncludeRepos []string           `mapstructure:"include_repos"`
+	ExcludeRepos []string           `mapstructure:"exclude_repos"`
+	IncludeOrgs  []string           `mapstructure:"include_orgs"`
+	ExcludeOrgs  []string           `mapstructure:"exclude_orgs"`
+	IncludeForks bool               `mapstructure:"include_forks"`
+	IncludeWiki  bool               `mapstructure:"include_wiki"`
+	BackupDir    string             `mapstructure:"backup_dir"`
+	Workspace    string             `mapstructure:"workspace"`
+	Cron         string             `mapstructure:"cron"`
+	CloneType    string             `mapstructure:"clone_type"`
+	RawGitURLs   []string           `mapstructure:"raw_git_urls"`
+	Concurrency  int                `mapstructure:"concurrency"`
+	Retry        RetryConfig        `mapstructure:"retry"`
+	Notification NotificationConfig `mapstructure:"notification"`
 }
 
 func expandPath(path string) string {
@@ -124,6 +147,7 @@ func SaveConfig(config Config, cfgFile string) error {
 	viper.Set("raw_git_urls", config.RawGitURLs)
 	viper.Set("concurrency", config.Concurrency)
 	viper.Set("retry", config.Retry)
+	viper.Set("notification", config.Notification)
 
 	return viper.WriteConfig()
 }
@@ -152,6 +176,14 @@ func GetInitialConfig() Config {
 		Retry: RetryConfig{
 			Count: 3,
 			Delay: 5,
+		},
+		Notification: NotificationConfig{
+			Enabled:      false,
+			OnlyFailures: true,
+			Ntfy: &NtfyConfig{
+				Priority: 3, // Default priority (1-5)
+				Tags:     []string{"git-sync"},
+			},
 		},
 	}
 }

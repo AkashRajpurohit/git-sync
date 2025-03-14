@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/AkashRajpurohit/git-sync/pkg/config"
 	"github.com/AkashRajpurohit/git-sync/pkg/logger"
+	"github.com/AkashRajpurohit/git-sync/pkg/notification"
 )
 
 type SyncStats struct {
@@ -41,7 +43,7 @@ func recordWikiFailure(wikiName string, err error) {
 	stats.WikisFailed = append(stats.WikisFailed, fmt.Sprintf("%s (Error: %v)", wikiName, err))
 }
 
-func LogSyncSummary() {
+func LogSyncSummary(cfg *config.Config) {
 	logger.Infof("✅ Repositories: %d successfully synced", stats.ReposSuccess)
 	if len(stats.ReposFailed) > 0 {
 		failedRepos := []string{}
@@ -63,4 +65,18 @@ func LogSyncSummary() {
 		logger.Errorf("❌ Failed wikis: %d", len(failedWikis))
 		logger.Errorf("%s", failedWikis)
 	}
+
+	summary := &notification.SyncSummary{
+		ReposSuccess: stats.ReposSuccess,
+		ReposFailed:  stats.ReposFailed,
+		WikisSuccess: stats.WikisSuccess,
+		WikisFailed:  stats.WikisFailed,
+	}
+
+	if err := notification.NotifyAll(&cfg.Notification, summary); err != nil {
+		logger.Errorf("Failed to send notifications: %v", err)
+	}
+
+	// Reset stats for next sync
+	stats = &SyncStats{}
 }

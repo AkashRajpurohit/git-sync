@@ -50,7 +50,7 @@ func (c *GitHubClient) Sync(cfg config.Config) error {
 		}
 	})
 
-	gitSync.LogSyncSummary()
+	gitSync.LogSyncSummary(&cfg)
 	return nil
 }
 
