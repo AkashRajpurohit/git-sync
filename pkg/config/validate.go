@@ -79,8 +79,8 @@ func ValidateConfig(cfg Config) error {
 			return fmt.Errorf("at least one token must be provided when no raw git URLs are provided. See here: https://github.com/AkashRajpurohit/git-sync/wiki/Configuration")
 		}
 
-		if cfg.Platform != "github" && cfg.Platform != "gitlab" && cfg.Platform != "bitbucket" && cfg.Platform != "forgejo" && cfg.Platform != "gitea" {
-			return fmt.Errorf("platform can only be `github`, `gitlab`, `bitbucket`, `forgejo` or `gitea` when no raw git URLs are provided")
+		if cfg.Platform != "github" && cfg.Platform != "gitlab" && cfg.Platform != "bitbucket" && cfg.Platform != "forgejo" && cfg.Platform != "gitea" && cfg.Platform != "msdevops" {
+			return fmt.Errorf("platform can only be `github`, `gitlab`, `bitbucket`, `forgejo`, `gitea`, or `msdevops` when no raw git URLs are provided")
 		}
 
 		// Server configuration is required for platform-specific sync
