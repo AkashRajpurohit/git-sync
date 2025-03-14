@@ -50,6 +50,7 @@ Recently I have seen many developers [getting their GitHub account banned](https
 - **Configuration File:** Easily manage your settings through a YAML configuration file.
 - **Custom Backup Directory:** Specify the directory where you want to store your repositories.
 - **Multi Platform:** Currently this project supports backing up repositories from all major Git hosting services like GitHub, GitLab, Bitbucket, Gitea and Forgejo.
+- **Notifications:** Get notified when your sync is complete, or if there are any errors.
 
 ## 🚀 Getting Started
 
