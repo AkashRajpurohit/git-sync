@@ -50,6 +50,7 @@ func InitLogger(logLevel string) {
 		},
 		OutputPaths:      []string{"stdout"},
 		ErrorOutputPaths: []string{"stderr"},
+		InitialFields:    map[string]interface{}{"app": "git-sync"},
 	}
 
 	var err error
