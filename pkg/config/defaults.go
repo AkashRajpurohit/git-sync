@@ -28,6 +28,11 @@ func SetSensibleDefaults(cfg *Config) {
 			cfg.Server.Domain = "gitea.com"
 			cfg.Server.Protocol = "https"
 		}
+
+		if cfg.Platform == "msdevops" {
+			cfg.Server.Domain = "dev.azure.com"
+			cfg.Server.Protocol = "https"
+		}
 	}
 
 	// TODO: Remove these before v1.0.0 release
