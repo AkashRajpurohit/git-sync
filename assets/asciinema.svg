@@ -1,93 +1,144 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1162.42" height="784" font-family="Consolas, Menlo, 'Bitstream Vera Sans Mono', monospace, 'Powerline Symbols'" font-size="14"><style>.br{font-weight:700}</style><rect width="100%" height="100%" rx="4" ry="4" style="fill:#121314"/><svg x="8.423" y="9.333" class="default-text-fill"><g style="shape-rendering:optimizeSpeed"><path d="M160.043 224h8.423v18.667h-8.423z" style="fill:#d9d9d9"/></g><text style="fill:#ccc">
-      <tspan y="0">
-        <tspan x="0" class="br" dy="1em" style="fill:#ddaf3c">
- [
-        </tspan><tspan x="25.27" class="br" style="fill:#fff">
-akash
-        </tspan><tspan x="67.387" class="br" style="fill:#dd3c69">
-@
-        </tspan><tspan x="75.81" class="br" style="fill:#fff">
-yuji
-        </tspan><tspan x="109.503" class="br" style="fill:#26b0d7">
-] 
-        </tspan><tspan x="126.35" class="br" style="fill:#4ebf22">
-➜ 
-        </tspan><tspan x="143.197" class="br" style="fill:#54e1b9">
-~
-        </tspan><tspan x="160.043" style="fill:#4ebf22">
-git-sync
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="968.68333295" height="802.666466" font-family="Consolas, Menlo, 'Bitstream Vera Sans Mono', monospace, 'Powerline Symbols'" font-size="14px">
+  <style>
+    .br { font-weight: bold }
+    .fa { fill-opacity: 0.5 }
+    .it { font-style: italic }
+    .un { text-decoration: underline }
+  </style>
+
+  <rect width="100%" height="100%" style="fill: #282a36" rx="4" ry="4"></rect>
+
+  <svg x="8.42333333" y="9.333331000000001" class="default-text-fill">
+    <g style="shape-rendering: optimizeSpeed">
+
+        <rect x="227.42999991" y="55.99998600000001" width="8.42333333" height="18.666662000000002" style="fill: #f8f8f2"></rect>
+
+        <rect x="0.0" y="298.66659200000004" width="8.42333333" height="18.666662000000002" style="fill: #f8f8f2"></rect>
+
+
+    </g>
+
+    <text style="fill: #f8f8f2">
+      <tspan y="0.0">
+        <tspan dy="1em" x="0.0" class="br" style="fill: #ffffa5">
+           [
+        </tspan><tspan x="25.269999990000002" class="br" style="fill: #ffffff">
+          akash
+        </tspan><tspan x="67.38666664" class="br" style="fill: #ff6e6e">
+          @
+        </tspan><tspan x="75.80999997" class="br" style="fill: #ffffff">
+          yuji
+        </tspan><tspan x="109.50333329" class="br" style="fill: #d6acff">
+          ] 
+        </tspan><tspan x="126.34999995" class="br" style="fill: #69ff94">
+          ➜ 
+        </tspan><tspan x="143.19666661" class="br" style="fill: #a4ffff">
+          ~
+        </tspan><tspan x="160.04333327" style="fill: #50fa7b">
+          git-sync
+        </tspan><tspan x="235.85333324">
+          version
         </tspan>
-      </tspan><tspan y="18.667">
-        <tspan x="0" dy="1em">
-{&quot;level&quot;:&quot;info&quot;,&quot;time&quot;:&quot;2024-08-31T20:41:28.918+0530&quot;,&quot;message&quot;:&quot;Logger initialized&quot;}
+      </tspan><tspan y="18.666662000000002">
+        <tspan dy="1em" x="0.0">
+          git-sync
         </tspan>
-      </tspan><tspan y="37.333">
-        <tspan x="0" dy="1em">
-{&quot;level&quot;:&quot;info&quot;,&quot;time&quot;:&quot;2024-08-31T20:41:28.918+0530&quot;,&quot;message&quot;:&quot;Config loaded from: /home/akash/.config/git-sync/config.yaml&quot;}
+      </tspan><tspan y="37.333324000000005">
+        <tspan dy="1em" x="0.0">
+          Version: v0.18.0
         </tspan>
-      </tspan><tspan y="56">
-        <tspan x="0" dy="1em">
-{&quot;level&quot;:&quot;info&quot;,&quot;time&quot;:&quot;2024-08-31T20:41:28.918+0530&quot;,&quot;message&quot;:&quot;Validating config 
-        </tspan><tspan x="699.137">
-⏳
-        </tspan><tspan x="715.983">
-&quot;}
+      </tspan><tspan y="55.99998600000001">
+        <tspan dy="1em" x="0.0">
+          Build: 2025-03-14T04:30:59Z
+        </tspan><tspan x="227.42999991" class="br" style="fill: #6272a4">
+          %
         </tspan>
-      </tspan><tspan y="74.667">
-        <tspan x="0" dy="1em">
-{&quot;level&quot;:&quot;info&quot;,&quot;time&quot;:&quot;2024-08-31T20:41:28.918+0530&quot;,&quot;message&quot;:&quot;Valid config found 
-        </tspan><tspan x="707.56">
-✅
-        </tspan><tspan x="724.407">
-&quot;}
+      </tspan><tspan y="74.66664800000001">
+        <tspan dy="1em" x="0.0" class="br" style="fill: #ffffa5">
+           [
+        </tspan><tspan x="25.269999990000002" class="br" style="fill: #ffffff">
+          akash
+        </tspan><tspan x="67.38666664" class="br" style="fill: #ff6e6e">
+          @
+        </tspan><tspan x="75.80999997" class="br" style="fill: #ffffff">
+          yuji
+        </tspan><tspan x="109.50333329" class="br" style="fill: #d6acff">
+          ] 
+        </tspan><tspan x="126.34999995" class="br" style="fill: #69ff94">
+          ➜ 
+        </tspan><tspan x="143.19666661" class="br" style="fill: #a4ffff">
+          ~
+        </tspan><tspan x="160.04333327" style="fill: #50fa7b">
+          git-sync
         </tspan>
-      </tspan><tspan y="93.333">
-        <tspan x="0" dy="1em">
-{&quot;level&quot;:&quot;info&quot;,&quot;time&quot;:&quot;2024-08-31T20:41:28.918+0530&quot;,&quot;message&quot;:&quot;Using Platform: github&quot;}
+      </tspan><tspan y="93.33331000000001">
+        <tspan dy="1em" x="0.0">
+          {&quot;level&quot;:&quot;info&quot;,&quot;time&quot;:&quot;2025-04-21T20:00:53.035+0530&quot;,&quot;message&quot;:&quot;Config loaded from: /home/akash/.config/git-sync
         </tspan>
-      </tspan><tspan y="112">
-        <tspan x="0" dy="1em">
-{&quot;level&quot;:&quot;info&quot;,&quot;time&quot;:&quot;2024-08-31T20:41:30.540+0530&quot;,&quot;message&quot;:&quot;Total repositories: 1&quot;}
+      </tspan><tspan y="111.99997200000001">
+        <tspan dy="1em" x="0.0">
+          /config.yaml&quot;,&quot;app&quot;:&quot;git-sync&quot;}
         </tspan>
-      </tspan><tspan y="130.667">
-        <tspan x="0" dy="1em">
-{&quot;level&quot;:&quot;info&quot;,&quot;time&quot;:&quot;2024-08-31T20:41:30.541+0530&quot;,&quot;message&quot;:&quot;Cloning repo: AkashRajpurohit/git-sync&quot;}
+      </tspan><tspan y="130.66663400000002">
+        <tspan dy="1em" x="0.0">
+          {&quot;level&quot;:&quot;info&quot;,&quot;time&quot;:&quot;2025-04-21T20:00:53.036+0530&quot;,&quot;message&quot;:&quot;
+        </tspan><tspan x="547.51666645">
+          ✅
+        </tspan><tspan x="572.78666644">
+          Valid config found&quot;,&quot;app&quot;:&quot;git-sync&quot;}
         </tspan>
-      </tspan><tspan y="149.333">
-        <tspan x="0" dy="1em">
-{&quot;level&quot;:&quot;info&quot;,&quot;time&quot;:&quot;2024-08-31T20:41:31.409+0530&quot;,&quot;message&quot;:&quot;Cloned repo: AkashRajpurohit/git-sync&quot;}
+      </tspan><tspan y="149.33329600000002">
+        <tspan dy="1em" x="0.0">
+          {&quot;level&quot;:&quot;info&quot;,&quot;time&quot;:&quot;2025-04-21T20:00:53.036+0530&quot;,&quot;message&quot;:&quot;Using Platform: github&quot;,&quot;app&quot;:&quot;git-sync&quot;}
         </tspan>
-      </tspan><tspan y="168">
-        <tspan x="0" dy="1em">
-{&quot;level&quot;:&quot;info&quot;,&quot;time&quot;:&quot;2024-08-31T20:41:31.409+0530&quot;,&quot;message&quot;:&quot;Cloning wiki: AkashRajpurohit/git-sync&quot;}
+      </tspan><tspan y="167.99995800000002">
+        <tspan dy="1em" x="0.0">
+          {&quot;level&quot;:&quot;info&quot;,&quot;time&quot;:&quot;2025-04-21T20:00:55.433+0530&quot;,&quot;message&quot;:&quot;Total github repositories: 1&quot;,&quot;app&quot;:&quot;git-sync&quot;} 
         </tspan>
-      </tspan><tspan y="186.667">
-        <tspan x="0" dy="1em">
-{&quot;level&quot;:&quot;info&quot;,&quot;time&quot;:&quot;2024-08-31T20:41:32.306+0530&quot;,&quot;message&quot;:&quot;Cloned wiki: AkashRajpurohit/git-sync&quot;}
+      </tspan><tspan y="186.66662000000002">
+        <tspan dy="1em" x="0.0">
+          {&quot;level&quot;:&quot;info&quot;,&quot;time&quot;:&quot;2025-04-21T20:00:55.433+0530&quot;,&quot;message&quot;:&quot;Cloning repo: AkashRajpurohit/git-sync&quot;,&quot;app&quot;:&quot;g
         </tspan>
-      </tspan><tspan y="205.333">
-        <tspan x="0" dy="1em">
-{&quot;level&quot;:&quot;info&quot;,&quot;time&quot;:&quot;2024-08-31T20:41:32.306+0530&quot;,&quot;message&quot;:&quot;All repositories synced 
-        </tspan><tspan x="749.677">
-✅
-        </tspan><tspan x="766.523">
-&quot;}
+      </tspan><tspan y="205.33328200000003">
+        <tspan dy="1em" x="0.0">
+          it-sync&quot;}
         </tspan>
-      </tspan><tspan y="224">
-        <tspan x="0" class="br" dy="1em" style="fill:#ddaf3c">
- [
-        </tspan><tspan x="25.27" class="br" style="fill:#fff">
-akash
-        </tspan><tspan x="67.387" class="br" style="fill:#dd3c69">
-@
-        </tspan><tspan x="75.81" class="br" style="fill:#fff">
-yuji
-        </tspan><tspan x="109.503" class="br" style="fill:#26b0d7">
-] 
-        </tspan><tspan x="126.35" class="br" style="fill:#4ebf22">
-➜ 
-        </tspan><tspan x="143.197" class="br" style="fill:#54e1b9">
-~
+      </tspan><tspan y="223.99994400000003">
+        <tspan dy="1em" x="0.0">
+          {&quot;level&quot;:&quot;info&quot;,&quot;time&quot;:&quot;2025-04-21T20:00:56.436+0530&quot;,&quot;message&quot;:&quot;Cloned repo: AkashRajpurohit/git-sync&quot;,&quot;app&quot;:&quot;gi
+        </tspan>
+      </tspan><tspan y="242.66660600000003">
+        <tspan dy="1em" x="0.0">
+          t-sync&quot;}
+        </tspan>
+      </tspan><tspan y="261.33326800000003">
+        <tspan dy="1em" x="0.0">
+          {&quot;level&quot;:&quot;info&quot;,&quot;time&quot;:&quot;2025-04-21T20:00:56.436+0530&quot;,&quot;message&quot;:&quot;Cloning wiki: AkashRajpurohit/git-sync&quot;,&quot;app&quot;:&quot;g
+        </tspan>
+      </tspan><tspan y="279.99993">
+        <tspan dy="1em" x="0.0">
+          it-sync&quot;}
         </tspan>
       </tspan>
-    </text></svg><svg width="80" height="80" x="50%" y="50%" transform="translate(-40 -40)"><svg xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 0 5px rgba(0,0,0,.4))" viewBox="0 0 1000 1000"><defs><mask id="small-triangle-mask"><rect width="100%" height="100%" fill="#fff"/><path d="M700 500 400 326.795v346.41z"/></mask></defs><path fill="#fff" d="M1000 500 250 66.987v866.026z" mask="url(#small-triangle-mask)"/><path stroke="#fff" stroke-width="90" d="m673.205 400-346.41 200"/></svg></svg></svg>
+    </text>
+  </svg>
+
+  <g transform="translate(-40 -40)">
+    <svg x="50%" y="50%" width="80" height="80">
+      <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000.0 1000.0" style="filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.4))">
+  <defs>
+    <mask id="small-triangle-mask">
+      <rect width="100%" height="100%" fill="white"></rect>
+      <polygon points="700.0 500.0, 400.00000000000006 326.7949192431122, 399.9999999999999 673.2050807568877" fill="black">
+      </polygon>
+    </mask>
+  </defs>
+  <polygon points="1000.0 500.0, 250.0000000000001 66.98729810778059, 249.99999999999977 933.0127018922192" mask="url(#small-triangle-mask)" fill="white">
+  </polygon>
+  <polyline points="673.2050807568878 400.0, 326.7949192431123 600.0" stroke="white" stroke-width="90">
+  </polyline>
+</svg>
+    </svg>
+  </g>
+</svg>

@@ -30,7 +30,7 @@
 
 ## 📺 Demo
 
-[![asciicast](./assets/asciinema.svg)](https://asciinema.org/a/674282)
+[![asciicast](./assets/asciinema.svg)](https://asciinema.org/a/716502)
 
 ## 🤔 Why `git-sync`?
 
