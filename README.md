@@ -7,7 +7,7 @@
     <a target="_blank" href="https://github.com/AkashRajpurohit/git-sync/actions"><img src="https://github.com/AkashRajpurohit/git-sync/actions/workflows/release.yml/badge.svg?event=push" /></a>
     <a href="https://goreportcard.com/report/github.com/AkashRajpurohit/git-sync"><img alt="Go Report Card" src="https://goreportcard.com/badge/github.com/AkashRajpurohit/git-sync">
     <a target="_blank" href="https://github.com/AkashRajpurohit/git-sync/releases"><img src="https://img.shields.io/github/downloads/AkashRajpurohit/git-sync/total" /></a>
-    <img alt="Visitors count" src="https://visitor-badge.laobi.icu/badge?page_id=@akashrajpurohit~git-sync.visitor-badge&style=flat-square">
+    <img alt="Visitors" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fvc.akashrajpurohit.com%2Fc%2Fakash~git-sync&query=count&style=flat&logo=github&label=Visitors&color=066da5">
     <a target="_blank" href="https://github.com/AkashRajpurohit/git-sync/releases"><img src="https://img.shields.io/github/go-mod/go-version/AkashRajpurohit/git-sync?filename=go.mod" /></a>
     <a target="_blank" href="https://ko-fi.com/akashrajpurohit"><img src="https://img.shields.io/badge/Ko--fi-F16061?style=flat-square&logo=ko-fi&logoColor=white" /></a>
     <a target="_blank" href="https://akashrajpurohit.com/sponsors/?ref=git-sync"><img src="https://img.shields.io/badge/Sponsor-AkashRajpurohit-F16061?style=flat-square&logoColor=white" /></a>
