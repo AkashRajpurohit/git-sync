@@ -45,7 +45,7 @@ func (c *ForgejoClient) Sync(cfg config.Config) error {
 
 	gitSync.LogRepoCount(len(repos), cfg.Platform)
 
-	gitSync.SyncReposWithConcurrency(cfg, repos, func(repo *fg.Repository) {
+	gitSync.SyncWithConcurrency(cfg, repos, func(repo *fg.Repository) {
 		gitSync.CloneOrUpdateRepo(repo.Owner.UserName, repo.Name, cfg)
 		if cfg.IncludeWiki && repo.HasWiki {
 			gitSync.SyncWiki(repo.Owner.UserName, repo.Name, cfg)

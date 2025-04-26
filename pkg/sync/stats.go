@@ -43,6 +43,10 @@ func recordWikiFailure(wikiName string, err error) {
 	stats.WikisFailed = append(stats.WikisFailed, fmt.Sprintf("%s (Error: %v)", wikiName, err))
 }
 
+func LogRepoCount(count int, repoType string) {
+	logger.Info("Total ", repoType, " repositories: ", count)
+}
+
 func LogSyncSummary(cfg *config.Config) {
 	logger.Infof("✅ Repositories: %d successfully synced", stats.ReposSuccess)
 	if len(stats.ReposFailed) > 0 {

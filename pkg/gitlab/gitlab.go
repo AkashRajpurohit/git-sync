@@ -44,7 +44,7 @@ func (c *GitlabClient) Sync(cfg config.Config) error {
 
 	gitSync.LogRepoCount(len(projects), cfg.Platform)
 
-	gitSync.SyncReposWithConcurrency(cfg, projects, func(project *gl.Project) {
+	gitSync.SyncWithConcurrency(cfg, projects, func(project *gl.Project) {
 		gitSync.CloneOrUpdateRepo(project.Namespace.FullPath, project.Path, cfg)
 		if cfg.IncludeWiki && project.WikiEnabled {
 			gitSync.SyncWiki(project.Namespace.FullPath, project.Path, cfg)

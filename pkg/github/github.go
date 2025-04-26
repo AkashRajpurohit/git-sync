@@ -43,7 +43,7 @@ func (c *GitHubClient) Sync(cfg config.Config) error {
 
 	gitSync.LogRepoCount(len(repos), cfg.Platform)
 
-	gitSync.SyncReposWithConcurrency(cfg, repos, func(repo *gh.Repository) {
+	gitSync.SyncWithConcurrency(cfg, repos, func(repo *gh.Repository) {
 		gitSync.CloneOrUpdateRepo(repo.GetOwner().GetLogin(), repo.GetName(), cfg)
 		if cfg.IncludeWiki && repo.GetHasWiki() {
 			gitSync.SyncWiki(repo.GetOwner().GetLogin(), repo.GetName(), cfg)
