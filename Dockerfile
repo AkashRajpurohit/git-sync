@@ -2,8 +2,7 @@ FROM golang:1.24.2-alpine AS builder
 
 WORKDIR /go/src/app
 
-RUN apk update && \
-  apk add upx ca-certificates tzdata git
+RUN apk add --no-cache upx ca-certificates tzdata git
 
 ARG VERSION=main
 ARG BUILD="N/A"
@@ -29,8 +28,7 @@ WORKDIR /opt/go
 LABEL maintainer="AkashRajpurohit <me@akashrajpurohit.com>"
 
 # Install git since it's required for the application
-RUN apk update && \
-  apk add git su-exec
+RUN apk add --no-cache git su-exec
 
 RUN mkdir -p /git-sync /backups
 
