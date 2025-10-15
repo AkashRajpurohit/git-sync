@@ -1,5 +1,5 @@
 <div align="center" width="100%">
-  <img src="./assets/logo.png" alt="Git sync logo" width="150" />
+  <img src="./assets/logo.png" alt="Git sync logo" width="400" />
 </div>
 <div align="center" width="100%">
     <h2>🔄 git-sync</h2>
