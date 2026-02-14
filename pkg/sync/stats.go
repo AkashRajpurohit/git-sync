@@ -10,11 +10,13 @@ import (
 )
 
 type SyncStats struct {
-	mu           sync.Mutex
-	ReposSuccess int
-	ReposFailed  []string
-	WikisSuccess int
-	WikisFailed  []string
+	mu            sync.Mutex
+	ReposSuccess  int
+	ReposFailed   []string
+	WikisSuccess  int
+	WikisFailed   []string
+	IssuesSuccess int
+	IssuesFailed  []string
 }
 
 var stats = &SyncStats{}
@@ -41,6 +43,18 @@ func recordWikiFailure(wikiName string, err error) {
 	stats.mu.Lock()
 	defer stats.mu.Unlock()
 	stats.WikisFailed = append(stats.WikisFailed, fmt.Sprintf("%s (Error: %v)", wikiName, err))
+}
+
+func recordIssuesSuccess() {
+	stats.mu.Lock()
+	defer stats.mu.Unlock()
+	stats.IssuesSuccess++
+}
+
+func recordIssuesFailure(repoName string, err error) {
+	stats.mu.Lock()
+	defer stats.mu.Unlock()
+	stats.IssuesFailed = append(stats.IssuesFailed, fmt.Sprintf("%s (Error: %v)", repoName, err))
 }
 
 func LogRepoCount(count int, repoType string) {
@@ -70,11 +84,24 @@ func LogSyncSummary(cfg *config.Config) {
 		logger.Errorf("%s", failedWikis)
 	}
 
+	logger.Infof("✅ Issues: %d repositories' issues synced", stats.IssuesSuccess)
+	if len(stats.IssuesFailed) > 0 {
+		failedIssues := []string{}
+		for _, issue := range stats.IssuesFailed {
+			failedIssues = append(failedIssues, issue)
+		}
+
+		logger.Errorf("❌ Failed issues: %d", len(failedIssues))
+		logger.Errorf("%s", failedIssues)
+	}
+
 	summary := &notification.SyncSummary{
-		ReposSuccess: stats.ReposSuccess,
-		ReposFailed:  stats.ReposFailed,
-		WikisSuccess: stats.WikisSuccess,
-		WikisFailed:  stats.WikisFailed,
+		ReposSuccess:  stats.ReposSuccess,
+		ReposFailed:   stats.ReposFailed,
+		WikisSuccess:  stats.WikisSuccess,
+		WikisFailed:   stats.WikisFailed,
+		IssuesSuccess: stats.IssuesSuccess,
+		IssuesFailed:  stats.IssuesFailed,
 	}
 
 	if err := notification.NotifyAll(&cfg.Notification, summary); err != nil {

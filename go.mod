@@ -4,7 +4,7 @@ go 1.24.5
 
 require (
 	codeberg.org/mvdkleijn/forgejo-sdk/forgejo v1.2.0
-	github.com/google/go-github/v74 v74.0.0
+	github.com/google/go-github/v82 v82.0.0
 	github.com/ktrysmt/go-bitbucket v0.9.86
 	github.com/robfig/cron/v3 v3.0.1
 	github.com/spf13/cobra v1.10.2
@@ -20,7 +20,7 @@ require (
 	github.com/fsnotify/fsnotify v1.9.0 // indirect
 	github.com/go-fed/httpsig v1.1.0 // indirect
 	github.com/go-viper/mapstructure/v2 v2.4.0 // indirect
-	github.com/google/go-querystring v1.1.0 // indirect
+	github.com/google/go-querystring v1.2.0 // indirect
 	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
 	github.com/hashicorp/go-retryablehttp v0.7.7 // indirect
 	github.com/hashicorp/go-version v1.7.0 // indirect
@@ -40,5 +40,4 @@ require (
 	golang.org/x/sys v0.32.0 // indirect
 	golang.org/x/text v0.28.0 // indirect
 	golang.org/x/time v0.8.0 // indirect
-	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

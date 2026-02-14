@@ -43,25 +43,26 @@ type GotifyConfig struct {
 }
 
 type Config struct {
-	Username     string             `mapstructure:"username"`
-	Token        string             `mapstructure:"token"`  // Deprecated: Use Tokens instead
-	Tokens       []string           `mapstructure:"tokens"` // New field for multiple tokens
-	Platform     string             `mapstructure:"platform"`
-	Server       Server             `mapstructure:"server"`
-	IncludeRepos []string           `mapstructure:"include_repos"`
-	ExcludeRepos []string           `mapstructure:"exclude_repos"`
-	IncludeOrgs  []string           `mapstructure:"include_orgs"`
-	ExcludeOrgs  []string           `mapstructure:"exclude_orgs"`
-	IncludeForks bool               `mapstructure:"include_forks"`
-	IncludeWiki  bool               `mapstructure:"include_wiki"`
-	BackupDir    string             `mapstructure:"backup_dir"`
-	Workspace    string             `mapstructure:"workspace"`
-	Cron         string             `mapstructure:"cron"`
-	CloneType    string             `mapstructure:"clone_type"`
-	RawGitURLs   []string           `mapstructure:"raw_git_urls"`
-	Concurrency  int                `mapstructure:"concurrency"`
-	Retry        RetryConfig        `mapstructure:"retry"`
-	Notification NotificationConfig `mapstructure:"notification"`
+	Username      string             `mapstructure:"username"`
+	Token         string             `mapstructure:"token"`  // Deprecated: Use Tokens instead
+	Tokens        []string           `mapstructure:"tokens"` // New field for multiple tokens
+	Platform      string             `mapstructure:"platform"`
+	Server        Server             `mapstructure:"server"`
+	IncludeRepos  []string           `mapstructure:"include_repos"`
+	ExcludeRepos  []string           `mapstructure:"exclude_repos"`
+	IncludeOrgs   []string           `mapstructure:"include_orgs"`
+	ExcludeOrgs   []string           `mapstructure:"exclude_orgs"`
+	IncludeForks  bool               `mapstructure:"include_forks"`
+	IncludeWiki   bool               `mapstructure:"include_wiki"`
+	IncludeIssues bool               `mapstructure:"include_issues"`
+	BackupDir     string             `mapstructure:"backup_dir"`
+	Workspace     string             `mapstructure:"workspace"`
+	Cron          string             `mapstructure:"cron"`
+	CloneType     string             `mapstructure:"clone_type"`
+	RawGitURLs    []string           `mapstructure:"raw_git_urls"`
+	Concurrency   int                `mapstructure:"concurrency"`
+	Retry         RetryConfig        `mapstructure:"retry"`
+	Notification  NotificationConfig `mapstructure:"notification"`
 }
 
 func expandPath(path string) string {
@@ -138,6 +139,7 @@ func SaveConfig(config Config, cfgFile string) error {
 	viper.Set("exclude_orgs", config.ExcludeOrgs)
 	viper.Set("include_forks", config.IncludeForks)
 	viper.Set("include_wiki", config.IncludeWiki)
+	viper.Set("include_issues", config.IncludeIssues)
 	viper.Set("backup_dir", config.BackupDir)
 	viper.Set("platform", config.Platform)
 	viper.Set("server", config.Server)
@@ -161,18 +163,19 @@ func GetInitialConfig() Config {
 			Domain:   "github.com",
 			Protocol: "https",
 		},
-		IncludeRepos: []string{},
-		ExcludeRepos: []string{},
-		IncludeOrgs:  []string{},
-		ExcludeOrgs:  []string{},
-		IncludeForks: false,
-		IncludeWiki:  true,
-		Workspace:    "",
-		Cron:         "",
-		BackupDir:    GetBackupDir(""),
-		CloneType:    "bare",
-		RawGitURLs:   []string{},
-		Concurrency:  5,
+		IncludeRepos:  []string{},
+		ExcludeRepos:  []string{},
+		IncludeOrgs:   []string{},
+		ExcludeOrgs:   []string{},
+		IncludeForks:  false,
+		IncludeWiki:   true,
+		IncludeIssues: false,
+		Workspace:     "",
+		Cron:          "",
+		BackupDir:     GetBackupDir(""),
+		CloneType:     "bare",
+		RawGitURLs:    []string{},
+		Concurrency:   5,
 		Retry: RetryConfig{
 			Count: 3,
 			Delay: 5,

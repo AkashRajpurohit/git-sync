@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/AkashRajpurohit/git-sync/pkg/config"
+	"github.com/AkashRajpurohit/git-sync/pkg/issues"
 	"github.com/AkashRajpurohit/git-sync/pkg/logger"
 	"github.com/AkashRajpurohit/git-sync/pkg/token"
 )
@@ -214,4 +215,22 @@ func SyncWiki(repoOwner, repoName string, config config.Config) {
 		logger.Info("Updated wiki: ", repoFullName)
 		recordWikiSuccess()
 	}
+}
+
+func SyncIssues(repoOwner, repoName string, allIssues []issues.Issue, cfg config.Config) {
+	repoFullName := fmt.Sprintf("%s/%s", repoOwner, repoName)
+	logger.Info("Syncing issues for: ", repoFullName)
+
+	err := retryOperation(cfg, func() error {
+		return issues.WriteIssues(cfg.BackupDir, repoOwner, repoName, allIssues)
+	}, fmt.Sprintf("sync issues %s", repoFullName))
+
+	if err != nil {
+		logger.Errorf("Failed to sync issues for %s: %v", repoFullName, err)
+		recordIssuesFailure(repoFullName, err)
+		return
+	}
+
+	logger.Infof("Synced %d issues for %s", len(allIssues), repoFullName)
+	recordIssuesSuccess()
 }

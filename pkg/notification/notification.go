@@ -13,14 +13,16 @@ type NotificationProvider interface {
 }
 
 type SyncSummary struct {
-	ReposSuccess int
-	ReposFailed  []string
-	WikisSuccess int
-	WikisFailed  []string
+	ReposSuccess  int
+	ReposFailed   []string
+	WikisSuccess  int
+	WikisFailed   []string
+	IssuesSuccess int
+	IssuesFailed  []string
 }
 
 func (s *SyncSummary) HasFailures() bool {
-	return len(s.ReposFailed) > 0 || len(s.WikisFailed) > 0
+	return len(s.ReposFailed) > 0 || len(s.WikisFailed) > 0 || len(s.IssuesFailed) > 0
 }
 
 func (s *SyncSummary) FormatMessage() string {
@@ -39,6 +41,14 @@ func (s *SyncSummary) FormatMessage() string {
 		sb.WriteString(fmt.Sprintf("❌ Failed wikis: %d\n", len(s.WikisFailed)))
 		for _, wiki := range s.WikisFailed {
 			sb.WriteString(fmt.Sprintf("- %s\n", wiki))
+		}
+	}
+
+	sb.WriteString(fmt.Sprintf("✅ Issues: %d repositories' issues synced\n", s.IssuesSuccess))
+	if len(s.IssuesFailed) > 0 {
+		sb.WriteString(fmt.Sprintf("❌ Failed issues: %d\n", len(s.IssuesFailed)))
+		for _, issue := range s.IssuesFailed {
+			sb.WriteString(fmt.Sprintf("- %s\n", issue))
 		}
 	}
 
