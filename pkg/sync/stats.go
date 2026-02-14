@@ -2,11 +2,14 @@ package sync
 
 import (
 	"fmt"
+	"runtime"
 	"sync"
 
 	"github.com/AkashRajpurohit/git-sync/pkg/config"
 	"github.com/AkashRajpurohit/git-sync/pkg/logger"
 	"github.com/AkashRajpurohit/git-sync/pkg/notification"
+	"github.com/AkashRajpurohit/git-sync/pkg/telemetry"
+	"github.com/AkashRajpurohit/git-sync/pkg/version"
 )
 
 type SyncStats struct {
@@ -107,6 +110,24 @@ func LogSyncSummary(cfg *config.Config) {
 	if err := notification.NotifyAll(&cfg.Notification, summary); err != nil {
 		logger.Errorf("Failed to send notifications: %v", err)
 	}
+
+	telemetry.CaptureEvent("sync_completed", map[string]interface{}{
+		"platform":       cfg.Platform,
+		"clone_type":     cfg.CloneType,
+		"concurrency":    cfg.Concurrency,
+		"include_wiki":   cfg.IncludeWiki,
+		"include_issues": cfg.IncludeIssues,
+		"include_forks":  cfg.IncludeForks,
+		"repos_success":  stats.ReposSuccess,
+		"repos_failed":   len(stats.ReposFailed),
+		"wikis_success":  stats.WikisSuccess,
+		"wikis_failed":   len(stats.WikisFailed),
+		"issues_success": stats.IssuesSuccess,
+		"issues_failed":  len(stats.IssuesFailed),
+		"app_version":    version.Version,
+		"os":             runtime.GOOS,
+		"arch":           runtime.GOARCH,
+	})
 
 	// Reset stats for next sync
 	stats = &SyncStats{}

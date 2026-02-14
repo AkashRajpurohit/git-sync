@@ -12,6 +12,7 @@ import (
 	"github.com/AkashRajpurohit/git-sync/pkg/gitlab"
 	"github.com/AkashRajpurohit/git-sync/pkg/logger"
 	"github.com/AkashRajpurohit/git-sync/pkg/raw"
+	"github.com/AkashRajpurohit/git-sync/pkg/telemetry"
 	ch "github.com/robfig/cron/v3"
 	"github.com/spf13/cobra"
 )
@@ -76,6 +77,9 @@ var rootCmd = &cobra.Command{
 		if err != nil {
 			logger.Fatalf("Error validating config: %s", err)
 		}
+
+		telemetry.Init(cfg.Telemetry)
+		defer telemetry.Close()
 
 		// Create backup directory if it doesn't exist
 		os.MkdirAll(cfg.BackupDir, os.ModePerm)

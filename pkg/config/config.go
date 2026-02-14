@@ -42,6 +42,10 @@ type GotifyConfig struct {
 	Priority int    `mapstructure:"priority"`
 }
 
+type TelemetryConfig struct {
+	Enabled bool `mapstructure:"enabled"`
+}
+
 type Config struct {
 	Username      string             `mapstructure:"username"`
 	Token         string             `mapstructure:"token"`  // Deprecated: Use Tokens instead
@@ -63,6 +67,7 @@ type Config struct {
 	Concurrency   int                `mapstructure:"concurrency"`
 	Retry         RetryConfig        `mapstructure:"retry"`
 	Notification  NotificationConfig `mapstructure:"notification"`
+	Telemetry     TelemetryConfig    `mapstructure:"telemetry"`
 }
 
 func expandPath(path string) string {
@@ -71,6 +76,10 @@ func expandPath(path string) string {
 		return filepath.Join(homeDir, path[2:])
 	}
 	return path
+}
+
+func GetDefaultConfigDir() string {
+	return filepath.Join(os.Getenv("HOME"), ".config", "git-sync")
 }
 
 func GetConfigFile(cfgFile string) string {
@@ -113,6 +122,8 @@ func LoadConfig(cfgFile string) (Config, error) {
 	viper.SetConfigFile(configFile)
 	viper.SetConfigType("yaml")
 
+	viper.SetDefault("telemetry.enabled", true)
+
 	if err := viper.ReadInConfig(); err != nil {
 		return config, err
 	}
@@ -150,6 +161,7 @@ func SaveConfig(config Config, cfgFile string) error {
 	viper.Set("concurrency", config.Concurrency)
 	viper.Set("retry", config.Retry)
 	viper.Set("notification", config.Notification)
+	viper.Set("telemetry", config.Telemetry)
 
 	return viper.WriteConfig()
 }
@@ -179,6 +191,9 @@ func GetInitialConfig() Config {
 		Retry: RetryConfig{
 			Count: 3,
 			Delay: 5,
+		},
+		Telemetry: TelemetryConfig{
+			Enabled: true,
 		},
 		Notification: NotificationConfig{
 			Enabled:      false,
