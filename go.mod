@@ -1,10 +1,11 @@
 module github.com/AkashRajpurohit/git-sync
 
-go 1.24.5
+go 1.25.0
 
 require (
 	codeberg.org/mvdkleijn/forgejo-sdk/forgejo v1.2.0
 	github.com/google/go-github/v82 v82.0.0
+	github.com/google/go-github/v84 v84.0.0
 	github.com/google/uuid v1.6.0
 	github.com/ktrysmt/go-bitbucket v0.9.86
 	github.com/posthog/posthog-go v1.10.0
