@@ -1,6 +1,6 @@
 module github.com/AkashRajpurohit/git-sync
 
-go 1.24.5
+go 1.26.0
 
 require (
 	codeberg.org/mvdkleijn/forgejo-sdk/forgejo v1.2.0
@@ -13,7 +13,7 @@ require (
 	github.com/spf13/viper v1.21.0
 	github.com/xanzy/go-gitlab v0.115.0
 	go.uber.org/zap v1.27.1
-	golang.org/x/oauth2 v0.35.0
+	golang.org/x/oauth2 v0.38.0
 )
 
 require (
